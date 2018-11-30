@@ -1,6 +1,7 @@
 #lang racket
 
-(provide survival-game-jam)
+(provide survival-game-jam
+         basic-player-entity)
 
 (require game-engine
          game-engine-demos-common)
