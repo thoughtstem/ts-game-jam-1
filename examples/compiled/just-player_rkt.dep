@@ -1,1 +1,0 @@
-("7.0" ("de8cd9fe1f46c6a627747fc5290ad5a210e580d4" . "2c39e22aadb66d42ab14be4c0aaf4c8538be04b6") (collects #"2htdp" #"image.rkt") (collects #"game-engine" #"main.rkt") (collects #"racket" #"main.rkt") (collects #"racket" #"runtime-config.rkt") (collects #"ts-game-jam-1" #"main.rkt"))
