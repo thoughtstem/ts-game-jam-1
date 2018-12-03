@@ -1,1 +1,0 @@
-("7.0" ("e2c71751a7c2280436b78c9f3b2d3ba4df0509a1" . "ea3533be5a7547e566e296a3d07660a355366dde") (collects #"game-engine" #"main.rkt") (collects #"game-engine-demos-common" #"main.rkt") (collects #"racket" #"main.rkt") (collects #"racket" #"runtime-config.rkt") (collects #"ts-game-jam-1" #"scoring" #"score.rkt"))
