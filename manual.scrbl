@@ -310,46 +310,89 @@ Recipes
 
 @subsection{Training Badges}
 
-<Day 1 Badges>
-
-These are the most important.  They help set the norms for team
-practice.
-
-<Getting Started>
-
-* 1 minute.  Can recite the first three ThoughtSTEM core values
-             * It's not about my code.     It's about what I can code.
-             * It's not about me.          It's about my team.
-             * It's not about our code.    It's about what we can code.  Together.
-             [Hand motions?]
-
-* 1 minute.  Can recite the specs for the upcomming Game Jam, along with their total points possible
-             * Game Type: Survival Game
-             * Time Limit: 1 Hour
-             * Categories:
-                * Avatar:                 20 points
-                * Food Items:             25 points
-                * Non-Food Items:         25 points
-                * Non-Player Characters:  30 points
-                * Crafting:               55 points
-             <Note: This must be re-earned any time the specs change.  Or any time there's a new upcoming jam.>
-
-* 5 minutes.  Can sit down, log in, open Dr Racket, and start a puzzle
-* 2 minutes.  Same as above.  But from Desktop.
-
-* 5 minutes.  Can sit down, log in, open Dr Racket, and write the game jame starter code.
-* 2 minutes.  Same as above.  But from Desktop.
 
 
-* 1 Minute.  Can recite answer to: What is a Kata badge?
-             * A Kata is a small piece of code that I memorize and can write:
-                 * Calmly
-                 * Quickly
-                 * Accurately
+@subsubsection{Day 1 Badges}
 
-* First Kata Badge
-             * Colored shape: Red circles, green squares, etc...
+These are called "day 1" badges because we recommend that competitors earn these
+badges before earning any other badges.  They help reenforce team values and help
+orient the competitors toward the challenges that face them.
 
+@bold{Core Values: Level 1} (1 minute.)
+
+@italic{Can recite the first three ThoughtSTEM core values}
+
+@itemlist[@item{It's not about my code.     It's about what I can code.}
+          @item{It's not about me.          It's about my team.}
+          @item{It's not about our code.    It's about what we can code.  Together.}]
+
+
+[Hand motions?]
+
+
+@bold{Game Jam Specs: Level 1} (1 minute.)
+
+@italic{Can recite the specs for the upcoming Game Jam.}
+
+@itemlist[@item{Game Type: Survival Game}
+          @item{Time Limit: 40 minutes}
+          @item{Categories:
+           @itemlist[@item{Avatar:                 20 points}
+                     @item{Food Items:             25 points}
+                     @item{Non-Food Items:         25 points}
+                     @item{Non-Player Characters:  30 points}
+                     @item{Crafting:               55 points}]}]
+
+This badge should be re-earned any time the specs change.  Or any time there's a new upcoming jam.
+The specs do change from time to time.  (And that in itself is a valuable lesson.)
+
+
+@bold{Fast Start Puzzles: Level 1} (5 minutes.)
+
+@italic{Can sit down, log in, open Dr Racket, and start a puzzle}
+
+@bold{Fast Start Puzzles: Level 2} (2 minutes.)
+
+@italic{Can sit down, log in, open Dr Racket, and start a puzzle}
+
+@bold{Fast Start Jam: Level 1} (5 minutes.)
+
+@italic{Can sit down, log in, open Dr Racket, and write the game jam starter code}
+
+@bold{Fast Start Jam: Level 2} (2 minutes.)
+
+@italic{Can sit down, log in, open Dr Racket, and write the game jam starter code}
+
+
+
+
+@bold{Meta Kata: Level 1} (1 minute.)
+
+@italic{Can recite answer to: What is a Kata badge?}
+
+A Kata is a small piece of code that I memorize and can write:
+@itemlist[@item{Calmly}
+          @item{Quickly}
+          @item{Accurately}]
+
+
+@bold{First Kata} (5 minute)
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make an avatar that looks like a red circle that is 80 pixels across.}
+
+To code of this type:
+
+@racket[(survival-game-jam
+         #:player (basic-player-entity (square 40 'solid 'red)))]
+
+___
+
+Note: To award this badge, a student should be able to do the above
+in under 1 minute.  But doing it once is too easy.  The student should
+do this multiple times with different shapes: e.g. blue square, green star,
+etc.
 
 
 

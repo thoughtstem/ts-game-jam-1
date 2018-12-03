@@ -1,6 +1,6 @@
 #lang racket
 
-(provide survival-game-jam
+(provide survival-game
          basic-player-entity
          random-character-row)
 
@@ -212,7 +212,7 @@
                   (on-rule (not/r all-dialog-closed?) (stop-movement))))
 
 
-(define (survival-game-jam #:bg              [bg-ent (bg-entity)]
+(define (survival-game #:bg              [bg-ent (bg-entity)]
                            #:player          [p      #f #;(basic-player-entity)]
                            #:starvation-rate [sr 40]
                            #:npc-list        [npc    '() #;(list (random-npc (posn 200 200)))]
