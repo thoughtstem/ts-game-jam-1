@@ -13,7 +13,7 @@
 ; ==== BACKDROP COMPONENT ====
 ; Converts a single bg image to a list of bg tiles
 (define (forest-backdrop)
-  (bg->backdrop (rectangle (* 3 640) (* 3 480) 'solid 'darkgreen) 
+  (bg->backdrop (rectangle (* 3 480) (* 3 360) 'solid 'darkgreen) 
                 #:rows       3
                 #:columns    3
                 #:start-tile 0))
@@ -44,22 +44,6 @@
                             #:game-width WIDTH
                             #:animated #t
                             #:speed 4))
-
-; ==== RECIPE SYSTEM ====
-; todo: add to game engine'
-;       rename to receipe->player-system?
-(define (recipe->system r)
-  (define product-name (get-name (first r)))
-  (define i-list (third r))
-  (define (remove-items g e1 e2)
-    (if ((crafting? product-name) g e2)
-        (begin (displayln (~a "CRAFTING: " product-name))
-               ((apply do-many (map remove-item-by-name i-list)) g e2)
-                   #;((spawn (backpack-entity #:components (on-rule (crafting? product-name) die))
-                           #:relative? #f) g _))
-        (begin (displayln (~a "NOT CRAFTING: " product-name))
-               e2)))
-  (observe-change (crafting? product-name) remove-items))
 
 ; === ENTITY DEFINITIONS ===
 (define (bg-entity)
@@ -284,7 +268,8 @@
   (crafting-menu #:open-key open-key
                  #:open-sound open-sound
                  #:select-sound select-sound
-                 #:recipes (cons r recipes)))
+                 #:recipes r
+                           recipes))
 
 
 
