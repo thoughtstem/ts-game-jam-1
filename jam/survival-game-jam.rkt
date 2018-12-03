@@ -1,7 +1,8 @@
 #lang racket
 
 (provide survival-game-jam
-         basic-player-entity)
+         basic-player-entity
+         random-character-row)
 
 (require game-engine
          game-engine-demos-common)
@@ -286,5 +287,14 @@
                  #:recipes (cons r recipes)))
 
 
+
+(define (random-character-row)
+  (apply beside
+         (map fast-image-data
+              (vector->list
+               (animated-sprite-frames
+                (get-component
+                 (random-npc)
+                 animated-sprite?))))))
 
 
