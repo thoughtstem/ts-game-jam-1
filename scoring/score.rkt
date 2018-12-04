@@ -33,6 +33,7 @@
                               #:speed 4))
   
   (score-game
+   (list
    (sprite->entity (circle 40 'solid 'red)
                    #:name       "player"
                    #:position   (posn 0 0))
@@ -50,7 +51,9 @@
                #:position    (posn 202 249)
                #:active-tile 0
                #:dialog      npc1-response-sprites
-               #:mode        'pace)))
+               #:mode        'pace))))
+
+
 
 (define/contract (score-game es)
   (-> (listof entity?) number?)
@@ -114,3 +117,5 @@
 (define (food?)   (with-name "food"))
 (define (item?)   (with-name "item"))
 (define (npc?)    (with-name "npc"))
+
+

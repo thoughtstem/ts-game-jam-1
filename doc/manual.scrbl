@@ -2,35 +2,55 @@
  
 @title{Scholastic Game Jam}
 
-Welcome to the official Scholastic Game Jam rules.
+Welcome to ThoughtSTEM's official Scholastic Game Jam rules.
 
 What is the Scholastic Game Jam?  It's a competition in which
 players have a limited amount of time to create a
 video game on a theme announced on the day of the
 competition.
 
-Games are scored:
-
-1) Objectively, based on the
-presence or absence of certain game features.
-
-2) Subjectively, based on how
-creatively these features are rendered.
-
 Winning teams usually receive some kind of prize.
+
+For more information, see the resources below.  
+
+@table-of-contents[]
 
 @section{How to Enter}
 
-Your school must be a participating school with
-a registered team.  If this is the case, your
-school's coach will take care of registration
-for your team.
+Note that the Scholastic Game Jam is for K-12 students --
+not for adults.  Also, the ThoughtSTEM Scholastic Game Jam is a team
+competition -- meaning that competitors must belong to an officially
+registered team.
+
+In order to belong to an officially registered team, your school
+must be a ThoughtSTEM school.  This means that ThoughtSTEM has provided
+a trained Game Jam coach and is running weekly practices at your school.
+If this is the case, you don't need to worry about anything.
+Your school's coach will register the school's competitors and team(s).
+
+If your school is not yet a ThoughtSTEM school, please
+reach out to us at contact@"@"thoughtstem.com.  Currently, any school
+in the San Diego area is eligible to join the Game Jam league.
+
+Note that if your child is already enrolled in a ThoughtSTEM
+after school program, then the registration is already
+taken care of.  And (unless we have announced otherwise)
+the upcoming Game Jam is going to be held at your school.
+
+Competitors who perform well at their local 
+competitions @bold{may} be invited by their coaches to
+participate in the regional competitions.
+
+So to sum up:
+
+@itemlist[@item{Local competitions will be organized by your coach and will be held at your school.}
+          @item{Regional competitions may be entered by invitation only.}]
 
 @section{Day of Competition}
 
 On the day of competition (or before), the coach will
-register each student on the school's team and will
-also note which students will be competing solo
+register each student on a school's team and will
+also note which competitors will be competing solo
 and which will be competing in pairs.
 
 The players will sit in their designated area and
@@ -41,10 +61,14 @@ teams may begin working on their game immediately.
 They may continue until the scoring phase begins.
 
 During the scoring phase, judges will calculate a
-final score for each team.  The final score is calculated
-as the sum of every game's score, divided by the number of
-players on the team.  (For players competing in pairs,
-the game's score is doubled.)
+@bold{game score} for each game created during the
+Game Jam.  The @bold{game scores} will be summed to
+produce the team's @bold{raw score}.  For the purposes
+of ranking teams and determining winning teams, the @bold{raw score}
+is divided by the number of games to get the team's @bold{final score}.
+
+This prevents larger teams from having an unfair advantage over
+smaller teams.
 
 @subsection{Example}
 
@@ -56,47 +80,56 @@ Now, suppose the final game scores are as follows:
 2) 100 points for Sally's game.
 3) 100 points for Martha's game.
 
-Jimmy and Marco receive 200 points for their game,
-because they are a pair.  This means the team's
-total is 400 points.  The final score for the team
-would be 400 points divided by the 4 players.
+The sum of these game scores gives a @bold{raw score} of 300.  The @bold{final score}
+for the team would be 300 points divided by the 3 games.
 
 Or 100 points.
 
 This is the score that judges will use to rank teams.
-If no other team has a better score than 100, then
+If no other team has a better @bold{final score} than 100, then
 Jimmy, Sally, Marco, and Martha's team wins.
-
-Teams must have between 6 and 10 players and must
-be registered prior to the start of competition. 
 
 @section{How are Games Scored?}
 
-Judges will use the a rubric to score games.
-The rubric will be announced more than 8 weeks
-before the day of competition (and often will
-be announced many months before).  The upcoming
-rubric is as follows:
+Judges will use a semi-automated process score games.
+It is partially automated, to facilitate fast judging.
+But part of the score is subjective, to prevent competitors
+"gaming the system" -- i.e. just jumping through the hoops
+but without actually creating a fun, playable game.
 
-Game Type: Survival Game with Crafting
+The scoring process for the upcoming Game Jam is explained on
+this page.
 
-Scorable Features:
+@subsection{Overview}
 
-* avatar
-* Inventory Items
-* Food
-* Crafting/Recipes
-* Non-Player Characters
+@bold{Game Type:} Survival Game with Crafting
+
+@bold{Scorable Features:}
+
+@itemlist[
+ @item{Avatar}
+ @item{Inventory Items}
+ @item{Food}
+ @item{Non-Player Characters}
+ @item{Crafting/Recipes}]
 
 @subsection{Score Sheet}
 
 For convenience, we've created this scoresheet
 for players, coaches, spectators, and judges to
 use.  It is intended to serve as a quick overview
-of the scoring system.  For more details,
-see the following sections.
+of the scoring system.  (For more details, though,
+see the following sections.)
 
-<Score sheet...>
+@(require "../scoring/scoresheet.rkt" racket)
+@(scoresheet)
+
+@(define (plus s)
+   (text (~a "+" s) 24 'darkgreen))
+
+@(define (minus s)
+   (text (~a "-" s) 24 'darkred))
+
 
 @subsection{Avatar}
 
@@ -104,17 +137,31 @@ The game must have an avatar that can be moved
 with the arrow keys.  The avatar must lose health
 over time and must gain health by eating food.
 
-Computer-Scored Points:
+@bold{Sprint Bonus:}
 
-* +1 for having an avatar at all
-* +5 sprint bonus.  Implement an avatar within the
-first 5 minutes of the competition.
-* +1 per animation frame. Max +4
+@(plus 5) Have a player within the first 5 minutes of competition.
 
-Human-Scored Points:
+(NOTE: To claim this sprint bonus, a competitor must signal a judge
+and demonstrate a working game with an avatar.  Signals must be made
+before the 5 minute mark in order to gain the sprint bonus points.)
 
-* +5 for walking animation
-* +5 for theme cohesion
+@bold{Computer-Scored Points:}
+
+@itemlist[@item{@(plus 1) for having an avatar at all}
+          @item{@(plus 1) per animation frame. Max @(plus 4)}]
+
+@bold{Human-Scored Points:}
+
+@itemlist[@item{@(plus 5) for having an avatar that matches the theme.}
+          @item{@(plus 5) per animation frame that matches the theme.  Max @(plus 4)}]
+
+Although the definition of "matching the theme" is always subjective
+and up to the judges' discretions, some rules of thumb are:
+
+@itemlist[@item{If the prompt implies a main character, the avatar should look like that.}
+          @item{Animation frames should suggest locomotion.  Example: If the avatar is a space ship,
+           a theme-matching animation might imply some kind of propultion system.  Example: If the avatar is a unicorn,
+           a theme-matching animation might imply a unicorn walking.}]
 
 @subsection{Example}
 
@@ -130,53 +177,68 @@ which his avatar use while walking and replaces the red circle with these
 animation frames.  (The sprint bonus has already been awarded, so he does
 not lose the bonus points.)
 
-Computer-awarded points:
-* +1 for having an avatar
-* +3 for his animation frames
+Assuming nothing changes about the avatar before the end of the Game Jam,
+Marco's Avatar score would end up like this:
 
-Human-awarded points:
-* +5 for the fact that the animation is a walking animation (as opposed to just
-three random images).
-* +5 for the fact that the animation depicts a unicorn.  (A slime would also
-have been acceptable.)
-
-The total would be +19 points.
+@(avatar-section #:sprint-bonus 5
+                 #:avatar-points 1
+                 #:animation-points 3
+                 #:theme-avatar-points 1
+                 #:theme-animation-points 3)
 
 @subsection{Food}
 
 The game must have food items that the avatar
 can consume in-game.
 
-Computer-Scored Points:
+@bold{Sprint Bonus:}
 
-* +1 for each food item in game.  Max +10.
-* +5 sprint bonus.  Implement at least one food
-item within the first 10 minutes of the competition.
+@(plus 5) Have a food item within the first 10 minutes of competition.
 
-Human-Scored Points:
+(NOTE: To claim this sprint bonus, a competitor must signal a judge
+and demonstrate a working game with a food item.  Signals must be made
+before the 10 minute mark in order to gain the sprint bonus points.)
 
-* +1 per food item for theme cohesion.  Max +10
+@bold{Computer-Scored Points:}
+
+@itemlist[@item{@(plus 1) for each food item in game. Max @(plus 10)}]
+
+@bold{Human-Scored Points:}
+
+@itemlist[@item{@(plus 1) for each food item that matches the theme. Max @(plus 10)}]
+
+Although the definition of "matching the theme" is always subjective
+and up to the judges' discretions, some rules of thumb are:
+
+@itemlist[@item{If the prompt implies a main character, the food should be something that avatar might "eat".
+           Example: If the avatar is a spaceship, some "food" might be a barrel of fuel.
+           Example: If the avatar is a unicorn, some food might be berries.}
+          @item{Any food items should seem like they belong in the world.  A barrel of fuel probably doesn't
+           belong in a world full of unicorns.  (The exception is, of course, if the unicorn is a robotic unicorn --
+           in which case perhaps a barrel of fule @bold{does} match the theme -- but berries would not.)}]
 
 @subsection{Example}
 
 Suppose (as in the example in the previous section) that
 Marco creates three food items:
 
-* Prickly Pears, which give the avatar +1 health
-* Sand Bread, which gives the avatar +5 health
-* Prickly Pear Pie, which gives the avatar +10 health
+@itemlist[
+   @item{Prickly Pears, which give the avatar @(plus 1) health}
+   @item{Sand Bread, which gives the avatar @(plus 5) health}
+   @item{Prickly Pear Pie, which gives the avatar @(plus 10) health}]
 
 Also, suppose he created the berries within the first 10 minutes of
-the competition.  This would qualify him for a +5 sprint bonus.
+the competition.  This would qualify him for a @(plus 5) sprint bonus.
 
-Furthermore, he would recieve:
+Assuming nothing changes related to food items before the end of the
+competition, the final food score would look like:
 
-* +3 for the food items (+1 for each) -- simply for having them.
-* +3 for each item that pertains to the theme (presumably Prickly Pears,
-Sand Bread, and Prickly Pear Pie can help unicorns survive in the desert).
+@(food-section #:sprint-bonus 5
+               #:food-points 3
+               #:theme-food-points 3)
 
-That would be a total of +11 points.  Added to his
-previous score of +19, that would be +30 points so far!
+That would be a total of @(plus 11) points.  Added to his
+previous score of @(plus 13), that would be @(plus 24) points so far!
 
 @subsection{Non-Food Items}
 
@@ -310,6 +372,33 @@ Recipes
 
 @subsection{Training Badges}
 
+@(require 2htdp/image)
+
+Coaches will train competitors by helping them acquire the necessary skills to excel
+at the Game Jam competition.  Competitors who have mastered these skills will receive
+badges.  These badges serve as visual, wearable representations of a competitor's hard work.
+
+Badge key:
+
+@(define (meta-badge) (circle 10 'solid 'gray))
+@(define (avatar-badge) (circle 10 'solid 'red))
+@(define (food-badge) (circle 10 'solid 'orange))
+@(define (non-food-badge) (circle 10 'solid 'gold))
+@(define (npc-badge) (circle 10 'solid 'green))
+@(define (recipe-badge) (circle 10 'solid 'blue))
+
+@(meta-badge)     - @bold{Meta Badges} - for skills related to excelling as a Game Jam competitor.
+
+@(avatar-badge)   - @bold{Avatar Badges} - for skills related to creating avatars
+
+@(food-badge)     - @bold{Food Badges} - for skills related to creating food items
+
+@(non-food-badge) - @bold{Non-Food Badges} - for skills related to creating non-food items
+
+@(npc-badge)      - @bold{NPC Badges} - for skills related to creating NPCs
+
+@(recipe-badge)   - @bold{Recipe Badges} - for skills related to creating recipes
+
 
 
 @subsubsection{Day 1 Badges}
@@ -318,19 +407,18 @@ These are called "day 1" badges because we recommend that competitors earn these
 badges before earning any other badges.  They help reenforce team values and help
 orient the competitors toward the challenges that face them.
 
-@bold{Core Values: Level 1} (1 minute.)
+@(meta-badge) @bold{Core Values: Level 1} (1 minute.)
 
 @italic{Can recite the first three ThoughtSTEM core values}
 
 @itemlist[@item{It's not about my code.     It's about what I can code.}
-          @item{It's not about me.          It's about my team.}
-          @item{It's not about our code.    It's about what we can code.  Together.}]
+          @item{It's not about me.          It's about us.}]
 
 
 [Hand motions?]
 
 
-@bold{Game Jam Specs: Level 1} (1 minute.)
+@(meta-badge) @bold{Game Jam Specs: Level 1} (1 minute.)
 
 @italic{Can recite the specs for the upcoming Game Jam.}
 
@@ -347,26 +435,7 @@ This badge should be re-earned any time the specs change.  Or any time there's a
 The specs do change from time to time.  (And that in itself is a valuable lesson.)
 
 
-@bold{Fast Start Puzzles: Level 1} (5 minutes.)
-
-@italic{Can sit down, log in, open Dr Racket, and start a puzzle}
-
-@bold{Fast Start Puzzles: Level 2} (2 minutes.)
-
-@italic{Can sit down, log in, open Dr Racket, and start a puzzle}
-
-@bold{Fast Start Jam: Level 1} (5 minutes.)
-
-@italic{Can sit down, log in, open Dr Racket, and write the game jam starter code}
-
-@bold{Fast Start Jam: Level 2} (2 minutes.)
-
-@italic{Can sit down, log in, open Dr Racket, and write the game jam starter code}
-
-
-
-
-@bold{Meta Kata: Level 1} (1 minute.)
+@(meta-badge) @bold{Meta Kata: Level 1} (1 minute.)
 
 @italic{Can recite answer to: What is a Kata badge?}
 
@@ -376,7 +445,7 @@ A Kata is a small piece of code that I memorize and can write:
           @item{Accurately}]
 
 
-@bold{First Kata} (5 minute)
+@(avatar-badge) @bold{First Kata} (5 minute)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -384,10 +453,10 @@ Within five minutes, the student can translate an English sentence of this type:
 
 To code of this type:
 
-@racket[(survival-game-jam
-         #:player (basic-player-entity (square 40 'solid 'red)))]
-
-___
+@racketblock[
+ (survival-game-jam
+  #:player (basic-player-entity (square 40 'solid 'red)))
+ ]
 
 Note: To award this badge, a student should be able to do the above
 in under 1 minute.  But doing it once is too easy.  The student should
