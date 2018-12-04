@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-("7.0" ("de337701905d3316f696ed566474d4d5eb934663" . "59311309f995ed7034e4e897cdf30fb1b018a76c") (collects #"2htdp" #"image.rkt") (collects #"game-engine" #"main.rkt") (collects #"game-engine-demos-common" #"main.rkt") (collects #"racket" #"main.rkt") (collects #"racket" #"runtime-config.rkt"))
-=======
-("7.0" ("de337701905d3316f696ed566474d4d5eb934663" . "7831d27c3ce226c1c6e31705def53e04a4828d13") (collects #"2htdp" #"image.rkt") (collects #"game-engine" #"main.rkt") (collects #"game-engine-demos-common" #"main.rkt") (collects #"racket" #"main.rkt") (collects #"racket" #"runtime-config.rkt"))
->>>>>>> 11ab6b2005f2fce3997ab9aa3f0e4eea734f6cc7
