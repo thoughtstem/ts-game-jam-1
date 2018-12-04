@@ -2,7 +2,9 @@
 
 (provide survival-game-jam
          basic-player-entity
-         random-character-row)
+         random-character-row
+         food
+         crafting-menu-set!)
 
 (require game-engine
          game-engine-demos-common)
@@ -52,7 +54,7 @@
                   #:position   (posn 0 0)
                   #:components (static)
                                (forest-backdrop)
-                               #;(precompiler
+                               (precompiler
                                 (backdrop-tiles (first (forest-backdrop))))))
 
 
@@ -79,7 +81,9 @@
                   #:components (static)
                                (counter 0)
                                (layer "ui")
-                               (on-key 'space #:rule (player-is-near? "item") (do-many (change-counter-by 10)
+                               (precompiler (player-toast-entity "+10 GOLD"))
+                               (apply precompiler (map (λ (num) (draw-dialog (~a "Gold: " num))) (range 0 1001 10)))
+                               (on-key 'space #:rule (player-is-near? "Coin") (do-many (change-counter-by 10)
                                                                                        (draw-counter-rpg #:prefix "Gold: ")
                                                                                        (spawn (player-toast-entity "+10 GOLD"))))
                                ))
@@ -139,8 +143,7 @@
   #f)
 
 (define (lost? g e)
-  #f
-  #;(health-is-zero? g e))
+  (health-is-zero? g e))
                 
 ; === RUN THE GAME ===
 #;(start-game (instructions-entity)
@@ -171,34 +174,32 @@
   (on-key use-key #:rule (player-is-near? item-name) (do-many (maybe-change-health-by heal-amount #:max max-health)
                                                             (spawn (player-toast-entity (~a "+" heal-amount) #:color "green")))))
 
-
-
 (define (basic-player-entity (i (circle 10 'solid 'red)))
   (sprite->entity i
                   #:name       "player"
                   #:position   (posn 100 100)
                   #:components (physical-collider)
-                  (sound-stream)
-                  (precompiler (player-toast-entity "+5" #:color "green")
-                               (player-toast-entity "-1" #:color "red"))
-                  (key-movement 10 #:rule (and/r all-dialog-closed?
-                                                 (not/r lost?)))
-                  (key-animator-system)
-                  (stop-on-edge)
-                  (backpack-system #:components (observe-change backpack-changed? update-backpack))
-                  (player-edge-system)
-                  (on-key "o" #:rule player-info-closed? show-move-info)
-                  (observe-change lost? (kill-player))
-                  (on-key "i" (spawn instructions-entity #:relative? #f))
-                  (on-key "m" (open-mini-map #:close-key "m"))
-                  (counter 0)
-                  (on-key 'enter #:rule player-dialog-open? (get-dialog-selection))
-                  (on-rule (not/r all-dialog-closed?) (stop-movement))))
+                                (sound-stream)
+                                ;(precompiler ;(player-toast-entity "+5" #:color "green")
+                                ;             (player-toast-entity "-1" #:color "red"))
+                                (key-movement 10 #:rule (and/r all-dialog-closed?
+                                                               (not/r lost?)))
+                                (key-animator-system)
+                                (stop-on-edge)
+                                (backpack-system #:components (observe-change backpack-changed? update-backpack))
+                                (player-edge-system)
+                                (on-key "o" #:rule player-info-closed? show-move-info)
+                                (observe-change lost? (kill-player))
+                                (on-key "i" (spawn instructions-entity #:relative? #f))
+                                (on-key "m" (open-mini-map #:close-key "m"))
+                                (counter 0)
+                                (on-key 'enter #:rule player-dialog-open? (get-dialog-selection))
+                                (on-rule (not/r all-dialog-closed?) (stop-movement))))
 
-
+         
 (define (survival-game-jam #:bg              [bg-ent (bg-entity)]
                            #:player          [p      #f #;(basic-player-entity)]
-                           #:starvation-rate [sr 40]
+                           #:starvation-rate [sr 50]
                            #:npc-list        [npc    '() #;(list (random-npc (posn 200 200)))]
                            #:item-list       [i-list '() #;(list (item-entity))]
                            #:food-list       [f-list '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
@@ -209,6 +210,22 @@
     (if p
         (add-components p (map recipe->system known-recipes-list))
         #f))
+
+  (define (food->toast-entity f)
+    (player-toast-entity (~a "+" (second f)) #:color "green"))
+
+  (define starvation-period (max 1 (- 100 (min 100 (max 0 sr)))))
+
+  (define food-img-list (map (λ (f) (render (get-component (first f) animated-sprite?))) f-list))
+
+  (define (stack img amount)
+    (draw-backpack (map (thunk* img) (range amount))))
+
+  (define (img->backpack-stack-list img)
+    (map (curry stack img) (range 11)))
+
+  (define all-backpack-stacks
+    (apply append (map img->backpack-stack-list food-img-list)))
   
   (define (health-entity)
     (define max-health 100)
@@ -216,14 +233,17 @@
         (sprite->entity (draw-health-bar 100 #:max max-health)
                         #:name "health"
                         #:position (posn 100 20)
-                        #:components (static)
-                        (counter 100)
-                        (layer "ui")
-                        (apply precompiler (map (lambda(i) (draw-health-bar i #:max 100))
-                                                (range 100)))
-                        (do-every 50 (do-many (maybe-change-health-by -1 #:max max-health)
-                                              (spawn (player-toast-entity "-1" #:color "orangered") #:relative? #f)))
-                        (map food->component f-list))
+                        #:components (precompiler (player-toast-entity "-1" #:color "red"))
+                                     (apply precompiler (map food->toast-entity f-list))
+                                     (apply precompiler (map first f-list))
+                                     (precompiler all-backpack-stacks)
+                                     (counter 100)
+                                     (layer "ui")
+                                     (apply precompiler (map (lambda(i) (draw-health-bar i #:max max-health))
+                                                             (range (add1 max-health))))
+                                     (do-every starvation-period (do-many (maybe-change-health-by -1 #:max max-health)
+                                                                          (spawn (player-toast-entity "-1" #:color "orangered") #:relative? #f)))
+                                     (map food->component f-list))
         #f))
 
   (define es (filter identity
@@ -259,19 +279,17 @@
 
 (define known-recipes-list '())
 
-(define (craft-menu #:open-key     [open-key 'space]
-                    #:open-sound   [open-sound #f]
-                    #:select-sound [select-sound #f]
-                    #:recipes r
-                              . recipes)
+(define (crafting-menu-set! #:open-key     [open-key 'space]
+                            #:open-sound   [open-sound #f]
+                            #:select-sound [select-sound #f]
+                            #:recipes r
+                            . recipes)
   (set! known-recipes-list (append (cons r recipes) known-recipes-list))
   (crafting-menu #:open-key open-key
                  #:open-sound open-sound
                  #:select-sound select-sound
                  #:recipes r
                            recipes))
-
-
 
 (define (random-character-row)
   (apply beside
