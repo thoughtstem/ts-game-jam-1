@@ -20,10 +20,10 @@
                               (crafting-menu-set! #:recipes carrot-stew-recipe
                                                   )))
 
-(survival-game-jam #:bg              (bg-entity)
-                   #:player          (basic-player-entity (sprite))
-                   #:starvation-rate 10
-                   #:item-list       (list (coin-entity))
-                   #:food-list       (list (food #:entity (carrot-entity) #:amount-in-world 10)
-                                           (food #:entity (carrot-stew-entity) #:heals-by 20))
-                   #:crafter-list    (list (crafter-entity)))
+(survival-game #:bg              (bg-entity)
+               #:player          (basic-player-entity (sprite))
+               #:starvation-rate 10
+               #:item-list       (list (coin-entity))
+               #:food-list       (list (food #:entity (carrot-entity) #:amount-in-world 10)
+                                       (food #:entity (carrot-stew-entity) #:heals-by 20))
+               #:crafter-list    (list (crafter-entity)))

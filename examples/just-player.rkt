@@ -5,5 +5,5 @@
 (define (sprite)
   (row->sprite (sheet)))
 
-(survival-game-jam
+(survival-game
  #:player (basic-player-entity (sprite)))

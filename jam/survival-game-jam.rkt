@@ -1,6 +1,6 @@
 #lang racket
 
-(provide survival-game-jam
+(provide survival-game
          basic-player-entity
          random-character-row
          food
@@ -180,7 +180,7 @@
                   #:position   (posn 100 100)
                   #:components (physical-collider)
                                 (sound-stream)
-                                ;(precompiler ;(player-toast-entity "+5" #:color "green")
+                                ;(precompiler (player-toast-entity "+5" #:color "green")
                                 ;             (player-toast-entity "-1" #:color "red"))
                                 (key-movement 10 #:rule (and/r all-dialog-closed?
                                                                (not/r lost?)))
@@ -196,15 +196,15 @@
                                 (on-key 'enter #:rule player-dialog-open? (get-dialog-selection))
                                 (on-rule (not/r all-dialog-closed?) (stop-movement))))
 
-         
-(define (survival-game-jam #:bg              [bg-ent (bg-entity)]
-                           #:player          [p      #f #;(basic-player-entity)]
-                           #:starvation-rate [sr 50]
-                           #:npc-list        [npc    '() #;(list (random-npc (posn 200 200)))]
-                           #:item-list       [i-list '() #;(list (item-entity))]
-                           #:food-list       [f-list '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
-                                                                 (food #:entity carrot-stew #:heals-by 20))]
-                           #:crafter-list    [c-list '() #;(list (craft-fire))])
+
+(define (survival-game #:bg              [bg-ent (bg-entity)]
+                       #:player          [p      #f #;(basic-player-entity)]
+                       #:starvation-rate [sr 50]
+                       #:npc-list        [npc    '() #;(list (random-npc (posn 200 200)))]
+                       #:item-list       [i-list '() #;(list (item-entity))]
+                       #:food-list       [f-list '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
+                                                             (food #:entity carrot-stew #:heals-by 20))]
+                       #:crafter-list    [c-list '() #;(list (craft-fire))])
   
   (define player-with-recipes
     (if p
