@@ -11,6 +11,12 @@
 
 (require "../scoring/score.rkt")
 
+(define-syntax-rule (define/log l head body ...)
+  (define head
+    (let ()
+      (displayln l)
+      body ...)))
+
 
 ; ==== BACKDROP COMPONENT ====
 ; Converts a single bg image to a list of bg tiles
@@ -151,7 +157,8 @@
   (on-key use-key #:rule (player-is-near? item-name) (do-many (maybe-change-health-by heal-amount #:max max-health)
                                                             (spawn (player-toast-entity (~a "+" heal-amount) #:color "green")))))
 
-(define (basic-player-entity (i (circle 10 'solid 'red)))
+(define/log "basic-player-entity"
+  (basic-player-entity (i (circle 10 'solid 'red)))
   (sprite->entity i
                   #:name       "player"
                   #:position   (posn 100 100)
@@ -175,16 +182,19 @@
                                 (on-rule (not/r all-dialog-closed?) (stop-movement))))
 
 
-(define (survival-game #:bg              [bg-ent (bg-entity)]
-                       #:player          [p         #f #;(basic-player-entity)]
-                       #:starvation-rate [sr 50]
-                       #:npc-list        [npc-list '() #;(list (random-npc (posn 200 200)))]
-                       #:item-list       [i-list   '() #;(list (item-entity))]
-                       #:food-list       [f-list   '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
-                                                             (food #:entity carrot-stew #:heals-by 20))]
-                       #:crafter-list    [c-list   '() #;(list (craft-fire))]
-                       #:other-entities  [ent #f]
-                                         . custom-entities)
+(define/log "survival-game"
+  (survival-game #:bg              [bg-ent (bg-entity)]
+                           #:player          [p         #f #;(basic-player-entity)]
+                           #:starvation-rate [sr 50]
+                           #:npc-list        [npc-list '() #;(list (random-npc (posn 200 200)))]
+                           #:item-list       [i-list   '() #;(list (item-entity))]
+                           #:food-list       [f-list   '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
+                                                                   (food #:entity carrot-stew #:heals-by 20))]
+                           #:crafter-list    [c-list   '() #;(list (craft-fire))]
+                           #:other-entities  [ent #f]
+                           . custom-entities)
+
+
   
   (define player-with-recipes
     (if p
@@ -258,12 +268,14 @@
   
   (apply start-game es))
 
-(define (food #:entity entity #:heals-by [heal-amt 5] #:amount-in-world [world-amt 0])
+(define/log "food"
+  (food #:entity entity #:heals-by [heal-amt 5] #:amount-in-world [world-amt 0])
   (list entity heal-amt world-amt))
 
 (define known-recipes-list '())
 
-(define (crafting-menu-set! #:open-key     [open-key 'space]
+(define/log "crafting-menue-set!"
+  (crafting-menu-set! #:open-key     [open-key 'space]
                             #:open-sound   [open-sound #f]
                             #:select-sound [select-sound #f]
                             #:recipes r
@@ -275,7 +287,8 @@
                  #:recipes r
                            recipes))
 
-(define (random-character-row)
+(define/log "random-character-row"
+  (random-character-row)
   (apply beside
          (map fast-image-data
               (vector->list
@@ -283,5 +296,9 @@
                 (get-component
                  (random-npc)
                  animated-sprite?))))))
+
+
+
+
 
 
