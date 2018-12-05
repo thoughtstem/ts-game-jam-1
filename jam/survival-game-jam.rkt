@@ -68,7 +68,7 @@
                                   "Press X to drop items."))
                   #:position   (posn (/ WIDTH 2) (/ HEIGHT 2))
                   #:name       "instructions"
-                  #:components (static)
+                  #:components (layer "ui")
                                (on-key 'enter die)
                                (on-key 'space die)
                                (on-key "i" die)
@@ -190,7 +190,8 @@
                                 (player-edge-system)
                                 (on-key "o" #:rule player-info-closed? show-move-info)
                                 (observe-change lost? (kill-player))
-                                (on-key "i" (spawn instructions-entity #:relative? #f))
+                                (on-key "i" #:rule (λ (g e) (not (get-entity "instructions" g)))
+                                        (spawn instructions-entity #:relative? #f))
                                 (on-key "m" (open-mini-map #:close-key "m"))
                                 (counter 0)
                                 (on-key 'enter #:rule player-dialog-open? (get-dialog-selection))
@@ -198,13 +199,15 @@
 
 
 (define (survival-game #:bg              [bg-ent (bg-entity)]
-                       #:player          [p      #f #;(basic-player-entity)]
+                       #:player          [p         #f #;(basic-player-entity)]
                        #:starvation-rate [sr 50]
-                       #:npc-list        [npc    '() #;(list (random-npc (posn 200 200)))]
-                       #:item-list       [i-list '() #;(list (item-entity))]
-                       #:food-list       [f-list '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
+                       #:npc-list        [npc-list '() #;(list (random-npc (posn 200 200)))]
+                       #:item-list       [i-list   '() #;(list (item-entity))]
+                       #:food-list       [f-list   '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
                                                              (food #:entity carrot-stew #:heals-by 20))]
-                       #:crafter-list    [c-list '() #;(list (craft-fire))])
+                       #:crafter-list    [c-list   '() #;(list (craft-fire))]
+                       #:other-entities  [ent #f]
+                                         . custom-entities)
   
   (define player-with-recipes
     (if p
@@ -261,11 +264,15 @@
                        ;(pine-tree (posn 400 140) #:tile 2)
                        ;(pine-tree (posn 93 136) #:tile 4)
                        ;(round-tree (posn 322 59) #:tile 4)
+
+                       npc-list
               
                        c-list
               
                        (map (λ (ent) (entity-cloner ent 10)) i-list)
                        (map (λ (f) (entity-cloner (first f) (third f))) f-list)
+
+                       (cons ent custom-entities)
               
                        bg-ent))))
 

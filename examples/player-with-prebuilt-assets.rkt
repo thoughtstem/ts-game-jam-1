@@ -23,7 +23,10 @@
 (survival-game #:bg              (bg-entity)
                #:player          (basic-player-entity (sprite))
                #:starvation-rate 10
+               #:npc-list        (list (random-npc (posn 400 300) #:tile 1 #:mode 'pace)
+                                       (random-npc (posn 300 300) #:tile 2 #:mode 'wander))
                #:item-list       (list (coin-entity))
                #:food-list       (list (food #:entity (carrot-entity) #:amount-in-world 10)
                                        (food #:entity (carrot-stew-entity) #:heals-by 20))
-               #:crafter-list    (list (crafter-entity)))
+               #:crafter-list    (list (crafter-entity))
+               #:other-entities        (pine-tree (posn 100 100) #:tile 0))
