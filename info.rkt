@@ -11,3 +11,7 @@
 (define compile-omit-paths '(
   "test"))
 
+(define test-omit-paths '("doc" "jam" "scoring" "examples"))
+
+(define test-include-paths '(
+  "test"))

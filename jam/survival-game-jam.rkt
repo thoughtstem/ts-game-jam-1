@@ -20,20 +20,20 @@
                 #:columns    3
                 #:start-tile 0))
 
-(define WIDTH       (backdrop-width  (forest-backdrop)))
-(define HEIGHT      (backdrop-height (forest-backdrop)))
-(define TOTAL-TILES (backdrop-length (forest-backdrop)))
+(define (WIDTH)       (backdrop-width  (forest-backdrop)))
+(define (HEIGHT)      (backdrop-height (forest-backdrop)))
+(define (TOTAL-TILES) (backdrop-length (forest-backdrop)))
 
 
 
 
 ; === GAME DIALOG ===
-(define player-dialog
+(define (player-dialog)
   (list "Hello. What's your name?"
         "I'm lost and hungry, can you help me?"))
 
 ; Responses must have the same number of lists as items in the player-dialog
-(define npc1-response
+(define (npc1-response)
   (list (list "Oh, hello! My name is Jordan!"
               "It's dangerous out here."
               "You should be careful.")
@@ -41,9 +41,9 @@
               "If you look around though,\nyou might find carrots.")
         ))
 
-(define npc1-response-sprites
+(define (npc1-response-sprites)
   (dialog->response-sprites npc1-response
-                            #:game-width WIDTH
+                            #:game-width (WIDTH)
                             #:animated #t
                             #:speed 4))
 
@@ -66,7 +66,7 @@
                                   "Press I to open these instructions.\n"
                                   "Press Z to pick up items.\n"
                                   "Press X to drop items."))
-                  #:position   (posn (/ WIDTH 2) (/ HEIGHT 2))
+                  #:position   (posn (/ (WIDTH) 2) (/ (HEIGHT) 2))
                   #:name       "instructions"
                   #:components (layer "ui")
                                (on-key 'enter die)
@@ -145,29 +145,6 @@
 (define (lost? g e)
   (health-is-zero? g e))
                 
-; === RUN THE GAME ===
-#;(start-game (instructions-entity)
-            (game-over-screen won? health-is-zero?)
-            (score-entity)
-            (health-entity)
-
-            (player-entity)
-            (npc1-entity)
-            
-            (crafting-fire (posn 84 274) #:tile 0)
-            (crafting-cauldron (posn 250 200) #:tile 1)
-            (crafting-table (posn 400 200) #:tile 2)
-            
-            (builder (posn 300 300) brick-house)      ; CHECKING THAT I DIDN'T BREAK THIS
-            
-            (pine-tree (posn 400 140) #:tile 2)
-            (pine-tree (posn 93 136) #:tile 4)
-            (round-tree (posn 322 59) #:tile 4)
-            
-            (entity-cloner (item-entity) 5)
-            (entity-cloner (carrot-entity) 10)
-            (bg-entity))
-
 (define (food->component f #:use-key [use-key 'space] #:max-health [max-health 100])
   (define item-name (get-name (first f)))
   (define heal-amount (second f))
