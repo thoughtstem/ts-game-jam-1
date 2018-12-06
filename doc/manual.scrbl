@@ -606,7 +606,7 @@ orient the competitors toward the challenges that face them.
              what I can code." Point to brain.}
 
 @margin-note{Depending on the size of your class, you may want to challenge them
-             to rattle these off 1 by 1, in pair or small groups, or as an entire
+             to rattle these off 1 by 1, in pairs or small groups, or as an entire
              class.}
 
 
@@ -615,7 +615,7 @@ orient the competitors toward the challenges that face them.
 @italic{Can recite the specs for the upcoming Game Jam.}
 
 @itemlist[@item{Game Type: Survival Game}
-          @item{Time Limit: 40 minutes}
+          @item{Time Limit: 1 hour}
           @item{Categories:
            @itemlist[@item{Avatar:                 20 points}
                      @item{Food Items:             25 points}
@@ -625,6 +625,8 @@ orient the competitors toward the challenges that face them.
 
 This badge should be re-earned any time the specs change.  Or any time there's a new upcoming jam.
 The specs do change from time to time.  (And that in itself is a valuable lesson.)
+
+@margin-note{This is a good badge to learn as a team or in small groups.}
 
 
 @(meta-badge) @bold{Meta Kata: Level 1} (1 minute.)
