@@ -13,6 +13,12 @@
 
 (require "../scoring/score.rkt")
 
+(define-syntax-rule (define/log l head body ...)
+  (define head
+    (let ()
+      (displayln l)
+      body ...)))
+
 
 ; ==== BACKDROP COMPONENT ====
 ; Converts a single bg image to a list of bg tiles
@@ -22,20 +28,20 @@
                 #:columns    3
                 #:start-tile 0))
 
-(define WIDTH       (backdrop-width  (forest-backdrop)))
-(define HEIGHT      (backdrop-height (forest-backdrop)))
-(define TOTAL-TILES (backdrop-length (forest-backdrop)))
+(define (WIDTH)       (backdrop-width  (forest-backdrop)))
+(define (HEIGHT)      (backdrop-height (forest-backdrop)))
+(define (TOTAL-TILES) (backdrop-length (forest-backdrop)))
 
 
 
 
 ; === GAME DIALOG ===
-(define player-dialog
+(define (player-dialog)
   (list "Hello. What's your name?"
         "I'm lost and hungry, can you help me?"))
 
 ; Responses must have the same number of lists as items in the player-dialog
-(define npc1-response
+(define (npc1-response)
   (list (list "Oh, hello! My name is Jordan!"
               "It's dangerous out here."
               "You should be careful.")
@@ -43,9 +49,9 @@
               "If you look around though,\nyou might find carrots.")
         ))
 
-(define npc1-response-sprites
+(define (npc1-response-sprites)
   (dialog->response-sprites npc1-response
-                            #:game-width WIDTH
+                            #:game-width (WIDTH)
                             #:animated #t
                             #:speed 4))
 
@@ -68,7 +74,7 @@
                                   "Press I to open these instructions.\n"
                                   "Press Z to pick up items.\n"
                                   "Press X to drop items."))
-                  #:position   (posn (/ WIDTH 2) (/ HEIGHT 2))
+                  #:position   (posn (/ (WIDTH) 2) (/ (HEIGHT) 2))
                   #:name       "instructions"
                   #:components (layer "ui")
                                (on-key 'enter die)
@@ -147,40 +153,18 @@
 (define (lost? g e)
   (health-is-zero? g e))
                 
-; === RUN THE GAME ===
-#;(start-game (instructions-entity)
-            (game-over-screen won? health-is-zero?)
-            (score-entity)
-            (health-entity)
-
-            (player-entity)
-            (npc1-entity)
-            
-            (crafting-fire (posn 84 274) #:tile 0)
-            (crafting-cauldron (posn 250 200) #:tile 1)
-            (crafting-table (posn 400 200) #:tile 2)
-            
-            (builder (posn 300 300) brick-house)      ; CHECKING THAT I DIDN'T BREAK THIS
-            
-            (pine-tree (posn 400 140) #:tile 2)
-            (pine-tree (posn 93 136) #:tile 4)
-            (round-tree (posn 322 59) #:tile 4)
-            
-            (entity-cloner (item-entity) 5)
-            (entity-cloner (carrot-entity) 10)
-            (bg-entity))
-
 (define (food->component f #:use-key [use-key 'space] #:max-health [max-health 100])
   (define item-name (get-name (first f)))
   (define heal-amount (second f))
   (on-key use-key #:rule (player-is-near? item-name) (do-many (maybe-change-health-by heal-amount #:max max-health)
                                                             (spawn (player-toast-entity (~a "+" heal-amount) #:color "green")))))
 
-(define (custom-avatar #:sprite     [sprite (circle 10 'solid 'red)]
-                       #:position   [p   (posn 100 100)]
-                       #:speed      [spd 10]
-                       #:components [c #f]
-                                    . custom-components)
+(define/log "custom-avatar"
+  (custom-avatar #:sprite     [sprite (circle 10 'solid 'red)]
+                 #:position   [p   (posn 100 100)]
+                 #:speed      [spd 10]
+                 #:components [c #f]
+                               . custom-components)
   (sprite->entity sprite
                   #:name       "player"
                   #:position   p
@@ -189,6 +173,7 @@
                                (precompiler (rotate -90 (render sprite)))
                                (key-movement spd #:rule (and/r all-dialog-closed?
                                                                (not/r lost?)))
+<<<<<<< HEAD
                                (key-animator-system)
                                (stop-on-edge)
                                (backpack-system #:components (observe-change backpack-changed? update-backpack))
@@ -204,17 +189,18 @@
                                (cons c custom-components)))
 
 
-(define (survival-game #:bg              [bg-ent (custom-background)]
-                       #:avatar          [p         #f #;(custom-avatar)]
-                       #:starvation-rate [sr 50]
-                       #:npc-list        [npc-list '() #;(list (random-npc (posn 200 200)))]
-                       #:item-list       [i-list   '() #;(list (item-entity))]
-                       #:food-list       [f-list   '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
-                                                             (food #:entity carrot-stew #:heals-by 20))]
-                       #:crafter-list    [c-list   '() #;(list (custom-crafter))]
-                       #:other-entities  [ent #f]
-                                         . custom-entities)
-  
+(define/log "surival-game"
+  (survival-game #:bg              [bg-ent (custom-background)]
+                 #:avatar          [p         #f #;(custom-avatar)]
+                 #:starvation-rate [sr 50]
+                 #:npc-list        [npc-list '() #;(list (random-npc (posn 200 200)))]
+                 #:item-list       [i-list   '() #;(list (item-entity))]
+                 #:food-list       [f-list   '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
+                                                         (food #:entity carrot-stew #:heals-by 20))]
+                 #:crafter-list    [c-list   '() #;(list (custom-crafter))]
+                 #:other-entities  [ent #f]
+                                   . custom-entities)
+
   (define player-with-recipes
     (if p
         (add-components p (map recipe->system known-recipes-list))
@@ -287,12 +273,14 @@
   
   (apply start-game es))
 
-(define (food #:entity entity #:heals-by [heal-amt 5] #:amount-in-world [world-amt 0])
+(define/log "food"
+  (food #:entity entity #:heals-by [heal-amt 5] #:amount-in-world [world-amt 0])
   (list entity heal-amt world-amt))
 
 (define known-recipes-list '())
 
-(define (crafting-menu-set! #:open-key     [open-key 'space]
+(define/log "crafting-menue-set!"
+  (crafting-menu-set! #:open-key     [open-key 'space]
                             #:open-sound   [open-sound #f]
                             #:select-sound [select-sound #f]
                             #:recipes r
@@ -323,7 +311,8 @@
                                menu
                                (cons c custom-components)))
 
-(define (random-character-row)
+(define/log "random-character-row"
+  (random-character-row)
   (apply beside
          (map fast-image-data
               (vector->list
@@ -331,5 +320,9 @@
                 (get-component
                  (random-npc)
                  animated-sprite?))))))
+
+
+
+
 
 

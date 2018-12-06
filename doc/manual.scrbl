@@ -163,7 +163,7 @@ and up to the judges' discretions, some rules of thumb are:
            a theme-matching animation might imply some kind of propultion system.  Example: If the avatar is a unicorn,
            a theme-matching animation might imply a unicorn walking.}]
 
-@subsection{Example}
+@subsubsection{Example}
 
 Suppose the Game Jam prompt is announced to be: "Slimes vs Unicorns.
 Slimes have taken over the forest, and the unicorns must learn to
@@ -217,7 +217,7 @@ and up to the judges' discretions, some rules of thumb are:
            belong in a world full of unicorns.  (The exception is, of course, if the unicorn is a robotic unicorn --
            in which case perhaps a barrel of fule @bold{does} match the theme -- but berries would not.)}]
 
-@subsection{Example}
+@subsubsection{Example}
 
 Suppose (as in the example in the previous section) that
 Marco creates three food items:
@@ -243,19 +243,27 @@ previous score of @(plus 13), that would be @(plus 24) points so far!
 @subsection{Non-Food Items}
 
 The game must have non-food items that can be
-picked up and used for crafting. 
+picked up and used for crafting.
 
-Computer-Scored Points:
+@bold{Sprint Bonus:}
 
-* +1 for each non-food item in game.  Max +10.
-* +5 sprint bonus.  Implement at least one non-food
+@(plus 5) sprint bonus.  Implement at least one non-food
 item within the first 15 minutes of the competition.
 
-Human-Scored Points:
+@bold{Computer-Scored Points:}
 
-* +1 per non-food item for theme cohesion.  Max +10
+@(plus 1) for each non-food item in game.  Max @(plus 10).
 
-@subsection{Example}
+@bold{Human-Scored Points:}
+
+@(plus 1) per non-food item for theme cohesion.  Max @(plus 10).
+
+Although the definition of "matching the theme" is always subjective
+and up to the judges' discretions, for some rules of thumb, see the previous section
+on food items.  The same idea applies: Make sure these items seem like they
+fit with the world or would be something the avatar might use.
+
+@subsubsection{Example}
 
 Suppose we continue our example from the previous section.
 Marco creates on non-food item -- a Sand Grinding Rock.
@@ -263,30 +271,43 @@ But suppose he loses some time because he must track down a
 bug in his code.  He ends up completing his Sand Grinding Rock by the 16-minute
 mark.  This means he cannot get the sprint bonus in this category.
 
-However, he does recieve +1 for having an item and +1 for
-the fact that a Sand Grinding Rock does sound like something a unicorn
-might need to survive in a desert.
+Assuming nothing changes, here are Marco's scores for this category:
 
-That's +2 in this category.  He's at +32 so far.
+@(non-food-section #:non-food-points 1
+                   #:theme-non-food-points 1)
+
+That's @(plus 2) in this category.  He's at @(plus 26) so far.
 
 @subsection{Non-Player Characters}
 
-The game must have Non-Player Characters (NPCs). 
+The game must have Non-Player Characters (NPCs).
 
-Computer-Scored Points:
+@bold{Sprint Bonus:}
 
-* +1 for each NPC in game.  Max +5.
-* +1 for each line of dialog an NPC has (Max +4 per NPC).
-* +5 sprint bonus.  Implement at least one NPC
+@(plus 5) sprint bonus.  Implement at least one NPC
 within the first 20 minutes of the competition.
 
-Human-Scored Points:
+@bold{Computer-Scored Points:}
 
-* +1 per NPC for theme cohesion.  Max +5.
-* +1 for each line of dialog an NPC has that is cohesive with
-the theme (Max +4 per NPC).
+@itemlist[@item{@(plus 1) for each NPC in game.  Max @(plus 5).}
+          @item{@(plus 1) for each line of dialog an NPC has (Max @(plus 4) per NPC).}]
 
-@subsection{Example}
+@bold{Human-Scored Points:}
+
+@itemlist[@item{@(plus 1) per NPC for theme cohesion.  Max @(plus 5).}
+          @item{@(plus 1) for each line of dialog an NPC has that is cohesive with
+the theme (Max @(plus 4) per NPC).}]
+
+Although the definition of "matching the theme" is always subjective
+and up to the judges' discretions, here are some rules of thumb:
+
+@itemlist[@item{For the NPCs appearance -- please see the section on avatars.  The same aesthetic ideas apply.
+           Make sure the NPC seems like it belongs in that world.}
+          @item{Lines of dialog should also seem like they are relevant.  They should seem like something
+           that NPC would say.  NPCs should not all sound the same either.  They should have
+           "voices" that are distinct from each other.}]
+
+@subsubsection{Example}
 
 Suppose, in our running example, Marco creates
 1 NPC by the 19-minute mark.
@@ -295,14 +316,20 @@ The NPC is a desert nomad with two lines of
 dialog about the weather in the desert and one
 line about how to make Prickly Pear Pie.
 
-Marco would receive the sprint bonus of +5, along
-with +1 for having an NPC and +3 for its lines of dialog.
+Marco would receive the sprint bonus of @(plus 5), along
+with @(plus 1) for having an NPC and @(plus 3) for its lines of dialog.
 Since the NPC looks it belongs in the
-desert, Marco would also get an additional +1.  And
+desert, Marco would also get an additional @(plus 1).  And
 since the dialog lines are all theme-cohesive, he would
-get an additional +3.
+get an additional @(plus 3).
 
-That's a total of: +13.  He now has +45 total.
+@(npc-section #:sprint-bonus          5
+              #:npc-points            1
+              #:dialog-points         2
+              #:theme-npc-points      1
+              #:themedialog-points    2)
+
+That's a total of @(plus 11).  He now has @(plus 37) total.
 
 @subsection{Crafting/Recipes/Tech-tree}
 
@@ -311,68 +338,228 @@ to be created from existing ones.
 
 A recipe involves three things:
 
-* Inputs.  A list of input items.  E.g. marshmallows,
-chocolate, and crackers.
-* Output.  A single output item.  E.g. a chocolate s'more.
-* Trigger. An in-game entity that serves as the place
-where the recipe can be triggered. E.g. a campfire.
+@itemlist[@item{Inputs.  A list of input items.  E.g. marshmallows, chocolate, and crackers.}
+          @item{Output.  A single output item.  E.g. a chocolate s'more.}
+          @item{Trigger. An in-game entity that serves as the place where the recipe can be triggered. E.g. a campfire.}]
 
 Note that the word "recipe" does not imply
 that the inputs or outputs must be food.  Here's
 another example:
 
-* Inputs.  A list of input items.  E.g. wood and matches.
-* Output.  A single output item.  E.g. a campfire.
-* Trigger. An in-game entity that serves as the place
-where the recipe can be triggered. E.g. a firepit.
+@itemlist[@item{Inputs.  A list of input items.  E.g. wood and matches.}
+          @item{Output.  A single output item.  E.g. a campfire.}
+          @item{Trigger. An in-game entity that serves as the place where the recipe can be triggered. E.g. a firepit.}]
 
 And yes, the output of one recipe can become
 either the inputs of another recipe or even the
 trigger for another recipe.  For example, to make
-s'mores, you may have to first produce a campfire.
+S'mores, you may have to first produce a campfire.
 
-Computer-Scored Points:
+@bold{Sprint Bonus:}
 
-* +1 for each recipe in game.  Max +10.
-* +1 for each ingredient in a recipe.  Max +4 per recipe.
-* +5 sprint bonus.  Implement at least one recipe
+@(plus 5) sprint bonus.  Implement at least one recipe
 within the first 25 minutes of the competition.
 
-Human-Scored Points:
+@bold{Computer-Scored Points:}
 
-* +1 per recipe for theme cohesion.  Max +10
-* +1 for each theme-cohesive ingredient in a recipe.  Max +4 per recipe.
+@itemlist[@item{@(plus 1) for each recipe in game.  Max @(plus 10).}
+          @item{@(plus 1) for each ingredient in a recipe.  Max @(plus 4) per recipe.}]
+
+
+@bold{Human-Scored Points:}
+
+@itemlist[@item{@(plus 1) for each theme-matching recipe in game.  Max @(plus 10).}
+          @item{@(plus 1) for each theme-matching ingredient in a recipe.  Max @(plus 4) per recipe.}]
 
 Note that all recipes must be craftable in game.
 
-@subsection{Example}
+Although the definition of "matching the theme" is always subjective
+and up to the judges' discretions, here are some rules of thumb:
 
-Suppose, in our running example, Marco creates two
-recipes:
+@itemlist[@item{Recipes should make sense.  The inputs should, in theory, be able to produce
+          the output.  A recipe that takes a Stick and a Rock and produces a Cat doesn't
+          really make sense (unless the prompt suggests that such a thing can happen in the
+           game world.)}
+          @item{The triggering entity should make sense.  Producing food from a cooking pot
+           makes sense.  Producing a house from a cooking pot does not.}]
 
-* Triggered at the cooking cauldron: Prickly Pears + Sand Bread can make Prickly Pear Pie.
-* Triggered at the cooking cauldron: Sand + Sand Grinding Rock makes Sand Bread
 
-These recipes form a chain (one is the input to another)
+@subsubsection{Example}
 
-<Tree or chain?  Can we simplify this??
-[>
+Suppose, in our running example, Marco creates two recipes:
+
+@itemlist[@item{Triggered at the cooking cauldron: Prickly Pears + Sand Bread can make Prickly Pear Pie.}
+          @item{Triggered at the cooking cauldron: Sand + Sand Grinding Rock makes Sand Bread.}]
+
+Suppose he completes the first of these recipes within the first 25 minutes of the competition.
+Assuming nothing changes, here's how Marco's crafting score will end up:
+
+@(crafting-section #:sprint-bonus      5
+                   #:recipe-points     2
+                   #:ingredient-points 4
+                   #:theme-recipe-points 2
+                   #:theme-ingredient-points 4)
+
+
+That's a total of @(plus 17).  He now has @(plus 54) total.
+
+@subsection{Overall Aesthetics}
+
+This section is the most subjective of all -- but also (arguably) the most important
+to the art of game design.  In this section, the judge will award between @(plus 0) and @(plus 50) points
+for the game's overall aesthetics.
+
+It is impossible to fully reduce an art to a simple set of rules, but here
+are some guidelines:
+
+@itemlist[@item{The game should be well balanced.  It shouldn't be too hard.  It shouldn't be too easy.  In
+           a survival game, this means you shouldn't die so fast that you always lose.  But there shouldn't be
+           so much food that surviving is trivial.}
+          @item{The art style should be consistent.  All assets should "feel" like they belong together.}
+          @item{Every decision should be part of a cohesive whole.  Marco's game in our example above is
+           pretty good.  All of the items and NPCs feel like they have a desert theme.  One of the NPCs
+           mentions one of the recipes -- which is a nice touch because it helps alert the player to
+           the fact that this recipe exists.}]
+
+Games will be judged by people with experience playing, designing, and analyzing games.  They
+will leverage their own experience to decide what to award points for.  Although these judgements will be
+subjective, competitors are encouraged to take an artistic look at the games they themselves play.
+What is it about certain games that make them more fun than others?  What are the elements that make something
+fun?  What are the elements that make players feel something?
+
+At the end of the day, game design is art.  Sometimes art obeys rules.  Sometimes it breaks rules.
+
+Competitors are encouraged to try both.  If the judges agree with the competitor's decisions and give points, great.
+
+If not, don't worry.  Some of the best artists in history had to struggle before their art was
+recognized for what it was.  Be bold.  Take heart.
+
 
 @section{Documentation}
 
+Coming soon:
 
 avatar
+
+=======
+All games at the next Scholastic Game Jam will be launched with the same
+function:
+
+@racketblock[
+             (survival-game)
+             ]
+
+This alone doesn't do anything interesting.  It just creates a "game"
+with no characters, no food, no NPCs -- nothing really, except a green
+background:
+
+@(rectangle 480 360 'solid 'darkgreen)
+
+Contestants will build atop this basic "game" during the Game Jam for
+one hour after the prompt is announced.
+The resulting games are what will be judged during Game Jam.
+
+Note that every time you run @racket[(survival-game ...)], you will
+also get (in the interations window) an estimated score card for your
+game:
+
+@(scoresheet)
+
+Running @racket[(survival-game)] with no parameters produces an empty
+score sheet.
+
+<Game jam flier?>
+
+<API for Scoring a game?>
+
+
+
+@subsection{Avatar}
+
+@defproc[(basic-avatar [appearance (or/c image? animated-sprite?) #f])
+         entity?]{
+  Returns an avatar entity with health bar and inventory already setup.
+
+  In its simplest form, you can add a basic avatar to the game like this:
+
+  @racketblock[
+               (survival-game
+                #:avatar (basic-avatar))
+  ]
+
+  With a more complex form, you can declare that the avatar should look
+  like a blue square:
+
+  @racketblock[
+               (survival-game
+                #:avatar (basic-avatar (square 50 'solid 'blue)))
+  ]
+
+ You can also specify that the avatar should use an animation -- i.e.
+ to give the avatar a walking animation.
+
+ To make an animation, you must convert a still image to a collection of
+ animation frames:
+
+  @racketblock[
+               (define (my-still-image)
+                 (random-character-row))
+               
+               (define (my-animation)
+                 (row->animation (my-still-image)))
+               
+               (survival-game
+                #:avatar (basic-avatar (my-animation)))
+  ]
+
+  Note the 3 step process above.  It is a common pattern:
+
+  @itemlist[@item{First declare a still image.  This can be any image
+             with a collection of animation frames arranged in a row.}
+            @item{Then convert the still image into an animation with
+              @racket[row->animation].}
+            @item{Then start a new @racket[survival-game] with an avatar
+              that uses that animation.}]
+}
+
+
+
 Food
+
 Non-Food
+
 NPC
+
 Recipes
 
 
 @section{Training Recommendations}
 
-@subsection{Training Badges}
+The Game Jam is not easy.  The tight time constraints require competitors to have a high level
+of mastery over various aspects of game design.
+
+Mastery is the key word here.   It is not enough to have simply "been exposed" to some concept.
+That is familiarity -- not mastery.
+
+The training program given here is intended to give students mastery over the skills needed
+to excell at the Scholastic Game Jam.
+
+It is also intended to be fun!  Mastery require repetition.  Mastery requires holding oneself
+to high standards.  Sometimes it can be a challenge to keep having fun while pursuing mastery.
+The following curriculum is intended to keep the road to mastery as fun as possible.
+
+At the end of the day, though, the main ingredient to fun is the energy of the coach.  If you're
+a coach, whether you follow these recommentations or not, keep in mind that if you're excited
+about the Game Jam, your competitors will be too.  If you're excited about your competitors'
+assendency to mastery, they will be too.
+
+Be loud.  Be proud.  Be a coach.
+
+@subsection{Training Katas}
 
 @(require 2htdp/image)
+
+<Katas. Not badges.  Change this...>
 
 Coaches will train competitors by helping them acquire the necessary skills to excel
 at the Game Jam competition.  Competitors who have mastered these skills will receive
@@ -380,12 +567,12 @@ badges.  These badges serve as visual, wearable representations of a competitor'
 
 Badge key:
 
-@(define (meta-badge) (circle 10 'solid 'gray))
-@(define (avatar-badge) (circle 10 'solid 'red))
-@(define (food-badge) (circle 10 'solid 'orange))
+@(define (meta-badge)     (circle 10 'solid 'gray))
+@(define (avatar-badge)   (circle 10 'solid 'red))
+@(define (food-badge)     (circle 10 'solid 'orange))
 @(define (non-food-badge) (circle 10 'solid 'gold))
-@(define (npc-badge) (circle 10 'solid 'green))
-@(define (recipe-badge) (circle 10 'solid 'blue))
+@(define (npc-badge)      (circle 10 'solid 'green))
+@(define (recipe-badge)   (circle 10 'solid 'blue))
 
 @(meta-badge)     - @bold{Meta Badges} - for skills related to excelling as a Game Jam competitor.
 

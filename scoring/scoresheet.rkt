@@ -15,7 +15,8 @@
                (food-section)
                (non-food-section)
                (npc-section)
-               (crafting-section)))
+               (crafting-section)
+               (aesthetics-section)))
 
 
 (define (avatar-section #:sprint-bonus       (sprint-bonus #f)
@@ -53,42 +54,65 @@
                         (top-title-section "Human-Scored"
                                            (points-for "Each theme-matching food item" 1 #:max 10 #:fill theme-food-points))))))
 
-(define (non-food-section)
+(define (non-food-section #:sprint-bonus      (sprint-bonus #f)
+                          #:non-food-points       (non-food-points #f)
+                          #:theme-non-food-points (theme-non-food-points #f))
   (side-title-section "Non-Food"
                       (above/align "left"
                                    (top-title-section "Sprint Bonus"
-                                                      (points-for "Any non-food item within 15 minutes" 5))
+                                                      (points-for "Any non-food item within 15 minutes" 5 #:fill sprint-bonus))
                                    (columns
                                     (top-title-section "Computer-Scored"
-                                                       (points-for "Each non-food item" 1 #:max 10))
+                                                       (points-for "Each non-food item" 1 #:max 10 #:fill non-food-points))
                                     (top-title-section "Human-Scored"
-                                                       (points-for "Each theme-matching non-food item" 1 #:max 10))))))
+                                                       (points-for "Each theme-matching non-food item" 1 #:max 10 #:fill theme-non-food-points))))))
 
-(define (npc-section)
+(define (npc-section #:sprint-bonus          (sprint-bonus #f)
+                     #:npc-points            (npc-points #f)
+                     #:dialog-points         (dialog-points #f)
+                     #:theme-npc-points      (theme-npc-points #f)
+                     #:themedialog-points    (theme-dialog-points #f))
+  
   (side-title-section "NPC"
                       (above/align "left"
                        (top-title-section "Sprint Bonus"
-                                          (points-for "Any NPC item within 20 minutes" 5))
+                                          (points-for "Any NPC item within 20 minutes" 5 #:fill sprint-bonus))
                        (columns
                         (top-title-section "Computer-Scored"
-                                           (points-for "Each NPC" 1 #:max 5)
-                                           (points-for "Each line of NPC dialog" 1 #:max 20))
+                                           (points-for "Each NPC" 1 #:max 5 #:fill npc-points)
+                                           (points-for "Each line of NPC dialog" 1 #:max 20 #:fill dialog-points))
                         (top-title-section "Human-Scored"
-                                           (points-for "Each theme-matching NPC" 1 #:max 5)
-                                           (points-for "Each theme-matching line of NPC dialog" 1 #:max 20))))))
+                                           (points-for "Each theme-matching NPC" 1 #:max 5 #:fill theme-npc-points)
+                                           (points-for "Each theme-matching line of NPC dialog" 1 #:max 20 #:fill theme-dialog-points))))))
 
-(define (crafting-section)
+(define (crafting-section #:sprint-bonus      (sprint-bonus #f)
+                          #:recipe-points     (recipe-points #f)
+                          #:ingredient-points (ingredient-points #f)
+                          #:theme-recipe-points (theme-recipe-points #f)
+                          #:theme-ingredient-points (theme-ingredient-points #f))
   (side-title-section "Crafting"
                       (above/align "left"
                        (top-title-section "Sprint Bonus"
-                                          (points-for "Any craftable item within 25 minutes" 5))
+                                          (points-for "Any craftable item within 25 minutes" 5 #:fill sprint-bonus))
                        (columns
                         (top-title-section "Computer-Scored"
-                                           (points-for "Each crafting recipe" 1 #:max 5)
-                                           (points-for "Each crafting ingredient" 1 #:max 20))
+                                           (points-for "Each crafting recipe" 1 #:max 5      #:fill recipe-points)
+                                           (points-for "Each crafting ingredient" 1 #:max 20 #:fill ingredient-points))
                         (top-title-section "Human-Scored"
-                                           (points-for "Each theme-matching crafting recipe" 1 #:max 5)
-                                           (points-for "Each theme-matching crafting ingredient" 1 #:max 20))))))
+                                           (points-for "Each theme-matching crafting recipe" 1 #:max 5      #:fill theme-recipe-points)
+                                           (points-for "Each theme-matching crafting ingredient" 1 #:max 20 #:fill theme-ingredient-points))))))
+
+
+(define (aesthetics-section #:balance-points  (balance-points #f)
+                            #:art-points      (art-points #f)
+                            #:other-points    (other-points #f))
+  (side-title-section "Aesthetic Points"
+                      (top-title-section "Human-Scored"
+                                         (points-for "Game Balance Points" "?" #:max 25 #:fill balance-points)
+                                         (points-for "Art Style Points" "?" #:max 25 #:fill art-points)
+                                         (points-for "Other Points" "?" #:max 25 #:fill other-points)
+                                         (rectangle 1090 1 'solid 'transparent))))
+
 
 
 (define (columns i1 i2)
