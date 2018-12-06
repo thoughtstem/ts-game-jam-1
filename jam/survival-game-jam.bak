@@ -165,15 +165,12 @@
                  #:speed      [spd 10]
                  #:components [c #f]
                                . custom-components)
-  (define dead-frame (if (image? sprite)
-                         (rotate -90 sprite)
-                         (rotate -90 (render sprite))))
   (sprite->entity sprite
                   #:name       "player"
                   #:position   p
                   #:components (physical-collider)
                                (sound-stream)
-                               (precompiler dead-frame)
+                               (precompiler (rotate -90 (render sprite)))
                                (key-movement spd #:rule (and/r all-dialog-closed?
                                                                (not/r lost?)))
                                (key-animator-system)
@@ -281,7 +278,7 @@
 
 (define known-recipes-list '())
 
-(define/log "crafting-menu-set!"
+(define/log "crafting-menue-set!"
   (crafting-menu-set! #:open-key     [open-key 'space]
                             #:open-sound   [open-sound #f]
                             #:select-sound [select-sound #f]
