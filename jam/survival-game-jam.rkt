@@ -1,12 +1,13 @@
 #lang racket
 
 (provide survival-game
-         ;basic-player-entity
-         custom-avatar
          random-character-row
          food
          crafting-menu-set!
-         custom-crafter)
+         custom-avatar
+         custom-crafter
+         custom-npc
+         custom-background)
 
 (require game-engine
          game-engine-demos-common)
@@ -22,17 +23,15 @@
 
 ; ==== BACKDROP COMPONENT ====
 ; Converts a single bg image to a list of bg tiles
-(define (forest-backdrop)
+(define (plain-backdrop)
   (bg->backdrop (rectangle (* 3 480) (* 3 360) 'solid 'darkgreen) 
                 #:rows       3
                 #:columns    3
                 #:start-tile 0))
 
-(define (WIDTH)       (backdrop-width  (forest-backdrop)))
-(define (HEIGHT)      (backdrop-height (forest-backdrop)))
-(define (TOTAL-TILES) (backdrop-length (forest-backdrop)))
-
-
+(define (WIDTH)       (backdrop-width  (plain-backdrop)))
+(define (HEIGHT)      (backdrop-height (plain-backdrop)))
+(define (TOTAL-TILES) (backdrop-length (plain-backdrop)))
 
 
 ; === GAME DIALOG ===
@@ -56,14 +55,14 @@
                             #:speed 4))
 
 ; === ENTITY DEFINITIONS ===
-(define (bg-entity)
-  (sprite->entity (render-tile (forest-backdrop))
+(define (plain-bg-entity)
+  (sprite->entity (render-tile (plain-backdrop))
                   #:name     "bg"
                   #:position   (posn 0 0)
                   #:components (static)
-                               (forest-backdrop)
+                               (plain-backdrop)
                                (precompiler
-                                (backdrop-tiles (first (forest-backdrop))))))
+                                (backdrop-tiles (first (plain-backdrop))))))
 
 
 
@@ -192,7 +191,7 @@
 
 
 (define/log "surival-game"
-  (survival-game #:bg              [bg-ent (custom-background)]
+  (survival-game #:bg              [bg-ent (plain-bg-entity)]
                  #:avatar          [p         #f #;(custom-avatar)]
                  #:starvation-rate [sr 50]
                  #:npc-list        [npc-list '() #;(list (random-npc (posn 200 200)))]
@@ -313,6 +312,53 @@
                                menu
                                (cons c custom-components)))
 
+
+(define (custom-npc #:sprite     [s (row->sprite (random-character-row))]
+                    #:position   [p (posn 0 0)]
+                    #:name       [name (first (shuffle (list "Adrian" "Alex" "Riley"
+                                                             "Sydney" "Charlie" "Andy")))]
+                    #:tile       [tile 0]
+                    #:dialog     [d  #f]
+                    #:mode       [mode 'still]
+                    #:game-width [GAME-WIDTH 480]
+                    #:speed      [spd 2]
+                    #:target     [target "player"]
+                    #:sound      [sound #t]
+                    #:scale      [scale 1]
+                    #:components [c #f] . custom-components )
+  (define dialog
+    (if (not d)
+        (dialog->sprites (first (shuffle (list (list "Hello.")
+                                           (list "Hi! Nice to meet you!")
+                                           (list "Sorry, I don't have time to talk now.")
+                                           (list "The weather is nice today."))))
+                     #:game-width GAME-WIDTH
+                     #:animated #t
+                     #:speed 4)
+        (if (string? (first d))
+            (dialog->sprites d
+                             #:game-width GAME-WIDTH
+                             #:animated #t
+                             #:speed    4)
+            (dialog->response-sprites d
+                                      #:game-width GAME-WIDTH
+                                      #:animated #t
+                                      #:speed 4))))
+  (define sprite (if (image? s)
+                     (new-sprite s)
+                     s))
+  (create-npc #:sprite      sprite
+              #:name        name
+              #:position    p
+              #:active-tile tile
+              #:dialog      dialog
+              #:mode        mode
+              #:speed       spd
+              #:target      target
+              #:sound       sound
+              #:scale       scale
+              #:components  (cons c custom-components)))
+
 (define/log "random-character-row"
   (random-character-row)
   (apply beside
@@ -322,6 +368,20 @@
                 (get-component
                  (random-npc)
                  animated-sprite?))))))
+
+(define (custom-background #:bg-img     [bg FOREST-BG]
+                           #:rows       [rows 3]
+                           #:columns    [cols 3]
+                           #:start-tile [t 0]
+                           #:components [c #f]
+                                        . custom-components)
+  (define backdrop
+    (bg->backdrop bg #:rows rows #:columns cols #:start-tile t))
+  (sprite->entity (render-tile backdrop)
+                  #:name "bg"
+                  #:position (posn 0 0)
+                  #:components backdrop
+                               (cons c custom-components)))
 
 
 
