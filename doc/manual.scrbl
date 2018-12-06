@@ -601,8 +601,13 @@ orient the competitors toward the challenges that face them.
 @itemlist[@item{It's not about my code.     It's about what I can code.}
           @item{It's not about me.          It's about us.}]
 
+@margin-note{Hand motions can make these easier to remember and repeat. For
+             example: "It's not about my code." Point to computer. "It's about
+             what I can code." Point to brain.}
 
-[Hand motions?]
+@margin-note{Depending on the size of your class, you may want to challenge them
+             to rattle these off 1 by 1, in pair or small groups, or as an entire
+             class.}
 
 
 @(meta-badge) @bold{Game Jam Specs: Level 1} (1 minute.)
