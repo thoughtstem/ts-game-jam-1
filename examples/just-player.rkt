@@ -6,4 +6,4 @@
   (row->sprite (sheet)))
 
 (survival-game
- #:player (basic-player-entity (sprite)))
+ #:avatar (custom-avatar #:sprite (sprite)))

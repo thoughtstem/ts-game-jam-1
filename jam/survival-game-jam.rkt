@@ -1,10 +1,12 @@
 #lang racket
 
 (provide survival-game
-         basic-player-entity
+         ;basic-player-entity
+         custom-avatar
          random-character-row
          food
-         crafting-menu-set!)
+         crafting-menu-set!
+         custom-crafter)
 
 (require game-engine
          game-engine-demos-common)
@@ -174,38 +176,42 @@
   (on-key use-key #:rule (player-is-near? item-name) (do-many (maybe-change-health-by heal-amount #:max max-health)
                                                             (spawn (player-toast-entity (~a "+" heal-amount) #:color "green")))))
 
-(define (basic-player-entity (i (circle 10 'solid 'red)))
-  (sprite->entity i
+(define (custom-avatar #:sprite     [sprite (circle 10 'solid 'red)]
+                       #:position   [p   (posn 100 100)]
+                       #:speed      [spd 10]
+                       #:components [c #f]
+                                    . custom-components)
+  (sprite->entity sprite
                   #:name       "player"
-                  #:position   (posn 100 100)
+                  #:position   p
                   #:components (physical-collider)
-                                (sound-stream)
-                                ;(precompiler (player-toast-entity "+5" #:color "green")
-                                ;             (player-toast-entity "-1" #:color "red"))
-                                (key-movement 10 #:rule (and/r all-dialog-closed?
+                               (sound-stream)
+                               (precompiler (rotate -90 (render sprite)))
+                               (key-movement spd #:rule (and/r all-dialog-closed?
                                                                (not/r lost?)))
-                                (key-animator-system)
-                                (stop-on-edge)
-                                (backpack-system #:components (observe-change backpack-changed? update-backpack))
-                                (player-edge-system)
-                                (on-key "o" #:rule player-info-closed? show-move-info)
-                                (observe-change lost? (kill-player))
-                                (on-key "i" #:rule (λ (g e) (not (get-entity "instructions" g)))
-                                        (spawn instructions-entity #:relative? #f))
-                                (on-key "m" (open-mini-map #:close-key "m"))
-                                (counter 0)
-                                (on-key 'enter #:rule player-dialog-open? (get-dialog-selection))
-                                (on-rule (not/r all-dialog-closed?) (stop-movement))))
+                               (key-animator-system)
+                               (stop-on-edge)
+                               (backpack-system #:components (observe-change backpack-changed? update-backpack))
+                               (player-edge-system)
+                               ;(on-key "o" #:rule player-info-closed? show-move-info)
+                               (observe-change lost? (kill-player))
+                               (on-key "i" #:rule (λ (g e) (not (get-entity "instructions" g)))
+                                       (spawn instructions-entity #:relative? #f))
+                               ;(on-key "m" (open-mini-map #:close-key "m"))
+                               (counter 0)
+                               (on-key 'enter #:rule player-dialog-open? (get-dialog-selection))
+                               (on-rule (not/r all-dialog-closed?) (stop-movement))
+                               (cons c custom-components)))
 
 
-(define (survival-game #:bg              [bg-ent (bg-entity)]
-                       #:player          [p         #f #;(basic-player-entity)]
+(define (survival-game #:bg              [bg-ent (custom-background)]
+                       #:avatar          [p         #f #;(custom-avatar)]
                        #:starvation-rate [sr 50]
                        #:npc-list        [npc-list '() #;(list (random-npc (posn 200 200)))]
                        #:item-list       [i-list   '() #;(list (item-entity))]
                        #:food-list       [f-list   '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
                                                              (food #:entity carrot-stew #:heals-by 20))]
-                       #:crafter-list    [c-list   '() #;(list (craft-fire))]
+                       #:crafter-list    [c-list   '() #;(list (custom-crafter))]
                        #:other-entities  [ent #f]
                                          . custom-entities)
   
@@ -297,6 +303,25 @@
                  #:select-sound select-sound
                  #:recipes r
                            recipes))
+
+(define default-crafting-menu
+  (crafting-menu-set! #:recipes (recipe #:product (carrot-stew-entity)
+                                        #:build-time 30
+                                        #:ingredients (list "Carrot"))))
+
+(define (custom-crafter #:position   [p (posn 100 100)]
+                        #:tile       [t 0]
+                        #:name       [name "Crafter"]
+                        #:sprite     [sprite cauldron-sprite]
+                        #:menu       [menu  default-crafting-menu]
+                        #:components [c #f] . custom-components)
+  (crafting-chest p
+                  #:sprite sprite
+                  #:name   name
+                  #:components (active-on-bg t)
+                               (counter 0)
+                               menu
+                               (cons c custom-components)))
 
 (define (random-character-row)
   (apply beside
