@@ -596,23 +596,26 @@ orient the competitors toward the challenges that face them.
 
 @(meta-badge) @bold{Core Values: Level 1} (1 minute.)
 
+@margin-note[#:left? #t "Hand motions can make these easier to remember and repeat. For
+             example: 'It's not about my code.' Point to computer. 'It's about
+             what I can code.' Point to brain."]
+
+@margin-note*{Teaching Tip: Depending on the size of your class, you may want to challenge them
+             to rattle these off 1 by 1, in pairs or small groups, or as an entire
+             class.}
+
 @italic{Can recite the first three ThoughtSTEM core values}
 
 @itemlist[@item{It's not about my code.     It's about what I can code.}
           @item{It's not about me.          It's about us.}]
 
-@margin-note{Hand motions can make these easier to remember and repeat. For
-             example: "It's not about my code." Point to computer. "It's about
-             what I can code." Point to brain.}
-
-@margin-note{Depending on the size of your class, you may want to challenge them
-             to rattle these off 1 by 1, in pairs or small groups, or as an entire
-             class.}
 
 
 @(meta-badge) @bold{Game Jam Specs: Level 1} (1 minute.)
 
 @italic{Can recite the specs for the upcoming Game Jam.}
+
+@margin-note*{Teaching Tip: This is a good badge to learn as a team or in small groups.}
 
 @itemlist[@item{Game Type: Survival Game}
           @item{Time Limit: 1 hour}
@@ -626,10 +629,12 @@ orient the competitors toward the challenges that face them.
 This badge should be re-earned any time the specs change.  Or any time there's a new upcoming jam.
 The specs do change from time to time.  (And that in itself is a valuable lesson.)
 
-@margin-note{This is a good badge to learn as a team or in small groups.}
 
 
 @(meta-badge) @bold{Meta Kata: Level 1} (1 minute.)
+
+@margin-note*{This badge might be too many "repeat after me" badges. Feel free to share
+             the info more informally.}
 
 @italic{Can recite answer to: What is a Kata badge?}
 
@@ -639,21 +644,24 @@ A Kata is a small piece of code that I memorize and can write:
           @item{Accurately}]
 
 
-@(avatar-badge) @bold{First Kata} (5 minute)
+@(avatar-badge) @bold{Simple Shape Kata} (5 minute)
+
+@margin-note*{Teaching Tip: Start with all the code projected/written on the board.
+              Remove the lines one by one, testing the students each time.}
 
 Within five minutes, the student can translate an English sentence of this type:
 
-@italic{Make an avatar that looks like a red circle that is 80 pixels across.}
+@italic{Make a red circle that is 80 pixels across.}
 
 To code of this type:
 
-@racketblock[
- (survival-game-jam
-  #:player (basic-player-entity (square 40 'solid 'red)))
- ]
+@codeblock{#lang racket
+ (require 2htdp/image)
+ (circle 80 'solid 'red)
+ }
 
 Note: To award this badge, a student should be able to do the above
-in under 1 minute.  But doing it once is too easy.  The student should
+in under 5 minute.  But doing it once is too easy.  The student should
 do this multiple times with different shapes: e.g. blue square, green star,
 etc.
 
