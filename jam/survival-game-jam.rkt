@@ -173,7 +173,6 @@
                                (precompiler (rotate -90 (render sprite)))
                                (key-movement spd #:rule (and/r all-dialog-closed?
                                                                (not/r lost?)))
-<<<<<<< HEAD
                                (key-animator-system)
                                (stop-on-edge)
                                (backpack-system #:components (observe-change backpack-changed? update-backpack))
