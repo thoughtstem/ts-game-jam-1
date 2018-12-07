@@ -21,17 +21,17 @@
       body ...)))
 
 
-; ==== BACKDROP COMPONENT ====
-; Converts a single bg image to a list of bg tiles
-(define (plain-backdrop)
-  (bg->backdrop (rectangle (* 3 480) (* 3 360) 'solid 'darkgreen) 
-                #:rows       3
-                #:columns    3
-                #:start-tile 0))
+(define (WIDTH)       480)
+(define (HEIGHT)      360)
+(define (TOTAL-TILES) 9)
 
-(define (WIDTH)       (backdrop-width  (plain-backdrop)))
-(define (HEIGHT)      (backdrop-height (plain-backdrop)))
-(define (TOTAL-TILES) (backdrop-length (plain-backdrop)))
+; === ENTITY DEFINITIONS ===
+(define (plain-bg-entity)
+  (bg->backdrop-entity (rectangle (WIDTH) (HEIGHT) ;Can even be smaller...
+                                  'solid 'darkgreen) 
+                       #:scale 3))
+
+
 
 
 ; === GAME DIALOG ===
@@ -53,16 +53,6 @@
                             #:game-width (WIDTH)
                             #:animated #t
                             #:speed 4))
-
-; === ENTITY DEFINITIONS ===
-(define (plain-bg-entity)
-  (sprite->entity (render-tile (plain-backdrop))
-                  #:name     "bg"
-                  #:position   (posn 0 0)
-                  #:components (static)
-                               (plain-backdrop)
-                               (precompiler
-                                (backdrop-tiles (first (plain-backdrop))))))
 
 
 
@@ -385,6 +375,7 @@
 
 
 
-
+(module+ test
+  (survival-game))
 
 
