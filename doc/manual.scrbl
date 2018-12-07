@@ -677,10 +677,11 @@ etc.
 @margin-note*{Teaching Tip: This is a good badge to learn as a team or in small groups.}
 
 @itemlist[@item{Avatar points:
-           @itemlist[@item{Having an avatar               1 points}
-                     @item{Any avatar within 5 minutes    5 points}
-                     @item{Avatar animation frame         1 points
-                                 @itemlist[@item{Maximum 4 animations}]}]}]
+           @itemlist[@item{Having an avatar              @bold{1 points}}
+                     @item{Any avatar within 5 minutes
+                                 @italic{(Sprint Bonus)} @bold{5 points}}
+                     @item{Avatar animation frame        @bold{1 points}
+                                        @itemlist[@item{Maximum 4 animations}]}]}]
 
 @(avatar-badge) @bold{Default Avatar Kata: Level 1} (5 minute)
 
@@ -716,6 +717,8 @@ To code of this type:
 
 @(avatar-badge) @bold{Custom Avatar Kata: Level 3} (5 minute)
 
+@margin-note*{Not including drawing time, but do include exporting time.}
+
 Within five minutes, the student can translate an English sentence of this type:
 
 @italic{Make a game that has a custom image as an avatar.}
@@ -724,14 +727,85 @@ To code of this type:
 
 @(define (major-triumph) (bitmap "images/major-triumph.png"))
 
+
+@codeblock{#lang ts-game-jam-1}
+@racketblock[
+ (define (my-avatar)
+   (custom-avatar #:sprite #, (major-triumph) ))
+  
+ (survival-game
+  #:avatar (my-avatar))]
+
+
+@subsubsection{Non-Food Badges} (Day 3)
+
+@(meta-badge) @bold{Game Jam Specs: Non-Food} (1 minute.)
+
+@italic{Can recite the amount of points they get from Non-Food items in their game.}
+
+@margin-note*{Teaching Tip: This is a good badge to learn as a team or in small groups.}
+
+@itemlist[@item{Avatar points:  
+           @itemlist[@item{Each non-food item               @bold{1 point, max 10}}
+                     @item{Any non-food within 15 minutes
+                                 @italic{(Sprint Bonus)     @bold{5 points}}}
+                     @item{For each non-food matching theme @bold{1 point, max 10}}]}]
+
+@(non-food-badge) @bold{Default Non-Food Kata: Level 1} (5 minute)
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar and a coin.}
+
+To code of this type:
+
 @codeblock{
  #lang ts-game-jam-1
 
- (define my-(avatar)
-   (custom-avatar #:sprite SOME-IMAGE))
-  
- (survival-game
-   #:avatar (my-avatar))}
+(survival-game
+ #:avatar     (custom-avatar)
+ #:coin-list  (list (custom-coin)))}
+
+@(non-food-badge) @bold{Custom Value Non-Food Kata: Level 2} (5 minute)
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar and a coin worth 500 points.}
+
+To code of this type:
+
+@codeblock{
+ #lang ts-game-jam-1
+ 
+(survival-game
+  #:avatar     (custom-avatar)
+  #:coin-list  (list (coin
+                      #:entity (custom-coin)
+                      #:value 500)))}
+
+
+@(non-food-badge) @bold{Complete Custom Non-Food Kata: Level 3} (5 minute)
+
+@margin-note*{Not including drawing time, but do include exporting time.}
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, and a custom non-food collectable.}
+
+To code of this type:
+
+@(define (fireball) (scale .5 (bitmap "images/fireball.png")))
+
+@codeblock{#lang ts-game-jam-1}
+@racketblock[
+ (define (my-coin)
+ (custom-coin #:sprite #, (fireball)))
+
+(survival-game
+ #:avatar     (custom-avatar)
+ #:coin-list  (list (coin
+                     #:entity (my-coin)
+                     #:value 500)))]
 
 
 
