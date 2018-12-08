@@ -32,9 +32,9 @@
                #:avatar          (avatar-entity)
                #:starvation-rate 1
                #:npc-list        (list (npc-entity))
-               #:item-list       (list (coin-entity))
-               #:food-list       (list (food #:entity (carrot-entity) #:amount-in-world 10)
-                                       (food #:entity (carrot-stew-entity) #:heals-by 40))
+               #:coin-list       (list (custom-coin))
+               #:food-list       (list (custom-food #:entity (carrot-entity) #:amount-in-world 10)
+                                       (custom-food #:entity (carrot-stew-entity) #:heals-by 40))
                #:crafter-list    (list (custom-crafter #:position (posn 340 300)))
                #:other-entities  (pine-tree (posn 73 317)  #:tile 0 #:hue 100)
                                  (pine-tree (posn 200 100) #:tile 2 #:hue 200)
