@@ -8,16 +8,17 @@
                  #:position (posn 400 300)))
 
 (define (rare-gold-coin-entity)
-  (custom-coin #:sprite (circle 10 "solid" "gold")
-               #:name "Rare Gold Coin"
-               #:random-position? #t
-               #:respawn?         #f))
+  (custom-coin #:sprite (scale 1.5 GOLD-COIN-SHEET)
+               #:name            "Rare Gold Coin"
+               #:respawn?        #f
+               #:value           500
+               #:amount-in-world 1))
 
 (define (carrot-cake-entity)
-  (custom-food #:sprite           (rectangle 40 20 "solid" "brown")
-               #:name             "Carrot Cake"
-               #:random-position? #f
-               #:respawn?         #f))
+  (custom-food #:sprite   (rectangle 40 20 "solid" "brown")
+               #:name     "Carrot Cake"
+               #:heals-by 40
+               #:respawn? #f))
 
 (define carrot-cake-recipe
   (recipe #:product     (carrot-cake-entity)
@@ -33,11 +34,11 @@
 (survival-game #:bg              (bg-entity)
                #:avatar          (avatar-entity)
                #:starvation-rate 1
-               #:npc-list        (list (random-npc (posn 400 300) #:tile 1 #:mode 'pace)
-                                       (random-npc (posn 300 300) #:tile 2 #:mode 'wander))
-               #:coin-list       (list (coin #:entity (custom-coin)           #:value 10  #:amount-in-world 10)
-                                       (coin #:entity (rare-gold-coin-entity) #:value 500 #:amount-in-world 1))
-               #:food-list       (list (food #:entity (carrot-entity)  #:amount-in-world 10)
-                                       (food #:entity (carrot-cake-entity) #:heals-by 40))
+               #:npc-list        (list (custom-npc (posn 400 300) #:tile 1 #:mode 'pace)
+                                       (custom-npc (posn 300 300) #:tile 2 #:mode 'wander))
+               #:coin-list       (list (custom-coin #:entity (custom-coin) #:value 10 #:amount-in-world 10)
+                                       (rare-gold-coin-entity))
+               #:food-list       (list (custom-food #:entity (carrot-entity)  #:amount-in-world 10)
+                                       (carrot-cake-entity))
                #:crafter-list    (list (oven-entity))
                #:other-entities        (pine-tree (posn 100 100) #:tile 0))

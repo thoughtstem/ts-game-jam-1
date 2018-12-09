@@ -2,8 +2,8 @@
 
 (provide survival-game
          random-character-row
-         food
-         coin
+         ;food
+         ;coin
          crafting-menu-set!
          custom-avatar
          custom-crafter
@@ -126,25 +126,29 @@
   (health-is-zero? g e))
     
 (define (food->component f #:use-key [use-key 'space] #:max-health [max-health 100])
-  (define item-name (get-name (first f)))
-  (define heal-amount (second f))
-  (on-key use-key #:rule (and/r (player-is-near? item-name)
+  (define item-name (get-name f))
+  (define heal-amount (get-storage-data "heals-by" f))
+  (if heal-amount
+      (on-key use-key #:rule (and/r (player-is-near? item-name)
                                 (nearest-entity-to-player-is? item-name))
           (do-many (maybe-change-health-by heal-amount #:max max-health)
-                   (spawn (player-toast-entity (~a "+" heal-amount) #:color "green")))))
+                   (spawn (player-toast-entity (~a "+" heal-amount) #:color "green"))))
+      #f))
 
 (define (coin->component c #:use-key [use-key 'space])
-  (define coin-name (get-name (first c)))
-  (define coin-value (second c))
+  (define coin-name (get-name c))
+  (define coin-value (get-storage-data "value" c))
   (define coin-toast-entity
     (player-toast-entity (~a "+" coin-value " GOLD")))
-  (list (precompiler coin-toast-entity)
-        (apply precompiler (map (λ (num) (draw-dialog (~a "Gold: " num))) (range 0 1001 coin-value)))
+  (if coin-value
+      (list (precompiler coin-toast-entity)
+        (apply precompiler (map (λ (num) (draw-dialog (~a "Gold: " num))) (range 0 (add1 (* 100 coin-value)) coin-value)))
         (on-key use-key #:rule (and/r (player-is-near? coin-name)
                                       (nearest-entity-to-player-is? coin-name #:filter (has-component? on-key?)))
                 (do-many (change-counter-by coin-value)
                          (draw-counter-rpg #:prefix "Gold: ")
-                         (spawn coin-toast-entity)))))
+                         (spawn coin-toast-entity))))
+      #f))
 
 (define/log "custom-avatar"
   (custom-avatar #:sprite     [sprite (circle 10 'solid 'red)]
@@ -195,12 +199,22 @@
         (add-components p (map recipe->system known-recipes-list))
         #f))
 
+  (define (add-random-start-pos e)
+    (define world-amt (get-storage-data "amount-in-world" e))
+    (if (> world-amt 0) 
+        (add-components e (hidden)
+                          (on-start (do-many (active-on-random)
+                                             (respawn 'anywhere)
+                                             show)))
+        e))
+
   (define (food->toast-entity f)
-    (player-toast-entity (~a "+" (second f)) #:color "green"))
+    (define heal-amt (get-storage-data "heals-by" f))
+    (player-toast-entity (~a "+" heal-amt) #:color "green"))
 
   (define starvation-period (max 1 (- 100 (min 100 (max 0 sr)))))
 
-  (define food-img-list (map (λ (f) (render (get-component (first f) animated-sprite?))) f-list))
+  (define food-img-list (map (λ (f) (render (get-component f animated-sprite?))) f-list))
 
   (define (stack img amount)
     (draw-backpack (map (thunk* img) (range amount))))
@@ -219,7 +233,7 @@
                         #:position (posn 100 20)
                         #:components (precompiler (player-toast-entity "-1" #:color "red"))
                                      (apply precompiler (map food->toast-entity f-list))
-                                     (apply precompiler (map first f-list))
+                                     (apply precompiler f-list)
                                      (precompiler all-backpack-stacks)
                                      (counter 100)
                                      (layer "ui")
@@ -239,7 +253,10 @@
                                  (layer "ui")
                                  (map coin->component coin-list)
                     ))
-
+  
+  (define updated-food-list (map add-random-start-pos f-list))
+  (define updated-coin-list (map add-random-start-pos coin-list))
+  
   (define es (filter identity
                      (flatten
                       (list
@@ -260,8 +277,8 @@
               
                        c-list
               
-                       (map (λ (c) (entity-cloner (first c) (third c))) coin-list)
-                       (map (λ (f) (entity-cloner (first f) (third f))) f-list)
+                       (map (λ (c) (entity-cloner c (get-storage-data "amount-in-world" c))) updated-coin-list)
+                       (map (λ (f) (entity-cloner f (get-storage-data "amount-in-world" f))) updated-food-list)
 
                        (cons ent custom-entities)
               
@@ -272,13 +289,14 @@
   
   (apply start-game es))
 
-(define/log "food"
-  (food #:entity entity #:heals-by [heal-amt 5] #:amount-in-world [world-amt 0])
+#|(define/log "food"
+  (food #:entity [entity (carrot-entity)] #:heals-by [heal-amt 5] #:amount-in-world [world-amt 0])
   (list entity heal-amt world-amt))
 
 (define/log "coin"
-  (coin #:entity entity #:value [val 1] #:amount-in-world [world-amt 0])
+  (coin #:entity entity #:value [val 10] #:amount-in-world [world-amt 10])
   (list entity val world-amt))
+|#
 
 (define known-recipes-list '())
 
@@ -321,7 +339,7 @@
                                                              "Sydney" "Charlie" "Andy")))]
                     #:tile       [tile 0]
                     #:dialog     [d  #f]
-                    #:mode       [mode 'still]
+                    #:mode       [mode 'wander]
                     #:game-width [GAME-WIDTH 480]
                     #:speed      [spd 2]
                     #:target     [target "player"]
@@ -385,76 +403,70 @@
                   #:components backdrop
                                (cons c custom-components)))
 
-(define (custom-food #:sprite           [sprite carrot-sprite]
-                     #:position         [position (posn 0 0)]
-                     #:name             [name "Carrot"]
-                     #:tile             [tile 0]
-                     #:random-position? [random? #t]
+(define (safe-update-entity e component-pred f)
+  (if f
+      (update-entity e component-pred f)
+      e))
+
+(define (custom-food #:entity           [base-entity (carrot-entity)]
+                     #:sprite           [s #f]
+                     #:position         [p #f]
+                     #:name             [n #f]
+                     #:tile             [t #f]
+                     #:amount-in-world  [world-amt 0]
+                     #:heals-by         [heal-amt 10]
                      #:respawn?         [respawn? #t]
                      #:components       [c #f]
                                         . custom-entities)
-  (define base-entity
-    (sprite->entity sprite
-                    #:position    position
-                    #:name        name
-                    #:components (active-on-bg tile)
-                                 (hidden)
-                                 (storable)
-                                 (physical-collider)
-                                 (stop-on-edge)
-                                 ))
-  (define base-entity-with-random
-    (if random?
-        (add-components base-entity (on-start (do-many (active-on-random)
-                                                       (respawn 'anywhere)
-                                                       show)))
-        (add-components base-entity (on-start show))))
-  (define base-entity-with-respawn
-    (if respawn?
-        (add-components base-entity-with-random
-                        (on-key 'space #:rule (and/r near-player?
-                                                     (nearest-to-player? #:filter (has-component? on-key?)))
-                                (do-many (respawn 'anywhere)
-                                         (active-on-random))))
-        (add-components base-entity-with-random
-                        (consumable))))
-  (add-components base-entity-with-respawn (cons c custom-entities)))
+  (define sprite (cond [(image? s)           (new-sprite s)]
+                       [(animated-sprite? s) s             ]
+                       [else              #f]))
+  (define name   (if n (entity-name n) #f))
+  (define tile   (if t (active-on-bg t) #f))
+  (define new-entity (~> base-entity
+                         (safe-update-entity _ animated-sprite? sprite)
+                         (safe-update-entity _ posn? p)
+                         (safe-update-entity _ entity-name? name)
+                         (safe-update-entity _ active-on-bg? tile)
+                         (add-components _ (storage "amount-in-world" world-amt)
+                                           (storage "heals-by"        heal-amt)
+                                           (cons c custom-entities))))
+  (if respawn?
+      (add-components new-entity (on-key 'space #:rule (and/r near-player?
+                                                              (nearest-to-player? #:filter (has-component? on-key?)))
+                                         (do-many (respawn 'anywhere)
+                                                  (active-on-random))))
+      new-entity))
 
-(define (custom-coin #:sprite           [sprite coin-sprite]
-                     #:position         [position (posn 0 0)]
-                     #:name             [name "Coin"]
-                     #:tile             [tile 0]
-                     #:random-position? [random? #t]
+(define (custom-coin #:entity           [base-entity (coin-entity)]
+                     #:sprite           [s #f]
+                     #:position         [p #f]
+                     #:name             [n #f]
+                     #:tile             [t #f]
+                     #:amount-in-world  [world-amt 10]
+                     #:value            [val 10]
                      #:respawn?         [respawn? #t]
                      #:components       [c #f]
                                         . custom-entities)
-  (define base-entity
-    (sprite->entity sprite
-                    #:position    position
-                    #:name        name
-                    #:components (active-on-bg tile)
-                                 (hidden)
-                                 (physical-collider)
-                                 (stop-on-edge)
-                                 ))
-  (define base-entity-with-random
-    (if random?
-        (add-components base-entity (on-start (do-many (active-on-random)
-                                                       (respawn 'anywhere)
-                                                       show)))
-        (add-components base-entity (on-start show))))
-  (define base-entity-with-respawn
-    (if respawn?
-        (add-components base-entity-with-random
-                        (on-key 'space #:rule (and/r near-player?
-                                                     (nearest-to-player? #:filter (has-component? on-key?)))
-                                (do-many (respawn 'anywhere)
-                                         (active-on-random))))
-        (add-components base-entity-with-random
-                        (consumable))))
-  (add-components base-entity-with-respawn
-                  (cons c custom-entities)))
-
+  (define sprite (cond [(image? s)           (new-sprite s)]
+                       [(animated-sprite? s) s             ]
+                       [else              #f]))
+  (define name   (if n (entity-name n) #f))
+  (define tile   (if t (active-on-bg t) #f))
+  (define new-entity (~> base-entity
+                         (safe-update-entity _ animated-sprite? sprite)
+                         (safe-update-entity _ posn? p)
+                         (safe-update-entity _ entity-name? name)
+                         (safe-update-entity _ active-on-bg? tile)
+                         (add-components _ (storage "amount-in-world" world-amt)
+                                           (storage "value"           val)
+                                           (cons c custom-entities))))
+  (if respawn?
+      (add-components new-entity (on-key 'space #:rule (and/r near-player?
+                                                              (nearest-to-player? #:filter (has-component? on-key?)))
+                                         (do-many (respawn 'anywhere)
+                                                  (active-on-random))))
+      new-entity))
 
 
 (module+ test
