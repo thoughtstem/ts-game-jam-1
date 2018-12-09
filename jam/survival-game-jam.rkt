@@ -61,7 +61,8 @@
 
 
 (define (instructions-entity)
-  (sprite->entity (draw-title (~a "Use ARROW KEYS to move.\n"
+  (sprite->entity (draw-title #:font-size 12
+                              (~a "Use ARROW KEYS to move.\n"
                                   "Press SPACE BAR to interact.\n"
                                   "Press ENTER to select or close dialog.\n"
                                   "Press I to open these instructions.\n"
@@ -470,6 +471,7 @@
 
 (module+ test
   (survival-game
-   #:avatar (custom-avatar)))
+   #:avatar (custom-avatar)
+   #:starvation-rate 100))
 
 
