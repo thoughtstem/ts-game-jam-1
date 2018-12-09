@@ -31,9 +31,9 @@
 
 ; === ENTITY DEFINITIONS ===
 (define (plain-bg-entity)
-  (bg->backdrop-entity (rectangle (WIDTH) (HEIGHT) ;Can even be smaller...
+  (bg->backdrop-entity (rectangle 48 36 ;Can even be smaller...
                                   'solid 'darkgreen) 
-                       #:scale 3))
+                       #:scale 30))
 
 
 
@@ -458,6 +458,7 @@
 
 
 (module+ test
-  (survival-game))
+  (survival-game
+   #:avatar (custom-avatar)))
 
 
