@@ -227,22 +227,21 @@
   
   (define (health-entity)
     (define max-health 100)
-    (if p
-        (sprite->entity (draw-health-bar 100 #:max max-health)
-                        #:name "health"
-                        #:position (posn 100 20)
-                        #:components (precompiler (player-toast-entity "-1" #:color "red"))
-                                     (apply precompiler (map food->toast-entity f-list))
-                                     (apply precompiler f-list)
-                                     (precompiler all-backpack-stacks)
-                                     (counter 100)
-                                     (layer "ui")
-                                     (apply precompiler (map (lambda(i) (draw-health-bar i #:max max-health))
-                                                             (range (add1 max-health))))
-                                     (do-every starvation-period (do-many (maybe-change-health-by -1 #:max max-health)
-                                                                          (spawn (player-toast-entity "-1" #:color "orangered") #:relative? #f)))
-                                     (map food->component f-list))
-        #f))
+
+    (define e (health-bar-entity #:max 100
+                                 #:starvation-period starvation-period
+                                 #:change-by         -1))
+
+    (~> e
+        (update-entity _ posn? (posn 100 20))
+        (add-components _
+                        (precompiler (player-toast-entity "-1" #:color "red"))
+                        (apply precompiler (map food->toast-entity f-list))
+                        (apply precompiler f-list)
+                        (precompiler all-backpack-stacks)
+                        (map food->component f-list)
+                        (do-every starvation-period
+                                  (spawn (player-toast-entity "-1" #:color "orangered") #:relative? #f)))))
 
   (define (score-entity)
     (sprite->entity (draw-dialog "Gold: 0")
