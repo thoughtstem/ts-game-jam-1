@@ -61,20 +61,28 @@
 
 
 (define (instructions-entity)
-  (sprite->entity (draw-title #:font-size 12
-                              (~a "Use ARROW KEYS to move.\n"
-                                  "Press SPACE BAR to interact.\n"
-                                  "Press ENTER to select or close dialog.\n"
-                                  "Press I to open these instructions.\n"
-                                  "Press Z to pick up items.\n"
-                                  "Press X to drop items."))
-                  #:position   (posn (/ (WIDTH) 2) (/ (HEIGHT) 2))
-                  #:name       "instructions"
-                  #:components (layer "ui")
-                               (on-key 'enter die)
-                               (on-key 'space die)
-                               (on-key "i" die)
-                               ))
+  (define i
+    (sprite->entity empty-image
+                    #:position   (posn (/ (WIDTH) 2) 50)
+                    #:name       "instructions"
+                    #:components (layer "ui")
+                    (on-key 'enter die)
+                    (on-key 'space die)
+                    (on-key "i" die)))
+
+  (add-components i
+                  (new-sprite "Use ARROW KEYS to move"
+                              #:y-offset 0 #:color 'yellow)
+                  (new-sprite "Press SPACE BAR to interact"
+                              #:y-offset 20 #:color 'yellow)
+                  (new-sprite "Press ENTER to select or close dialog"
+                              #:y-offset 40 #:color 'yellow)
+                  (new-sprite "Press I to open these instructions"
+                              #:y-offset 60 #:color 'yellow)
+                  (new-sprite "Press Z to pick up items"
+                              #:y-offset 80 #:color 'yellow)
+                  (new-sprite "Press X to drop items"
+                              #:y-offset 100 #:color 'yellow)))
      
 ; ==== NEW HELPER SYSTEMS ====
 (define (entity-cloner entity amount)
@@ -141,14 +149,17 @@
   (define coin-value (get-storage-data "value" c))
   (define coin-toast-entity
     (player-toast-entity (~a "+" coin-value " GOLD")))
+
+  
   (if coin-value
-      (list (precompiler coin-toast-entity)
-        (apply precompiler (map (λ (num) (draw-dialog (~a "Gold: " num))) (range 0 (add1 (* 100 coin-value)) coin-value)))
-        (on-key use-key #:rule (and/r (player-is-near? coin-name)
-                                      (nearest-entity-to-player-is? coin-name #:filter (has-component? on-key?)))
-                (do-many (change-counter-by coin-value)
-                         (draw-counter-rpg #:prefix "Gold: ")
-                         (spawn coin-toast-entity))))
+      (list 
+            (precompiler coin-toast-entity)
+         ;   (apply precompiler (map (λ (num) (draw-dialog (~a "Gold: " num))) (range 0 (add1 (* 100 coin-value)) coin-value)))
+            (on-key use-key #:rule (and/r (player-is-near? coin-name)
+                                          (nearest-entity-to-player-is? coin-name #:filter (has-component? on-key?)))
+                    (do-many (change-counter-by coin-value)
+                             (draw-counter-rpg #:prefix "Gold: ")
+                             (spawn coin-toast-entity))))
       #f))
 
 (define/log "custom-avatar"
@@ -245,14 +256,14 @@
                                   (spawn (player-toast-entity "-1" #:color "orangered") #:relative? #f)))))
 
   (define (score-entity)
-    (sprite->entity (draw-dialog "Gold: 0")
+    (sprite->entity (draw-dialog-background "Gold: ____")
                     #:name       "score"
                     #:position   (posn 380 20)
                     #:components (static)
+                                 (new-sprite "Gold: 0" #:y-offset -7 #:scale 0.7 #:color 'yellow)
                                  (counter 0)
                                  (layer "ui")
-                                 (map coin->component coin-list)
-                    ))
+                                 (map coin->component coin-list)))
   
   (define updated-food-list (map add-random-start-pos f-list))
   (define updated-coin-list (map add-random-start-pos coin-list))
@@ -472,6 +483,6 @@
 (module+ test
   (survival-game
    #:avatar (custom-avatar)
-   #:starvation-rate 100))
+   #:coin-list (list (custom-coin))))
 
 
