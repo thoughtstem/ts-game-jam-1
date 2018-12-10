@@ -3,7 +3,7 @@
 (provide scoresheet
          avatar-section
          food-section
-         non-food-section
+         coin-section
          npc-section
          crafting-section)
 
@@ -13,7 +13,7 @@
   (above/align "left"
                (avatar-section)
                (food-section)
-               (non-food-section)
+               (coin-section)
                (npc-section)
                (crafting-section)
                (aesthetics-section)))
@@ -54,18 +54,18 @@
                         (top-title-section "Human-Scored"
                                            (points-for "Each theme-matching food item" 1 #:max 10 #:fill theme-food-points))))))
 
-(define (non-food-section #:sprint-bonus      (sprint-bonus #f)
-                          #:non-food-points       (non-food-points #f)
-                          #:theme-non-food-points (theme-non-food-points #f))
-  (side-title-section "Non-Food"
+(define (coin-section #:sprint-bonus          (sprint-bonus #f)
+                          #:coin-points       (coin-points #f)
+                          #:theme-coin-points (theme-coin-points #f))
+  (side-title-section "Coin"
                       (above/align "left"
                                    (top-title-section "Sprint Bonus"
-                                                      (points-for "Any non-food item within 15 minutes" 5 #:fill sprint-bonus))
+                                                      (points-for "Any coin item within 15 minutes" 5 #:fill sprint-bonus))
                                    (columns
                                     (top-title-section "Computer-Scored"
-                                                       (points-for "Each non-food item" 1 #:max 10 #:fill non-food-points))
+                                                       (points-for "Each coin item" 1 #:max 10 #:fill coin-points))
                                     (top-title-section "Human-Scored"
-                                                       (points-for "Each theme-matching non-food item" 1 #:max 10 #:fill theme-non-food-points))))))
+                                                       (points-for "Each theme-matching coin item" 1 #:max 10 #:fill theme-coin-points))))))
 
 (define (npc-section #:sprint-bonus          (sprint-bonus #f)
                      #:npc-points            (npc-points #f)

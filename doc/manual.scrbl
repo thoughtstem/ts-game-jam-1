@@ -240,23 +240,23 @@ competition, the final food score would look like:
 That would be a total of @(plus 11) points.  Added to his
 previous score of @(plus 13), that would be @(plus 24) points so far!
 
-@subsection{Non-Food Items}
+@subsection{Coins}
 
-The game must have non-food items that can be
-picked up and used for crafting.
+The game must have coins/point items that can be
+gathered for Gold.
 
 @bold{Sprint Bonus:}
 
-@(plus 5) sprint bonus.  Implement at least one non-food
+@(plus 5) sprint bonus.  Implement at least one coin
 item within the first 15 minutes of the competition.
 
 @bold{Computer-Scored Points:}
 
-@(plus 1) for each non-food item in game.  Max @(plus 10).
+@(plus 1) for each coin item in game.  Max @(plus 10).
 
 @bold{Human-Scored Points:}
 
-@(plus 1) per non-food item for theme cohesion.  Max @(plus 10).
+@(plus 1) per coin item for theme cohesion.  Max @(plus 10).
 
 Although the definition of "matching the theme" is always subjective
 and up to the judges' discretions, for some rules of thumb, see the previous section
@@ -266,15 +266,15 @@ fit with the world or would be something the avatar might use.
 @subsubsection{Example}
 
 Suppose we continue our example from the previous section.
-Marco creates on non-food item -- a Sand Grinding Rock.
+Marco creates one coin item -- an Ancient Desert Artifact.
 But suppose he loses some time because he must track down a
-bug in his code.  He ends up completing his Sand Grinding Rock by the 16-minute
+bug in his code.  He ends up completing his Artifact by the 16-minute
 mark.  This means he cannot get the sprint bonus in this category.
 
 Assuming nothing changes, here are Marco's scores for this category:
 
-@(non-food-section #:non-food-points 1
-                   #:theme-non-food-points 1)
+@(coin-section #:coin-points 1
+               #:theme-coin-points 1)
 
 That's @(plus 2) in this category.  He's at @(plus 26) so far.
 
@@ -526,7 +526,7 @@ score sheet.
 
 Food
 
-Non-Food
+Coins
 
 NPC
 
@@ -570,7 +570,7 @@ Badge key:
 @(define (meta-badge)     (circle 10 'solid 'gray))
 @(define (avatar-badge)   (circle 10 'solid 'red))
 @(define (food-badge)     (circle 10 'solid 'orange))
-@(define (non-food-badge) (circle 10 'solid 'gold))
+@(define (coin-badge)     (circle 10 'solid 'gold))
 @(define (npc-badge)      (circle 10 'solid 'green))
 @(define (recipe-badge)   (circle 10 'solid 'blue))
 
@@ -580,7 +580,7 @@ Badge key:
 
 @(food-badge)     - @bold{Food Badges} - for skills related to creating food items
 
-@(non-food-badge) - @bold{Non-Food Badges} - for skills related to creating non-food items
+@(coin-badge)     - @bold{Coin Badges} - for skills related to creating coin items
 
 @(npc-badge)      - @bold{NPC Badges} - for skills related to creating NPCs
 
@@ -622,7 +622,7 @@ orient the competitors toward the challenges that face them.
           @item{Categories:
            @itemlist[@item{Avatar:                 20 points}
                      @item{Food Items:             25 points}
-                     @item{Non-Food Items:         25 points}
+                     @item{Coin Items:         25 points}
                      @item{Non-Player Characters:  30 points}
                      @item{Crafting:               55 points}]}]
 
@@ -737,21 +737,21 @@ To code of this type:
   #:avatar (my-avatar))]
 
 
-@subsubsection{Non-Food Badges} (Day 3)
+@subsubsection{Coin Badges} (Day 3)
 
-@(meta-badge) @bold{Game Jam Specs: Non-Food} (1 minute.)
+@(meta-badge) @bold{Game Jam Specs: Coin} (1 minute.)
 
-@italic{Can recite the amount of points they get from Non-Food items in their game.}
+@italic{Can recite the amount of points they get from coin items in their game.}
 
 @margin-note*{Teaching Tip: This is a good badge to learn as a team or in small groups.}
 
-@itemlist[@item{Avatar points:  
-           @itemlist[@item{Each non-food item               @bold{1 point, max 10}}
-                     @item{Any non-food within 15 minutes
-                                 @italic{(Sprint Bonus)     @bold{5 points}}}
-                     @item{For each non-food matching theme @bold{1 point, max 10}}]}]
+@itemlist[@item{Avatar points:   
+           @itemlist[@item{Each coin item                   @bold{1 point, max 10}}
+                     @item{Any coin within 15 minutes
+                                 @italic{(Sprint Bonus)      @bold{5 points}}}
+                     @item{For each coin item matching theme @bold{1 point, max 10}}]}]
 
-@(non-food-badge) @bold{Default Non-Food Kata: Level 1} (5 minute)
+@(coin-badge) @bold{Default Coin Kata: Level 1} (5 minute)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -766,7 +766,7 @@ To code of this type:
  #:avatar     (custom-avatar)
  #:coin-list  (list (custom-coin)))}
 
-@(non-food-badge) @bold{Custom Value Non-Food Kata: Level 2} (5 minute)
+@(coin-badge) @bold{Custom Value Coin Kata: Level 2} (5 minute)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -784,13 +784,13 @@ To code of this type:
                       #:value 500)))}
 
 
-@(non-food-badge) @bold{Complete Custom Non-Food Kata: Level 3} (5 minute)
+@(coin-badge) @bold{Complete Custom Coin Kata: Level 3} (5 minute)
 
 @margin-note*{Not including drawing time, but do include exporting time.}
 
 Within five minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar, and a custom non-food collectable.}
+@italic{Make a game that has an avatar, and a custom coin collectable.}
 
 To code of this type:
 
@@ -816,7 +816,7 @@ avatar:   5 minutes, 2.5 minutes
 
 Food:     5 minutes, 2.5 minutes
 
-Non-Food: 5 minutes, 2.5 minutes
+Coin: 5 minutes, 2.5 minutes
 
 NPC:      5 minutes, 2.5 minutes
 
@@ -827,18 +827,18 @@ Recipes:  5 minutes, 2.5 minutes
 
 Under 5 minutes:  avatar + Food
 
-Under 10 minutes: avatar + Food + Non-Food
+Under 10 minutes: avatar + Food + Coin
 
-Under 15 minutes: avatar + Food + Non-Food + NPC
+Under 15 minutes: avatar + Food + Coin + NPC
 
-Under 15 minutes: avatar + Food + Non-Food + NPC + Recipe
+Under 15 minutes: avatar + Food + Coin + NPC + Recipe
 
 
 <x10 Badges>
 
 Under 5 minutes:  10 different NPCs
 
-Under 5 minutes:  10 different Non-Food Items
+Under 5 minutes:  10 different Coin Items
 
 Under 5 minutes:  10 different Food Items
 
