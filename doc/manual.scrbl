@@ -737,21 +737,28 @@ To code of this type:
   #:avatar (my-avatar))]
 
 
+
+
+
+
+
 @subsubsection{Coin Badges} (Day 3)
 
-@(meta-badge) @bold{Game Jam Specs: Coin} (1 minute.)
+@(meta-badge) @bold{Paper Kata} (1 minute.)
 
 @italic{Can recite the amount of points they get from coin items in their game.}
 
 @margin-note*{Teaching Tip: This is a good badge to learn as a team or in small groups.}
 
-@itemlist[@item{Avatar points:   
-           @itemlist[@item{Each coin item                   @bold{1 point, max 10}}
+@itemlist[@item{Coin points:   
+           @itemlist[@item{Each coin item                    @bold{1 point, max 10}}
                      @item{Any coin within 15 minutes
                                  @italic{(Sprint Bonus)      @bold{5 points}}}
                      @item{For each coin item matching theme @bold{1 point, max 10}}]}]
 
-@(coin-badge) @bold{Default Coin Kata: Level 1} (5 minute)
+
+
+@(coin-badge) @bold{Copper Kata} (5 minute)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -762,11 +769,11 @@ To code of this type:
 @codeblock{
  #lang ts-game-jam-1
 
-(survival-game
- #:avatar     (custom-avatar)
- #:coin-list  (list (custom-coin)))}
+ (survival-game
+  #:avatar     (custom-avatar)
+  #:coin-list  (list (custom-coin)))}
 
-@(coin-badge) @bold{Custom Value Coin Kata: Level 2} (5 minute)
+@(coin-badge) @bold{Silver Kata} (5 minute)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -776,36 +783,37 @@ To code of this type:
 
 @codeblock{
  #lang ts-game-jam-1
+
+ (define (my-coin)
+  (custom-coin #:value 500))
  
-(survival-game
+ (survival-game
   #:avatar     (custom-avatar)
-  #:coin-list  (list (coin
-                      #:entity (custom-coin)
-                      #:value 500)))}
+  #:coin-list  (list (my-coin)))}
 
 
-@(coin-badge) @bold{Complete Custom Coin Kata: Level 3} (5 minute)
+@(coin-badge) @bold{Gold Kata} (5 minute)
 
-@margin-note*{Not including drawing time, but do include exporting time.}
+@margin-note*{The order of the keywords does not matter.}
 
 Within five minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar, and a custom coin collectable.}
+@italic{Make a game that has an avatar, and a coin with a custom sprite, name, value, and amount in world.}
 
 To code of this type:
 
-@(define (fireball) (scale .5 (bitmap "images/fireball.png")))
+@codeblock{
+ #lang ts-game-jam-1
 
-@codeblock{#lang ts-game-jam-1}
-@racketblock[
  (define (my-coin)
- (custom-coin #:sprite #, (fireball)))
+  (custom-coin #:sprite (bat-sprite)
+               #:name "bat sprite"
+               #:value 500
+               #:amount-in-world 20))
 
-(survival-game
- #:avatar     (custom-avatar)
- #:coin-list  (list (coin
-                     #:entity (my-coin)
-                     #:value 500)))]
+ (survival-game
+  #:avatar     (custom-avatar)
+  #:coin-list  (list ((my-coin))))}
 
 
 
