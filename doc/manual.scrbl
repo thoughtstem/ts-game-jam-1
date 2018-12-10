@@ -709,7 +709,7 @@ To code of this type:
  #lang ts-game-jam-1
  
  (define (my-avatar)
-   custom-avatar #:sprite (circle 20 "solid" "red"))
+   (custom-avatar #:sprite (circle 20 "solid" "red"))
 
  (survival-game
    #:avatar (my-avatar))}
