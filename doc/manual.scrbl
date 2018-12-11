@@ -481,7 +481,7 @@ score sheet.
 
 @subsection{Avatar - @italic{Docs}}
 
-@defproc[(basic-avatar [appearance (or/c image? animated-sprite?) #f])
+@defproc[(custom-avatar [appearance (or/c image? animated-sprite?) #f])
          entity?]{
   Returns an avatar entity with health bar and inventory already setup.
 
