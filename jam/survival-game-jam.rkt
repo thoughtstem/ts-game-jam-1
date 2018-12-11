@@ -347,7 +347,7 @@
                                (cons c custom-components)))
 
 
-(define (custom-npc #:sprite     [s (row->sprite (random-character-row))]
+(define (custom-npc #:sprite     [s (row->sprite (random-character-row) #:delay 4)]
                     #:position   [p (posn 0 0)]
                     #:name       [name (first (shuffle (list "Adrian" "Alex" "Riley"
                                                              "Sydney" "Charlie" "Andy")))]
@@ -450,7 +450,9 @@
                                                               (nearest-to-player? #:filter (has-component? on-key?)))
                                          (do-many (respawn 'anywhere)
                                                   (active-on-random))))
-      new-entity))
+      (add-components new-entity (on-key 'space #:rule (and/r near-player?
+                                                              (nearest-to-player? #:filter (has-component? on-key?)))
+                                         die))))
 
 (define (custom-coin #:entity           [base-entity (coin-entity)]
                      #:sprite           [s #f]
@@ -480,7 +482,9 @@
                                                               (nearest-to-player? #:filter (has-component? on-key?)))
                                          (do-many (respawn 'anywhere)
                                                   (active-on-random))))
-      new-entity))
+      (add-components new-entity (on-key 'space #:rule (and/r near-player?
+                                                              (nearest-to-player? #:filter (has-component? on-key?)))
+                                         die))))
 
 
 (module+ test
