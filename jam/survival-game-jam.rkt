@@ -76,17 +76,17 @@
                     (on-key "i" die)))
 
   (add-components i
-                  (new-sprite "Use ARROW KEYS to move"
+                  (new-sprite "ARROW KEYS to move"
                               #:y-offset 0 #:color 'yellow)
-                  (new-sprite "Press SPACE BAR to interact"
+                  (new-sprite "SPACE BAR to interact"
                               #:y-offset 20 #:color 'yellow)
-                  (new-sprite "Press ENTER to select or close dialog"
+                  (new-sprite "ENTER to select or close dialog"
                               #:y-offset 40 #:color 'yellow)
-                  (new-sprite "Press I to open these instructions"
+                  (new-sprite "I to open these instructions"
                               #:y-offset 60 #:color 'yellow)
-                  (new-sprite "Press Z to pick up items"
+                  (new-sprite "Z to pick up items"
                               #:y-offset 80 #:color 'yellow)
-                  (new-sprite "Press X to drop items"
+                  (new-sprite "X to drop items"
                               #:y-offset 100 #:color 'yellow)))
      
 ; ==== NEW HELPER SYSTEMS ====
