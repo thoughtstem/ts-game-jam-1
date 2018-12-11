@@ -344,7 +344,7 @@
                                (cons c custom-components)))
 
 
-(define (custom-npc #:sprite     [s (row->sprite (random-character-row))]
+(define (custom-npc #:sprite     [s (row->sprite (random-character-row) #:delay 4)]
                     #:position   [p (posn 0 0)]
                     #:name       [name (first (shuffle (list "Adrian" "Alex" "Riley"
                                                              "Sydney" "Charlie" "Andy")))]
