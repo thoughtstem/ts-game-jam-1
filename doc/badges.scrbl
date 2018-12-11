@@ -44,9 +44,9 @@ Kata key:
 
 @(avatar-kata)   - @bold{Avatar Katas} - for skills related to creating avatars
 
-@(coin-kata)     - @bold{Coin Katas} - for skills related to creating coin items
-
 @(food-kata)     - @bold{Food Katas} - for skills related to creating food items
+
+@(coin-kata)     - @bold{Coin Katas} - for skills related to creating coin items
 
 @(npc-kata)      - @bold{NPC Katas} - for skills related to creating NPCs
 
@@ -225,7 +225,7 @@ To code of this type:
 
 @itemlist[@item{Coin points:   
            @itemlist[@item{Each coin item                    @bold{1 point, max 10}}
-                     @item{Any coin within 10 minutes
+                     @item{Any coin within 15 minutes
                                  @italic{(Sprint Bonus)      @bold{5 points}}}
                      @item{For each coin item matching theme @bold{1 point, max 10}}]}]
 
@@ -333,7 +333,7 @@ To code of this type:
                      (special-coin)))}
 
 
-@; ------ FOOD KATAS ------ IN PROGRESS
+@; ------ FOOD KATAS ------
 
 
 @subsection{Food Katas - @italic{(Day 4)}}
@@ -456,6 +456,137 @@ To code of this type:
   #:food-list  (list (my-food)
                      (special-food)))}
 
+@; ------ NPC KATAS ------
+
+
+@subsection{NPC Katas - @italic{(Day 5)}}
+
+@margin-note*{Teaching Tip: NPC is short Non-Player Character.}
+
+@(meta-kata) @bold{Paper NPC Kata} (1 minute.)
+
+@italic{Can recite the amount of points they get from NPCs in their game.}
+
+@itemlist[@item{NPC points:   
+           @itemlist[@item{Each NPC item                         @bold{1 point, max 5}}
+                     @item{Any NPC within 20 minutes
+                                 @italic{(Sprint Bonus)          @bold{5 points}}}
+                     @item{For each NPC item matching theme      @bold{1 point, max 5}}
+                     @item{For each line of NPC dialog           @bold{1 point, max 20}}
+                     @item{For each line of dialog matchin theme @bold{1 point, max 20}}]}]
+
+@; ------ NPC BRONZE
+
+@(npc-kata) @bold{Bronze NPC Kata} (5 minutes)
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, a coin, a food item, and an NPC.}
+
+To code of this type:
+
+@codeblock{
+ #lang ts-game-jam-1
+
+ (survival-game
+  #:avatar     (custom-avatar)
+  #:coin-list  (list (custom-coin))
+  #:food-list  (list (custom-food #:amount-in-world 10))
+  #:npc-list   (list (custom-npc)))}
+
+@; ------ NPC SILVER
+
+@(npc-kata) @bold{Silver NPC Kata} (5 minutes)
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, a coin, a food, and an NPC that has a custom
+ name, walking mode, and starting tile.}
+
+@margin-note*{Teaching Tips: The tiles are numbered from 0 to 8 (0 being the top-left tile).
+The walking modes are: pace, wander, still, and follow.}
+
+To code of this type:
+
+@codeblock{
+ #lang ts-game-jam-1
+
+ (define (my-npc)
+  (custom-npc #:name "Sara"
+              #:mode 'wander
+              #:tile 4))
+ 
+ (survival-game
+  #:avatar     (custom-avatar)
+  #:coin-list  (list (custom-coin))
+  #:food-list  (list (custom-food #:amount-in-world 10))
+  #:npc-list   (list (my-npc)))}
+
+@; ------ NPC GOLD
+
+@(npc-kata) @bold{Gold NPC Kata} (5 minutes)
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, a coin, a food item, and a NPC with a custom
+        name, walking mode, starting tile, and dialog.}
+
+To code of this type:
+
+@codeblock{
+ #lang ts-game-jam-1
+
+ (define (my-npc)
+  (custom-npc #:name   "Sara"
+              #:mode   'wander
+              #:tile   4
+              #:dialog (list "Why, hello there!" "Gotta go now!")))
+ 
+ (survival-game
+  #:avatar     (custom-avatar)
+  #:coin-list  (list (custom-coin))
+  #:food-list  (list (custom-food #:amount-in-world 10))
+  #:npc-list   (list (my-npc)))}
+
+@; ------ NPC PLATINUM
+
+@(npc-kata) @bold{Platinum NPC Kata} (10 minutes)
+
+@margin-note*{Teaching Tip: Remember, there is no number of "required" katas by day.}
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, a coin, a food item, and more than one NPC.}
+
+To code of this type:
+
+@margin-note*{Teaching Tip: Any mix of keywords here is okay.}
+
+@codeblock{
+ #lang ts-game-jam-1
+
+ (define (my-npc-1)
+  (custom-npc #:name   "Sara"
+              #:mode   'wander
+              #:tile   4
+              #:dialog (list "Why, hello there!" "Gotta go now!")))
+
+ (define (my-npc-2)
+  (custom-npc #:name     "Sonny"
+              #:tile     6            
+              #:mode     'pace))
+
+ (define (my-npc-3)
+  (custom-npc #:name     "Jason"
+              #:mode     'follow))
+ 
+ (survival-game
+  #:avatar     (custom-avatar)
+  #:coin-list  (list (custom-coin))
+  #:food-list  (list (custom-food #:amount-in-world 10))
+  #:npc-list   (list (my-npc-1)
+                     (my-npc-2)
+                     (my-npc-3)))}
 
 
 <Katas>
