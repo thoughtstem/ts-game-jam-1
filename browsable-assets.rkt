@@ -58,4 +58,5 @@
                       (hint
                        (code snake-sprite)))))))
 
-(show-coin-sprites)
+(module+ test
+  (show-coin-sprites))
