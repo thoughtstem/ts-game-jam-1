@@ -61,8 +61,13 @@
 
 
 (define (instructions-entity)
+  (define bg (new-sprite (rectangle 1 1 'solid (make-color 0 0 0 100))))
+  
   (define i
-    (sprite->entity empty-image
+    (sprite->entity (~> bg
+                        (set-x-scale 260 _)
+                        (set-y-scale 150 _)
+                        (set-y-offset 60 _))
                     #:position   (posn (/ (WIDTH) 2) 50)
                     #:name       "instructions"
                     #:components (layer "ui")
@@ -71,17 +76,17 @@
                     (on-key "i" die)))
 
   (add-components i
-                  (new-sprite "Use ARROW KEYS to move"
+                  (new-sprite "ARROW KEYS to move"
                               #:y-offset 0 #:color 'yellow)
-                  (new-sprite "Press SPACE BAR to interact"
+                  (new-sprite "SPACE BAR to interact"
                               #:y-offset 20 #:color 'yellow)
-                  (new-sprite "Press ENTER to select or close dialog"
+                  (new-sprite "ENTER to select or close dialog"
                               #:y-offset 40 #:color 'yellow)
-                  (new-sprite "Press I to open these instructions"
+                  (new-sprite "I to open these instructions"
                               #:y-offset 60 #:color 'yellow)
-                  (new-sprite "Press Z to pick up items"
+                  (new-sprite "Z to pick up items"
                               #:y-offset 80 #:color 'yellow)
-                  (new-sprite "Press X to drop items"
+                  (new-sprite "X to drop items"
                               #:y-offset 100 #:color 'yellow)))
      
 ; ==== NEW HELPER SYSTEMS ====
@@ -228,14 +233,6 @@
 
   (define food-img-list (map (λ (f) (render (get-component f animated-sprite?))) f-list))
 
-  (define (stack img amount)
-    (draw-backpack (map (thunk* img) (range amount))))
-
-  (define (img->backpack-stack-list img)
-    (map (curry stack img) (range 11)))
-
-  (define all-backpack-stacks
-    (apply append (map img->backpack-stack-list food-img-list)))
   
   (define (health-entity)
     (define max-health 100)
@@ -250,13 +247,19 @@
                         (precompiler (player-toast-entity "-1" #:color "red"))
                         (apply precompiler (map food->toast-entity f-list))
                         (apply precompiler f-list)
-                        (precompiler all-backpack-stacks)
+                       ; (precompiler all-backpack-stacks)
                         (map food->component f-list)
                         (do-every starvation-period
                                   (spawn (player-toast-entity "-1" #:color "orangered") #:relative? #f)))))
 
   (define (score-entity)
-    (sprite->entity (draw-dialog-background "Gold: ____")
+    (define bg (~> (rectangle 1 1 'solid (make-color 0 0 0 100))
+                   (new-sprite _ #:animate #f)
+                   (set-x-scale 75 _)
+                   (set-y-scale 14 _)
+                   ))
+    
+    (sprite->entity bg
                     #:name       "score"
                     #:position   (posn 380 20)
                     #:components (static)
@@ -487,6 +490,14 @@
 (module+ test
   (survival-game
    #:avatar (custom-avatar)
-   #:coin-list (list (custom-coin))))
+   #:coin-list (list (custom-coin))
+   #:food-list (list (custom-food #:entity (carrot-entity)
+                                  #:amount-in-world 30))))
+
+
+
+
+
+
 
 
