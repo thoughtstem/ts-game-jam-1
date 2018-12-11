@@ -292,6 +292,9 @@ To code of this type:
   #:avatar     (custom-avatar)
   #:coin-list  (list (my-coin)))}
 
+@margin-note*{Students should run the function (show-coin-sprites) on the interactions window to
+ see a list of coin sprites.}
+
 @; ------ COIN PLATINUM
 
 @(coin-kata) @bold{Platinum Coin Kata} (5 minutes)
@@ -303,7 +306,7 @@ To code of this type:
 Within five minutes, the student can translate an English sentence of this type:
 
 @italic{Make a game that has an avatar, and more than one coin with a custom
- sprite, name, value, and amount in world.}
+ sprite, name, value, amount in world, and respawn value.}
 
 To code of this type:
 
@@ -341,7 +344,7 @@ To code of this type:
 
 @itemlist[@item{Food points:   
            @itemlist[@item{Each food item                    @bold{1 point, max 10}}
-                     @item{Any food within 10 minutes
+                     @item{Any food within 15 minutes
                                  @italic{(Sprint Bonus)      @bold{5 points}}}
                      @item{For each food item matching theme @bold{1 point, max 10}}]}]
 
@@ -351,7 +354,7 @@ To code of this type:
 
 Within five minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar and a coin.}
+@italic{Make a game that has an avatar, a coin, and a food item.}
 
 To code of this type:
 
@@ -360,66 +363,71 @@ To code of this type:
 
  (survival-game
   #:avatar     (custom-avatar)
-  #:coin-list  (list (custom-coin)))}
+  #:coin-list  (list (custom-coin))
+  #:food-list  (list (custom-food #:amount-in-world 10)))}
 
-@; ------ COIN SILVER
+@; ------ FOOD SILVER
 
-@(coin-kata) @bold{Silver Coin Kata} (5 minutes)
+@(food-kata) @bold{Silver Food Kata} (5 minutes)
 
 Within five minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar and a coin worth 500 points.}
+@italic{Make a game that has an avatar, a coin, and a food that heals by 20 points.}
 
 To code of this type:
 
 @codeblock{
  #lang ts-game-jam-1
 
- (define (my-coin)
-  (custom-coin #:value 500))
+ (define (my-food)
+  (custom-food #:amount-in-world 2
+               #:heals-by        20))
  
  (survival-game
   #:avatar     (custom-avatar)
-  #:coin-list  (list (my-coin)))}
+  #:coin-list  (list (custom-coin))
+  #:food-list  (list (my-food)))}
 
-@; ------ COIN GOLD
+@; ------ FOOD GOLD
 
-@(coin-kata) @bold{Gold Coin Kata} (5 minutes)
+@(food-kata) @bold{Gold Food Kata} (5 minutes)
 
 Within five minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar, and a coin with a custom sprite,
- name, value, and amount in world.}
+@italic{Make a game that has an avatar, a coin, and a food item with a custom sprite,
+ name, amount in world, and healing power.}
 
 To code of this type:
 
-@margin-note*{Teaching Tip: The order of the keywords does not matter.}
+@margin-note*{Teaching Tip: Remember, the order of the keywords does not matter.}
 
 @codeblock{
  #lang ts-game-jam-1
 
- (define (my-coin)
-  (custom-coin #:sprite          copper-coin-sprite
-               #:name            "copper coin"
-               #:value           500
-               #:amount-in-world 20))
+ (define (my-food)
+  (custom-food #:sprite          apple-sprite
+               #:name            "apple food"
+               #:amount-in-world 2
+               #:heals-by        20))
 
  (survival-game
   #:avatar     (custom-avatar)
-  #:coin-list  (list (my-coin)))}
+  #:coin-list  (list (custom-coin))
+  #:food-list  (list (my-food)))}
 
-@; ------ COIN PLATINUM
+@margin-note*{Students should run the function (show-food-sprites) on the interactions window to
+ see a list of food sprites.}
 
-@(coin-kata) @bold{Platinum Coin Kata} (5 minutes)
+@; ------ FOOD PLATINUM
 
-@margin-note*{Teaching Tip: As with any kata, there is not a "daily
- number of required katas", so you can always leave off a kata or return
- to it another day.}
+@(food-kata) @bold{Platinum Food Kata} (10 minutes)
+
+@margin-note*{Teaching Tip: Remember, there is no number of "required" katas by day.}
 
 Within five minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar, and more than one coin with a custom
- sprite, name, value, and amount in world.}
+@italic{Make a game that has an avatar, a coin, and more than one food item with a custom
+ sprite, name, amount in world, healing power, and respawn value.}
 
 To code of this type:
 
@@ -429,27 +437,28 @@ To code of this type:
 @codeblock{
  #lang ts-game-jam-1
 
- (define (my-coin)
-  (custom-coin #:sprite copper-coin-sprite
-               #:name   "copper coin"))
+ (define (my-food)
+  (custom-food #:sprite          apples-sprite
+               #:name            "apple"
+               #:amount-in-world 2
+               #:heals-by        20))
 
- (define (special-coin)
-  (custon-coin #:sprite          bat-sprite
-               #:name            "bat coin"
-               #:value           1000
+ (define (special-food)
+  (custom-food #:sprite          salad-sprite
+               #:name            "salad food"
                #:amount-in-world 1
+               #:heals-by        50
                #:respawn?        #f))
 
  (survival-game
   #:avatar     (custom-avatar)
-  #:coin-list  (list (my-coin)
-                     (special-coin)))}
+  #:coin-list  (list (custom-coin))
+  #:food-list  (list (my-food)
+                     (special-food)))}
 
 
 
 <Katas>
-
-Food:     5 minutes, 2.5 minutes
 
 NPC:      5 minutes, 2.5 minutes
 
