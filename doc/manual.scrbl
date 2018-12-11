@@ -70,7 +70,7 @@ is divided by the number of games to get the team's @bold{final score}.
 This prevents larger teams from having an unfair advantage over
 smaller teams.
 
-@subsection{Example}
+@subsection{Example - Final Class Score}
 
 Suppose a team consists of Jimmy, Sally, Marco, and Marta.
 Suppose that Jimmy and Marco are competing as a pair.
@@ -131,7 +131,7 @@ see the following sections.)
    (text (~a "-" s) 24 'darkred))
 
 
-@subsection{Avatar}
+@subsection{Avatar Score}
 
 The game must have an avatar that can be moved
 with the arrow keys.  The avatar must lose health
@@ -163,7 +163,7 @@ and up to the judges' discretions, some rules of thumb are:
            a theme-matching animation might imply some kind of propultion system.  Example: If the avatar is a unicorn,
            a theme-matching animation might imply a unicorn walking.}]
 
-@subsubsection{Example}
+@subsubsection{Example - Avatar Scoring Sheet}
 
 Suppose the Game Jam prompt is announced to be: "Slimes vs Unicorns.
 Slimes have taken over the forest, and the unicorns must learn to
@@ -185,6 +185,47 @@ Marco's Avatar score would end up like this:
                  #:animation-points 3
                  #:theme-avatar-points 1
                  #:theme-animation-points 3)
+
+
+@subsection{Coins}
+
+The game must have coins/point items that can be
+gathered for Gold.
+
+@bold{Sprint Bonus:}
+
+@(plus 5) sprint bonus.  Implement at least one coin
+item within the first 15 minutes of the competition.
+
+@bold{Computer-Scored Points:}
+
+@(plus 1) for each coin item in game.  Max @(plus 10).
+
+@bold{Human-Scored Points:}
+
+@(plus 1) per coin item for theme cohesion.  Max @(plus 10).
+
+Although the definition of "matching the theme" is always subjective
+and up to the judges' discretions, for some rules of thumb, see the previous section
+on food items.  The same idea applies: Make sure these items seem like they
+fit with the world or would be something the avatar might use.
+
+@subsubsection{Example - Coins Scoring Sheet}
+
+Suppose we continue our example from the previous section.
+Marco creates one coin item -- an Ancient Desert Artifact.
+But suppose he loses some time because he must track down a
+bug in his code.  He ends up completing his Artifact by the 16 minute
+mark.  This means he cannot get the sprint bonus in this category.
+
+Assuming nothing changes, here are Marco's scores for this category:
+
+@(coin-section #:coin-points 1
+               #:theme-coin-points 1)
+
+That's @(plus 2) in this category.  He's at @(plus 26) so far.
+
+
 
 @subsection{Food}
 
@@ -217,7 +258,7 @@ and up to the judges' discretions, some rules of thumb are:
            belong in a world full of unicorns.  (The exception is, of course, if the unicorn is a robotic unicorn --
            in which case perhaps a barrel of fule @bold{does} match the theme -- but berries would not.)}]
 
-@subsubsection{Example}
+@subsubsection{Example  - Food Scoring Sheet}
 
 Suppose (as in the example in the previous section) that
 Marco creates three food items:
@@ -240,43 +281,7 @@ competition, the final food score would look like:
 That would be a total of @(plus 11) points.  Added to his
 previous score of @(plus 13), that would be @(plus 24) points so far!
 
-@subsection{Coins}
 
-The game must have coins/point items that can be
-gathered for Gold.
-
-@bold{Sprint Bonus:}
-
-@(plus 5) sprint bonus.  Implement at least one coin
-item within the first 15 minutes of the competition.
-
-@bold{Computer-Scored Points:}
-
-@(plus 1) for each coin item in game.  Max @(plus 10).
-
-@bold{Human-Scored Points:}
-
-@(plus 1) per coin item for theme cohesion.  Max @(plus 10).
-
-Although the definition of "matching the theme" is always subjective
-and up to the judges' discretions, for some rules of thumb, see the previous section
-on food items.  The same idea applies: Make sure these items seem like they
-fit with the world or would be something the avatar might use.
-
-@subsubsection{Example}
-
-Suppose we continue our example from the previous section.
-Marco creates one coin item -- an Ancient Desert Artifact.
-But suppose he loses some time because he must track down a
-bug in his code.  He ends up completing his Artifact by the 16-minute
-mark.  This means he cannot get the sprint bonus in this category.
-
-Assuming nothing changes, here are Marco's scores for this category:
-
-@(coin-section #:coin-points 1
-               #:theme-coin-points 1)
-
-That's @(plus 2) in this category.  He's at @(plus 26) so far.
 
 @subsection{Non-Player Characters}
 
@@ -307,10 +312,10 @@ and up to the judges' discretions, here are some rules of thumb:
            that NPC would say.  NPCs should not all sound the same either.  They should have
            "voices" that are distinct from each other.}]
 
-@subsubsection{Example}
+@subsubsection{Example - NPC Scoring Sheet}
 
 Suppose, in our running example, Marco creates
-1 NPC by the 19-minute mark.
+1 NPC by the 19 minute mark.
 
 The NPC is a desert nomad with two lines of
 dialog about the weather in the desert and one
@@ -384,7 +389,7 @@ and up to the judges' discretions, here are some rules of thumb:
            makes sense.  Producing a house from a cooking pot does not.}]
 
 
-@subsubsection{Example}
+@subsubsection{Example - Crafting Scoring Sheet}
 
 Suppose, in our running example, Marco creates two recipes:
 
@@ -474,7 +479,7 @@ score sheet.
 
 
 
-@subsection{Avatar}
+@subsection{Avatar - @italic{Docs}}
 
 @defproc[(basic-avatar [appearance (or/c image? animated-sprite?) #f])
          entity?]{
@@ -484,7 +489,7 @@ score sheet.
 
   @racketblock[
                (survival-game
-                #:avatar (basic-avatar))
+                #:avatar (custom-avatar))
   ]
 
   With a more complex form, you can declare that the avatar should look
@@ -492,7 +497,7 @@ score sheet.
 
   @racketblock[
                (survival-game
-                #:avatar (basic-avatar (square 50 'solid 'blue)))
+                #:avatar (custom-avatar #:sprite (square 50 'solid 'blue)))
   ]
 
  You can also specify that the avatar should use an animation -- i.e.
@@ -509,7 +514,7 @@ score sheet.
                  (row->animation (my-still-image)))
                
                (survival-game
-                #:avatar (basic-avatar (my-animation)))
+                #:avatar (custom-avatar #:sprite (my-animation)))
   ]
 
   Note the 3 step process above.  It is a common pattern:
@@ -531,6 +536,7 @@ Coins
 NPC
 
 Recipes
+
 
 
 @section{Training Recommendations}
@@ -558,43 +564,42 @@ Be loud.  Be proud.  Be a coach.
 @subsection{Training Katas}
 
 @(require 2htdp/image)
-
-<Katas. Not badges.  Change this...>
+@(require ts-game-jam-1)
 
 Coaches will train competitors by helping them acquire the necessary skills to excel
-at the Game Jam competition.  Competitors who have mastered these skills will receive
-badges.  These badges serve as visual, wearable representations of a competitor's hard work.
+at the Game Jam competition.  Competitors who have mastered these skills will earn katas.
+These katas serve as visual, wearable representations of a competitor's hard work.
 
-Badge key:
+Kata key:
 
-@(define (meta-badge)     (circle 10 'solid 'gray))
-@(define (avatar-badge)   (circle 10 'solid 'red))
-@(define (food-badge)     (circle 10 'solid 'orange))
-@(define (coin-badge)     (circle 10 'solid 'gold))
-@(define (npc-badge)      (circle 10 'solid 'green))
-@(define (recipe-badge)   (circle 10 'solid 'blue))
+@(define (meta-kata)     (circle 10 'solid 'gray))
+@(define (avatar-kata)   (circle 10 'solid 'red))
+@(define (coin-kata)     (circle 10 'solid 'gold))
+@(define (food-kata)     (circle 10 'solid 'orange))
+@(define (npc-kata)      (circle 10 'solid 'green))
+@(define (recipe-kata)   (circle 10 'solid 'blue))
 
-@(meta-badge)     - @bold{Meta Badges} - for skills related to excelling as a Game Jam competitor.
+@(meta-kata)     - @bold{Meta Katas} - for skills related to excelling as a Game Jam competitor.
 
-@(avatar-badge)   - @bold{Avatar Badges} - for skills related to creating avatars
+@(avatar-kata)   - @bold{Avatar Katas} - for skills related to creating avatars
 
-@(food-badge)     - @bold{Food Badges} - for skills related to creating food items
+@(coin-kata)     - @bold{Coin Katas} - for skills related to creating coin items
 
-@(coin-badge)     - @bold{Coin Badges} - for skills related to creating coin items
+@(food-kata)     - @bold{Food Katas} - for skills related to creating food items
 
-@(npc-badge)      - @bold{NPC Badges} - for skills related to creating NPCs
+@(npc-kata)      - @bold{NPC Katas} - for skills related to creating NPCs
 
-@(recipe-badge)   - @bold{Recipe Badges} - for skills related to creating recipes
+@(recipe-kata)   - @bold{Recipe Katas} - for skills related to creating recipes
 
 
 
-@subsubsection{Day 1 Badges}
+@subsubsection{Intro Katas}
 
-These are called "day 1" badges because we recommend that competitors earn these
-badges before earning any other badges.  They help reenforce team values and help
-orient the competitors toward the challenges that face them.
+We recommend students earn these Intro Katas before earning any other ones.
+They help reinforce team values and help orient the competitors toward the
+challenges that face them.
 
-@(meta-badge) @bold{Core Values: Level 1} (1 minute.)
+@(meta-kata) @bold{Core Values Kata} (1 minute.)
 
 @margin-note[#:left? #t "Hand motions can make these easier to remember and repeat. For
              example: 'It's not about my code.' Point to computer. 'It's about
@@ -611,32 +616,32 @@ orient the competitors toward the challenges that face them.
 
 
 
-@(meta-badge) @bold{Game Jam Specs: Level 1} (1 minute.)
+@(meta-kata) @bold{Game Jam Specs Kata} (1 minute.)
 
 @italic{Can recite the specs for the upcoming Game Jam.}
 
-@margin-note*{Teaching Tip: This is a good badge to learn as a team or in small groups.}
+@margin-note*{Teaching Tip: This is a good kata to learn as a team or in small groups.}
 
 @itemlist[@item{Game Type: Survival Game}
           @item{Time Limit: 1 hour}
           @item{Categories:
            @itemlist[@item{Avatar:                 20 points}
+                     @item{Coin Items:             25 points}
                      @item{Food Items:             25 points}
-                     @item{Coin Items:         25 points}
                      @item{Non-Player Characters:  30 points}
                      @item{Crafting:               55 points}]}]
 
-This badge should be re-earned any time the specs change.  Or any time there's a new upcoming jam.
+This kata should be re-earned any time the specs change.  Or any time there's a new upcoming jam.
 The specs do change from time to time.  (And that in itself is a valuable lesson.)
 
 
 
-@(meta-badge) @bold{Meta Kata: Level 1} (1 minute.)
+@(meta-kata) @bold{Kata Kata} (1 minute.)
 
-@margin-note*{This badge might be too many "repeat after me" badges. Feel free to share
+@margin-note*{This kata might be too many "repeat after me" katas. Feel free to share
              the info more informally.}
 
-@italic{Can recite answer to: What is a Kata badge?}
+@italic{Can recite answer to: What is a Kata?}
 
 A Kata is a small piece of code that I memorize and can write:
 @itemlist[@item{Calmly}
@@ -644,7 +649,8 @@ A Kata is a small piece of code that I memorize and can write:
           @item{Accurately}]
 
 
-@(avatar-badge) @bold{Simple Shape Kata} (5 minute)
+
+@(avatar-kata) @bold{Racket Kata} (5 minutes)
 
 @margin-note*{Teaching Tip: Start with all the code projected/written on the board.
               Remove the lines one by one, testing the students each time.}
@@ -660,21 +666,28 @@ To code of this type:
  (require 2htdp/image)
  (circle 80 'solid 'red)}
 
-Note: To award this badge, a student should be able to do the above
-in under 5 minute.  But doing it once is too easy.  The student should
+Note: To award this kata, a student should be able to do the above
+in under 5 minutes.  But doing it once is too easy.  The student should
 do this multiple times with different shapes: e.g. blue square, green star,
 etc.
 
 
-@subsubsection{Avatar Badges} (Day 2)
+
+
+
+
+
+
+
+@subsubsection{Avatar Katas - @italic{(Day 2)}} 
 
 @margin-note*{Teaching Tip: Start class reciting the first two ThoughtSTEM core values.}
 
-@(meta-badge) @bold{Game Jam Specs: Avatar} (1 minute.)
+@(meta-kata) @bold{Paper Kata} (1 minute.)
 
 @italic{Can recite the amount of points they get from an Avatar in their game.}
 
-@margin-note*{Teaching Tip: This is a good badge to learn as a team or in small groups.}
+@margin-note*{Teaching Tip: This is a good kata to learn as a team or in small groups.}
 
 @itemlist[@item{Avatar points:
            @itemlist[@item{Having an avatar              @bold{1 points}}
@@ -683,7 +696,10 @@ etc.
                      @item{Avatar animation frame        @bold{1 points}
                                         @itemlist[@item{Maximum 4 animations}]}]}]
 
-@(avatar-badge) @bold{Default Avatar Kata: Level 1} (5 minute)
+
+
+
+@(avatar-kata) @bold{Bronze Kata} (5 minutes)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -697,7 +713,10 @@ To code of this type:
  (survival-game
    #:avatar (custom-avatar))}
 
-@(avatar-badge) @bold{Simple Avatar Kata: Level 2} (5 minute)
+
+
+
+@(avatar-kata) @bold{Silver Kata} (5 minutes)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -709,13 +728,16 @@ To code of this type:
  #lang ts-game-jam-1
  
  (define (my-avatar)
-   (custom-avatar #:sprite (circle 20 "solid" "red"))
+   (custom-avatar #:sprite (circle 20 "solid" "red")))
 
  (survival-game
    #:avatar (my-avatar))}
 
 
-@(avatar-badge) @bold{Custom Avatar Kata: Level 3} (5 minute)
+
+
+
+@(avatar-kata) @bold{Gold Kata} (5 minutes)
 
 @margin-note*{Not including drawing time, but do include exporting time.}
 
@@ -740,15 +762,11 @@ To code of this type:
 
 
 
+@subsubsection{Coin Katas - @italic{(Day 3)}}
 
-
-@subsubsection{Coin Badges} (Day 3)
-
-@(meta-badge) @bold{Paper Kata} (1 minute.)
+@(meta-kata) @bold{Paper Kata} (1 minute.)
 
 @italic{Can recite the amount of points they get from coin items in their game.}
-
-@margin-note*{Teaching Tip: This is a good badge to learn as a team or in small groups.}
 
 @itemlist[@item{Coin points:   
            @itemlist[@item{Each coin item                    @bold{1 point, max 10}}
@@ -758,7 +776,7 @@ To code of this type:
 
 
 
-@(coin-badge) @bold{Copper Kata} (5 minute)
+@(coin-kata) @bold{Copper Kata} (5 minutes)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -773,7 +791,9 @@ To code of this type:
   #:avatar     (custom-avatar)
   #:coin-list  (list (custom-coin)))}
 
-@(coin-badge) @bold{Silver Kata} (5 minute)
+
+
+@(coin-kata) @bold{Silver Kata} (5 minutes)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -792,33 +812,70 @@ To code of this type:
   #:coin-list  (list (my-coin)))}
 
 
-@(coin-badge) @bold{Gold Kata} (5 minute)
 
-@margin-note*{The order of the keywords does not matter.}
+@(coin-kata) @bold{Gold Kata} (5 minutes)
 
 Within five minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar, and a coin with a custom sprite, name, value, and amount in world.}
+@italic{Make a game that has an avatar, and a coin with a custom sprite,
+ name, value, and amount in world.}
 
 To code of this type:
+
+@margin-note*{Teaching Tip: The order of the keywords does not matter.}
 
 @codeblock{
  #lang ts-game-jam-1
 
  (define (my-coin)
-  (custom-coin #:sprite (bat-sprite)
-               #:name "bat sprite"
-               #:value 500
+  (custom-coin #:sprite          copper-coin-sprite
+               #:name            "copper coin"
+               #:value           500
                #:amount-in-world 20))
 
  (survival-game
   #:avatar     (custom-avatar)
-  #:coin-list  (list ((my-coin))))}
+  #:coin-list  (list (my-coin)))}
 
 
 
+@(coin-kata) @bold{Platinum Kata} (5 minutes)
 
-<Kata Badges>
+@margin-note*{Teaching Tip: As with any kata, there is not a "daily
+ number of required katas", so you can always leave off a kata or return
+ to it another day.}
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, and more than one coin with a custom
+ sprite, name, value, and amount in world.}
+
+To code of this type:
+
+@margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
+ all have the required sprite and name, and at least one of them does not respawn.}
+
+@codeblock{
+ #lang ts-game-jam-1
+
+ (define (my-coin)
+  (custom-coin #:sprite copper-coin-sprite
+               #:name   "copper coin"))
+
+ (define (special-coin)
+  (custon-coin #:sprite          bat-sprite
+               #:name            "bat coin"
+               #:value           1000
+               #:amount-in-world 1
+               #:respawn?        #f))
+
+ (survival-game
+  #:avatar     (custom-avatar)
+  #:coin-list  (list (my-coin)
+                     (special-coin)))}
+
+
+<Katas>
 
 avatar:   5 minutes, 2.5 minutes
 
@@ -894,4 +951,3 @@ Do a 1 hour game jam.  Get __ points.
 
 TODO: Somewhere, say something about doing a
 coding phase and an art phase...
-
