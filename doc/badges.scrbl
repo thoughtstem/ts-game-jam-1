@@ -44,9 +44,9 @@ Kata key:
 
 @(avatar-kata)   - @bold{Avatar Katas} - for skills related to creating avatars
 
-@(food-kata)     - @bold{Food Katas} - for skills related to creating food items
-
 @(coin-kata)     - @bold{Coin Katas} - for skills related to creating coin items
+
+@(food-kata)     - @bold{Food Katas} - for skills related to creating food items
 
 @(npc-kata)      - @bold{NPC Katas} - for skills related to creating NPCs
 
@@ -225,7 +225,7 @@ To code of this type:
 
 @itemlist[@item{Coin points:   
            @itemlist[@item{Each coin item                    @bold{1 point, max 10}}
-                     @item{Any coin within 15 minutes
+                     @item{Any coin within 10 minutes
                                  @italic{(Sprint Bonus)      @bold{5 points}}}
                      @item{For each coin item matching theme @bold{1 point, max 10}}]}]
 

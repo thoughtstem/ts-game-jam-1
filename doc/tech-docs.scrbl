@@ -89,9 +89,9 @@ score sheet.
 
 Coming soon:
 
-Food
-
 Coins
+
+Food
 
 NPC
 

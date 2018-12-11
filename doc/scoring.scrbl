@@ -64,7 +64,7 @@ this page.
 
 @itemlist[
  @item{Avatar}
- @item{Inventory Items}
+ @item{Coin}
  @item{Food}
  @item{Non-Player Characters}
  @item{Crafting/Recipes}]
@@ -152,7 +152,7 @@ gathered for Gold.
 @bold{Sprint Bonus:}
 
 @(plus 5) sprint bonus.  Implement at least one coin
-item within the first 15 minutes of the competition.
+item within the first 10 minutes of the competition.
 
 @bold{Computer-Scored Points:}
 
@@ -172,7 +172,7 @@ fit with the world or would be something the avatar might use.
 Suppose we continue our example from the previous section.
 Marco creates one coin item -- an Ancient Desert Artifact.
 But suppose he loses some time because he must track down a
-bug in his code.  He ends up completing his Artifact by the 16 minute
+bug in his code.  He ends up completing his Artifact by the 11 minute
 mark.  This means he cannot get the sprint bonus in this category.
 
 Assuming nothing changes, here are Marco's scores for this category:
@@ -180,7 +180,7 @@ Assuming nothing changes, here are Marco's scores for this category:
 @(coin-section #:coin-points 1
                #:theme-coin-points 1)
 
-That's @(plus 2) in this category.  He's at @(plus 26) so far.
+That's @(plus 2) in this category.  He's at @(plus 15) so far.
 
 
 
@@ -195,7 +195,7 @@ can consume in-game.
 
 (NOTE: To claim this sprint bonus, a competitor must signal a judge
 and demonstrate a working game with a food item.  Signals must be made
-before the 10 minute mark in order to gain the sprint bonus points.)
+before the 15 minute mark in order to gain the sprint bonus points.)
 
 @bold{Computer-Scored Points:}
 
@@ -236,7 +236,7 @@ competition, the final food score would look like:
                #:theme-food-points 3)
 
 That would be a total of @(plus 11) points.  Added to his
-previous score of @(plus 13), that would be @(plus 24) points so far!
+previous score of @(plus 15), that would be @(plus 26) points so far!
 
 
 

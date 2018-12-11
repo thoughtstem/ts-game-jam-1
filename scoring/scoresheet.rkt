@@ -12,8 +12,8 @@
 (define (scoresheet)
   (above/align "left"
                (avatar-section)
-               (food-section)
                (coin-section)
+               (food-section)
                (npc-section)
                (crafting-section)
                (aesthetics-section)))
@@ -47,7 +47,7 @@
   (side-title-section "Food"
                       (above/align "left"
                        (top-title-section "Sprint Bonus"
-                                          (points-for "Any food item within 10 minutes" 5 #:fill sprint-bonus))
+                                          (points-for "Any food item within 15 minutes" 5 #:fill sprint-bonus))
                        (columns
                         (top-title-section "Computer-Scored"
                                            (points-for "Each food item" 1 #:max 10 #:fill food-points))
@@ -60,7 +60,7 @@
   (side-title-section "Coin"
                       (above/align "left"
                                    (top-title-section "Sprint Bonus"
-                                                      (points-for "Any coin item within 15 minutes" 5 #:fill sprint-bonus))
+                                                      (points-for "Any coin item within 10 minutes" 5 #:fill sprint-bonus))
                                    (columns
                                     (top-title-section "Computer-Scored"
                                                        (points-for "Each coin item" 1 #:max 10 #:fill coin-points))
