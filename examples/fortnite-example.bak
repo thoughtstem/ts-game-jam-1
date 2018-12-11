@@ -21,7 +21,7 @@
 ; MATERIALS: wood, stone, metal
 
 ; MELEE AND RANGED BATTLE MECHANICS
-#;(fortnite2d-game
+(fortnite2d-game
  #:bg              (custom-background)
  #:avatar          (custom-avatar #:sprite (row->sprite (random-character-row)))
  #:map-size        5
