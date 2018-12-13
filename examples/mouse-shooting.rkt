@@ -2,17 +2,20 @@
 
 (define (enemy-npc)
   (custom-npc #:name "Enemy"
-              #:position (posn 400 300)
-              #:mode 'wander
-              #:components (health 100)
-                           (movable)
-                           (hidden)
-                           (on-collide "Bullet" (change-health-by -10))
-                           (on-collide "Sword"  (change-health-by -20))
-                           (on-start (do-many (respawn 'anywhere)
-                                              ;(active-on-random)
-                                              show))
-                           ))
+               #:position (posn 400 300)
+               #:mode 'wander
+               #:components
+               ;(health 100)
+               (on-rule (λ(g e)
+                          (<= (get-storage-data "health-stat" e) 0)) die)
+               ;storage "health-stat" is 0
+               (movable)
+               (hidden)
+             ;  (on-collide "Bullet" (change-health-by -10))
+             ;  (on-collide "Sword"  (change-health-by -20))
+               (on-start (do-many (respawn 'anywhere)
+                                  ;(active-on-random)
+                                  show))))
 
 (define (custom-bullet #:sprite [s (rectangle 10 2 "solid" "green")] #:speed [spd 10])
   (sprite->entity s
@@ -20,6 +23,7 @@
                   #:position   (posn 20 0)
                   #:components (physical-collider)
                                (direction 0)
+                               (damager 10)
                                (rotation-style 'face-direction)
                                (hidden)
                                (on-start show)
@@ -43,6 +47,7 @@
                   #:position (posn 10 0)
                   #:components (physical-collider)
                                (direction 270)
+                               (damager 50)
                                (rotation-style 'face-direction)
                                (hidden)
                                (on-start show)
@@ -140,7 +145,10 @@
  #:bg              (custom-background)
  #:avatar          (my-avatar)
  #:starvation-rate -1000
- #:npc-list        (list (entity-cloner (enemy-npc) 10))
+ #:npc-list        (list (map (let ([e (enemy-npc)])
+                                (thunk* (combatant #:damage-processor (divert-damage)
+                                                   e)))
+                              (range 10)))
  #:other-entities  (pine-tree (posn 300 100) #:tile 0)
                    (pine-tree (posn 300 100) #:tile 2)
                    (pine-tree (posn 200 100) #:tile 4))
