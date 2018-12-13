@@ -1,6 +1,6 @@
 #lang ts-game-jam-1
 
-;BATTLE MECHANICS - MELEE, RANGED
+;BATTLE MELEE, RANGED
 ;BATTLE GEAR - WEAPONS, ARMOR, POWER UPS, POTIONS
 ;BASE BUILDING - OFFENSIVE, DEFENSIVE
 
@@ -28,6 +28,7 @@
  #:enemy-list      (list (custom-enemy #:sprite (row->sprite (random-character-row))
                                        #:amount-in-world 10
                                        #:ai 'easy
+                                       #:weapon (heavy-repeater)
                                        #:total-health 200)
                          (custom-enemy #:sprite (row->sprite (random-character-row))
                                        #:amount-in-world 20
@@ -35,6 +36,7 @@
                                        #:damage 5))
  ; ==== BATTLE GEAR - WEAPONS / RANGED BATTLE ====
  #:weapon-list     (list (custom-weapon #:sprite heavy-repeater-sprite
+                                        #:fire-mode 'spread   
                                         #:bullet (blue-paintball)
                                         #:fire-rate 12
                                         #:damage 18

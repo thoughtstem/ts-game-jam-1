@@ -171,6 +171,8 @@
   (custom-avatar #:sprite     [sprite (circle 10 'solid 'red)]
                  #:position   [p   (posn 100 100)]
                  #:speed      [spd 10]
+                 #:key-mode   [key-mode 'arrow-keys]
+                 #:mouse-aim? [mouse-aim? #f]
                  #:components [c #f]
                                . custom-components)
   (define dead-frame (if (image? sprite)
@@ -182,9 +184,9 @@
                   #:components (physical-collider)
                                (sound-stream)
                                (precompiler dead-frame)
-                               (key-movement spd #:rule (and/r all-dialog-closed?
-                                                               (not/r lost?)))
-                               (key-animator-system)
+                               (key-movement spd #:mode key-mode #:rule (and/r all-dialog-closed?
+                                                                               (not/r lost?)))
+                               (key-animator-system #:mode key-mode #:face-mouse? mouse-aim?)
                                (stop-on-edge)
                                (backpack-system #:components (observe-change backpack-changed? update-backpack))
                                (player-edge-system)
@@ -229,7 +231,7 @@
     (define heal-amt (get-storage-data "heals-by" f))
     (player-toast-entity (~a "+" heal-amt) #:color "green"))
 
-  (define starvation-period (max 1 (- 100 (min 100 (max 0 sr)))))
+  (define starvation-period (max 1 (- 100 (min 100 sr))))
 
   (define food-img-list (map (λ (f) (render (get-component f animated-sprite?))) f-list))
 
