@@ -751,6 +751,8 @@ To code of this type:
 
 @(meta-kata) @bold{Paper Practice Kata} (25 minutes)
 
+@margin-note*{Teaching Tip: Students should start coding this first and then they can customize it}
+
 @italic{Can code a simple survival game in under 25 minutes.}
 
 @codeblock{
@@ -766,55 +768,66 @@ To code of this type:
 If they complete this in less than 25 minutes during game jam they would
 earn the following number of points:
 
-@itemlist[@item{Avatar = 6 points:
-           @itemlist[@item{
-                                 @bold{+1} Having an avatar,
-                                 @bold{+5} in less than 5 minutes.} ]}
-          @item{Coin = 6 points:   
-           @itemlist[@item{
-                                 @bold{+1} Having a coin,
-                                 @bold{+5} in less than 10 minutes.} ]}
-          @item{Food = 6 points:   
-           @itemlist[@item{
-                                 @bold{+1} Having a food item,
-                                 @bold{+5} in less than 15 minutes.} ]}
-          @item{NPC = 6 points:   
-           @itemlist[@item{
-                                 @bold{+1} Having an NPC,
-                                 @bold{+5} in less than 20 minutes.} ]}
-          @item{Crafter = 6 points:   
-           @itemlist[@item{
-                                 @bold{+1} Having a crafter,
-                                 @bold{+5} in less than 25 minutes.} ]}
-                     ]
+@itemlist[@item{Avatar  @bold{+1} Having an avatar 
+                        @bold{+5} in less than 5 minutes 
+                        @bold{= 6 points.}} 
+          @item{Coin    @bold{+1} Having a coin 
+                        @bold{+5} in less than 10 minutes  
+                        @bold{= 6 points.}} 
+          @item{Food    @bold{+1} Having a food item 
+                        @bold{+5} in less than 15 minutes
+                        @bold{= 6 points.}} 
+          @item{NPC     @bold{+1} Having an NPC  
+                        @bold{+5} in less than 20 minutes
+                        @bold{= 6 points.}} 
+          @item{Crafter @bold{+1} Having a crafter 
+                        @bold{+5} in less than 25 minutes
+                        @bold{= 6 points.}}]
 
-To code of this type:
-<Sprint Katas>
+@; ------ CUSTOMIZE AVATAR
 
-Under 5 minutes:  avatar + Food
+@(avatar-kata) @bold{Avatar Practice Kata}
 
-Under 10 minutes: avatar + Food + Coin
+@italic{Can add a custom avatar.}
 
-Under 15 minutes: avatar + Food + Coin + NPC
+@(define (color-circles) (bitmap "images/color-circles.png"))
 
-Under 15 minutes: avatar + Food + Coin + NPC + Crafter
+@codeblock{#lang ts-game-jam-1}
+@racketblock[
+ (define (my-avatar)
+   (custom-avatar #:sprite (sheet->sprite #,(color-circles)
+                                          #:columns 4)))
+ 
+ (survival-game
+  #:avatar       (my-avatar)
+  #:coin-list    (list (custom-coin))
+  #:food-list    (list (custom-food #:amount-in-world 10))
+  #:npc-list     (list (custom-npc))
+  #:crafter-list (list (custom-crafter)))]
 
+@; ------ CUSTOMIZE COIN
 
-<x10 Katas>
+@(coin-kata) @bold{Coin Practice Kata}
 
-Under 5 minutes:  10 different NPCs
+@italic{Can add custom coins.}
 
-Under 5 minutes:  10 different Coin Item
+@; ------ CUSTOMIZE FOOD
 
-Under 5 minutes:  10 different Food Items
+@(food-kata) @bold{Food Practice Kata}
 
-Under 5 minutes:  10 different Recipes
+@italic{Can add a custom food items.}
 
-Under 10 minutes: 10 different Recipes in a tree
+@; ------ CUSTOMIZE NPC
 
+@(npc-kata) @bold{NPC Practice Kata}
 
-Note that these Katas must be "refreshed".
-You don't get to keep them if you're not practicing...
+@italic{Can add custom NPCs.}
+
+@; ------ CUSTOMIZE CRAFTER
+
+@(crafter-kata) @bold{Crafter Practice Kata}
+
+@italic{Can add custom crafters.}
 
 @subsection{Collaboration Katas}
 
