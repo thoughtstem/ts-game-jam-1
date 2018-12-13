@@ -11,7 +11,7 @@ That is familiarity -- not mastery.
 The training program given here is intended to give students mastery over the skills needed
 to excel at the Scholastic Game Jam.
 
-It is also intended to be fun!  Mastery require repetition.  Mastery requires holding oneself
+It is also intended to be fun!  Mastery requires repetition.  Mastery requires holding oneself
 to high standards.  Sometimes it can be a challenge to keep having fun while pursuing mastery.
 The following curriculum is intended to keep the road to mastery as fun as possible.
 
@@ -278,13 +278,7 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, and a coin with a custom sprite,
  name, value, and amount in world.}
 
-<<<<<<< HEAD
 @margin-note*{The order of the keywords does not matter.}
-
-To code of this type:
-=======
-@margin-note*{Teaching Tip: The order of the keywords does not matter.}
->>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
 
 To code of this type:
 
@@ -315,13 +309,7 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, and more than one coin with a custom
  sprite, name, value, amount in world, and respawn value.}
 
-<<<<<<< HEAD
-To code of this type:
-
 @margin-note*{Any mix of keywords here is okay, as long as they
-=======
-@margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
->>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
  all have the required sprite and name, and at least one of them does not respawn.}
 
 To code of this type:
@@ -412,13 +400,7 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, a coin, and a food item with a custom sprite,
  name, amount in world, and healing power.}
 
-<<<<<<< HEAD
-To code of this type:
-
 @margin-note*{Remember, the order of the keywords does not matter.}
-=======
-@margin-note*{Teaching Tip: Remember, the order of the keywords does not matter.}
->>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
 
 To code of this type:
 
@@ -449,13 +431,7 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, a coin, and more than one food item with a custom
  sprite, name, amount in world, healing power, and respawn value.}
 
-<<<<<<< HEAD
-To code of this type:
-
 @margin-note*{Any mix of keywords here is okay, as long as they
-=======
-@margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
->>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
  all have the required sprite and name, and at least one of them does not respawn.}
 
 To code of this type:
@@ -529,12 +505,9 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, a coin, a food, and an NPC that has a custom
  name, walking mode, and starting tile.}
 
-<<<<<<< HEAD
 @margin-note*{The tiles are numbered from 0 to 8 (0 being the top-left tile).
 The walking modes are: pace, wander, still, and follow.}
 
-=======
->>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
 To code of this type:
 
 @codeblock{
@@ -550,9 +523,6 @@ To code of this type:
   #:coin-list  (list (custom-coin))
   #:food-list  (list (custom-food #:amount-in-world 10))
   #:npc-list   (list (my-npc)))}
-
-@margin-note*{Teaching Tips: The tiles are numbered from 0 to 8 (0 being the top-left tile).
-The walking modes are: pace, wander, still, and follow.}
 
 @; ------ NPC GOLD
 
@@ -590,13 +560,7 @@ Within five minutes, the student can translate an English sentence of this type:
 
 @italic{Make a game that has an avatar, a coin, a food item, and more than one NPC.}
 
-<<<<<<< HEAD
-To code of this type:
-
 @margin-note*{Any mix of keywords here is okay.}
-=======
-@margin-note*{Teaching Tip: Any mix of keywords here is okay.}
->>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
 
 To code of this type:
 

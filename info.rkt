@@ -9,7 +9,7 @@
   ))
 
 (define compile-omit-paths '(
-  "test"))
+  "test" "examples"))
 
 (define test-omit-paths '("doc" "jam" "scoring" "examples"))
 
