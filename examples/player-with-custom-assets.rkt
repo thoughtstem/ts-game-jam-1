@@ -22,8 +22,9 @@
 
 (define carrot-cake-recipe
   (recipe #:product     (carrot-cake-entity)
-          #:build-time  50
-          #:ingredients (list "Carrot")))
+          #:build-time  5
+          #:ingredients (list "Carrot")
+         ))
 
 (define (oven-entity)
   (custom-crafter #:position   (posn 300 300)

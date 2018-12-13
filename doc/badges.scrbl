@@ -35,8 +35,8 @@ Kata key:
 
 @(define (meta-kata)     (circle 10 'solid 'gray))
 @(define (avatar-kata)   (circle 10 'solid 'red))
-@(define (food-kata)     (circle 10 'solid 'orange))
 @(define (coin-kata)     (circle 10 'solid 'gold))
+@(define (food-kata)     (circle 10 'solid 'orange))
 @(define (npc-kata)      (circle 10 'solid 'green))
 @(define (recipe-kata)   (circle 10 'solid 'blue))
 
@@ -44,9 +44,9 @@ Kata key:
 
 @(avatar-kata)   - @bold{Avatar Katas} - for skills related to creating avatars
 
-@(food-kata)     - @bold{Food Katas} - for skills related to creating food items
-
 @(coin-kata)     - @bold{Coin Katas} - for skills related to creating coin items
+
+@(food-kata)     - @bold{Food Katas} - for skills related to creating food items
 
 @(npc-kata)      - @bold{NPC Katas} - for skills related to creating NPCs
 
@@ -278,7 +278,13 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, and a coin with a custom sprite,
  name, value, and amount in world.}
 
+<<<<<<< HEAD
 @margin-note*{The order of the keywords does not matter.}
+
+To code of this type:
+=======
+@margin-note*{Teaching Tip: The order of the keywords does not matter.}
+>>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
 
 To code of this type:
 
@@ -309,10 +315,16 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, and more than one coin with a custom
  sprite, name, value, amount in world, and respawn value.}
 
+<<<<<<< HEAD
 To code of this type:
 
 @margin-note*{Any mix of keywords here is okay, as long as they
+=======
+@margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
+>>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
  all have the required sprite and name, and at least one of them does not respawn.}
+
+To code of this type:
 
 @codeblock{
  #lang ts-game-jam-1
@@ -332,7 +344,6 @@ To code of this type:
   #:avatar     (custom-avatar)
   #:coin-list  (list (my-coin)
                      (special-coin)))}
-
 
 @; ------ FOOD KATAS ------
 
@@ -401,9 +412,15 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, a coin, and a food item with a custom sprite,
  name, amount in world, and healing power.}
 
+<<<<<<< HEAD
 To code of this type:
 
 @margin-note*{Remember, the order of the keywords does not matter.}
+=======
+@margin-note*{Teaching Tip: Remember, the order of the keywords does not matter.}
+>>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
+
+To code of this type:
 
 @codeblock{
  #lang ts-game-jam-1
@@ -432,10 +449,16 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, a coin, and more than one food item with a custom
  sprite, name, amount in world, healing power, and respawn value.}
 
+<<<<<<< HEAD
 To code of this type:
 
 @margin-note*{Any mix of keywords here is okay, as long as they
+=======
+@margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
+>>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
  all have the required sprite and name, and at least one of them does not respawn.}
+
+To code of this type:
 
 @codeblock{
  #lang ts-game-jam-1
@@ -476,7 +499,7 @@ To code of this type:
                                  @italic{(Sprint Bonus)          @bold{5 points}}}
                      @item{For each NPC item matching theme      @bold{1 point, max 5}}
                      @item{For each line of NPC dialog           @bold{1 point, max 20}}
-                     @item{For each line of dialog matchin theme @bold{1 point, max 20}}]}]
+                     @item{For each line of dialog matching theme @bold{1 point, max 20}}]}]
 
 @; ------ NPC BRONZE
 
@@ -506,9 +529,12 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, a coin, a food, and an NPC that has a custom
  name, walking mode, and starting tile.}
 
+<<<<<<< HEAD
 @margin-note*{The tiles are numbered from 0 to 8 (0 being the top-left tile).
 The walking modes are: pace, wander, still, and follow.}
 
+=======
+>>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
 To code of this type:
 
 @codeblock{
@@ -524,6 +550,9 @@ To code of this type:
   #:coin-list  (list (custom-coin))
   #:food-list  (list (custom-food #:amount-in-world 10))
   #:npc-list   (list (my-npc)))}
+
+@margin-note*{Teaching Tips: The tiles are numbered from 0 to 8 (0 being the top-left tile).
+The walking modes are: pace, wander, still, and follow.}
 
 @; ------ NPC GOLD
 
@@ -561,9 +590,15 @@ Within five minutes, the student can translate an English sentence of this type:
 
 @italic{Make a game that has an avatar, a coin, a food item, and more than one NPC.}
 
+<<<<<<< HEAD
 To code of this type:
 
 @margin-note*{Any mix of keywords here is okay.}
+=======
+@margin-note*{Teaching Tip: Any mix of keywords here is okay.}
+>>>>>>> 50ec988b0704cf282497f1ec83e84af2326d51cb
+
+To code of this type:
 
 @codeblock{
  #lang ts-game-jam-1
@@ -590,6 +625,109 @@ To code of this type:
   #:npc-list   (list (my-npc-1)
                      (my-npc-2)
                      (my-npc-3)))}
+
+@; ------ CRAFTER KATAS ------ IN PROGRESS
+
+
+@subsection{Crafter Katas - @italic{(Day 5)}}
+
+@(meta-kata) @bold{Paper Crafter Kata} (1 minute.)
+
+@italic{Can recite the amount of points they get from Crafters in their game.}
+
+@itemlist[@item{Crafter points:   
+           @itemlist[@item{Any Crafter within 25 minutes
+                                 @italic{(Sprint Bonus)                @bold{5 points}}}
+                     @item{For each crafting recipe                    @bold{1 point, max 5}}
+                     @item{For each crafting ingredient                @bold{1 point, max 20}}
+                     @item{For each crafting recipe matching theme     @bold{1 point, max 20}}
+                     @item{For each carfting ingredient matching theme @bold{1 point, max 20}}]}]
+
+@; ------ CRAFTER BRONZE
+
+@(recipe-kata) @bold{Bronze Crafter Kata} (5 minutes)
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, a coin, a food item, an NPC, and a crafter.}
+
+To code of this type:
+
+@codeblock{
+ #lang ts-game-jam-1
+
+ (survival-game
+  #:avatar       (custom-avatar)
+  #:coin-list    (list (custom-coin))
+  #:food-list    (list (custom-food #:amount-in-world 10))
+  #:npc-list     (list (custom-npc))
+  #:crafter-list (list (custom-crafter)))}
+
+@; ------ CRAFTER SILVER
+
+@(recipe-kata) @bold{Silver Crafter Kata} (5 minutes)
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, a coin, a food, an NPC, and a crafter that
+makes carrot stew and gives you health.}
+
+To code of this type:
+
+@codeblock{
+ #lang ts-game-jam-1
+
+ (survival-game
+  #:avatar       (custom-avatar)
+  #:coin-list    (list (custom-coin))
+  #:food-list    (list (custom-food #:amount-in-world 10)
+                       (custom-food #:entity (carrot-stew-entity) #:heals-by 50))
+  #:npc-list     (list (custom-npc))
+  #:crafter-list (list (custom-crafter)))}
+
+@; ------ CRAFTER GOLD
+
+@(recipe-kata) @bold{Gold Crafter Kata} (5 minutes)
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, a coin, a food item, an NPC, and ...}
+
+To code of this type:
+
+@codeblock{
+ #lang ts-game-jam-1
+ 
+ (survival-game
+  #:avatar       (custom-avatar)
+  #:coin-list    (list (custom-coin))
+  #:food-list    (list (custom-food #:amount-in-world 10)
+                       (custom-food #:entity (carrot-stew-entity) #:heals-by 50))
+  #:npc-list     (list (custom-npc))
+  #:crafter-list (list (custom-crafter)))}
+
+@; ------ CRAFTER PLATINUM
+
+@(recipe-kata) @bold{Platinum Crafter Kata} (10 minutes)
+
+@margin-note*{Teaching Tip: Remember, there is no number of "required" katas by day.}
+
+Within five minutes, the student can translate an English sentence of this type:
+
+@italic{Make a game that has an avatar, a coin, a food item, an NPC, and ...}
+
+To code of this type:
+
+@codeblock{
+ #lang ts-game-jam-1
+ 
+ (survival-game
+  #:avatar       (custom-avatar)
+  #:coin-list    (list (custom-coin))
+  #:food-list    (list (custom-food #:amount-in-world 10)
+                       (custom-food #:entity (carrot-stew-entity) #:heals-by 50))
+  #:npc-list     (list (custom-npc))
+  #:crafter-list (list (custom-crafter)))}
 
 
 <Katas>
