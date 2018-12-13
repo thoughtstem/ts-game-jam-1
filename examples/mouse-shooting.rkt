@@ -9,6 +9,7 @@
                            (hidden)
                            (on-collide "Bullet" (change-health-by -10))
                            (on-collide "Sword"  (change-health-by -20))
+                           (on-collide "Flame"  (change-health-by -5))
                            (on-start (do-many (respawn 'anywhere)
                                               ;(active-on-random)
                                               show))
@@ -48,6 +49,23 @@
                                (on-start show)
                                (every-tick (change-direction-by 15))
                                (after-time 10 die)))
+
+(define (flame)
+  (sprite->entity (overlay (circle 5 "solid" "yellow")
+                           (circle 6 "solid" "orange")
+                           (circle 7 "solid" "red"))
+                  #:name       "Flame"
+                  #:position   (posn 25 0)
+                  #:components (physical-collider)
+                               (direction 0)
+                               (speed 3)
+                               (rotation-style 'face-direction)
+                               (hidden)
+                               (on-start (do-many (set-size 0.5)
+                                                  show))
+                               (every-tick (do-many (move)
+                                                    (scale-sprite 1.1)))
+                               (after-time 15 die)))
 
 (define (shoot #:bullet [b (custom-bullet)] #:fire-mode [fm 'normal])
   (lambda (g e)
@@ -121,7 +139,8 @@
                  #:key-mode   'wasd
                  #:mouse-aim?  #t
                  #:components (precompiler (custom-bullet)
-                                           (sword))        ;todo: automate this whenever spawn is used
+                                           (sword)
+                                           (flame))        ;todo: automate this whenever spawn is used
                               ;(on-mouse 'left (shoot #:fire-mode 'spread))
                               (storage "Weapon Slot" 1)
                               (on-key 1 (set-storage-named "Weapon Slot" 1))
@@ -129,11 +148,13 @@
                               (on-key 3 (set-storage-named "Weapon Slot" 3))
                               (on-key 4 (set-storage-named "Weapon Slot" 4))
                               (on-key 5 (set-storage-named "Weapon Slot" 5))
-                              (custom-weapon #:slot 1 #:mouse-fire-button 'left #:rapid-fire? #f)
+                              (on-key 6 (set-storage-named "Weapon Slot" 6))
+                              (custom-weapon #:slot 1 #:mouse-fire-button 'left)
                               (custom-weapon #:slot 2 #:mouse-fire-button 'left #:fire-mode 'random #:fire-rate 10)
                               (custom-weapon #:slot 3 #:mouse-fire-button 'left #:fire-mode 'spread #:rapid-fire? #f)
                               (custom-weapon #:slot 4 #:mouse-fire-button 'left #:fire-mode 'homing #:fire-rate 1.5)
                               (custom-weapon #:slot 5 #:mouse-fire-button 'left #:bullet (sword) #:rapid-fire? #f)
+                              (custom-weapon #:slot 6 #:mouse-fire-button 'left #:bullet (flame) #:fire-mode 'random #:fire-rate 30)
                               ))
 
 (survival-game
