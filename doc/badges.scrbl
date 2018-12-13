@@ -309,6 +309,7 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, and more than one coin with a custom
  sprite, name, value, amount in world, and respawn value.}
 
+
 @margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
  all have the required sprite and name, and at least one of them does not respawn.}
 
@@ -523,9 +524,6 @@ To code of this type:
   #:coin-list  (list (custom-coin))
   #:food-list  (list (custom-food #:amount-in-world 10))
   #:npc-list   (list (my-npc)))}
-
-@margin-note*{Teaching Tips: The tiles are numbered from 0 to 8 (0 being the top-left tile).
-The walking modes are: pace, wander, still, and follow.}
 
 @; ------ NPC GOLD
 
