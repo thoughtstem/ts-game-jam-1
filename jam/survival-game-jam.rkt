@@ -231,7 +231,7 @@
     (define heal-amt (get-storage-data "heals-by" f))
     (player-toast-entity (~a "+" heal-amt) #:color "green"))
 
-  (define starvation-period (max 1 (- 100 (min 100 (max 0 sr)))))
+  (define starvation-period (max 1 (- 100 (min 100 sr))))
 
   (define food-img-list (map (λ (f) (render (get-component f animated-sprite?))) f-list))
 
