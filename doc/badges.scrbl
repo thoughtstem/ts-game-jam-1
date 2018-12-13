@@ -9,7 +9,7 @@ Mastery is the key word here.   It is not enough to have simply "been exposed" t
 That is familiarity -- not mastery.
 
 The training program given here is intended to give students mastery over the skills needed
-to excell at the Scholastic Game Jam.
+to excel at the Scholastic Game Jam.
 
 It is also intended to be fun!  Mastery require repetition.  Mastery requires holding oneself
 to high standards.  Sometimes it can be a challenge to keep having fun while pursuing mastery.
@@ -270,14 +270,17 @@ To code of this type:
 
 @(coin-kata) @bold{Gold Coin Kata} (5 minutes)
 
+@margin-note*{Students should run the function (show-coin-sprites) on the interactions window to
+ see a list of coin sprites.}
+
 Within five minutes, the student can translate an English sentence of this type:
 
 @italic{Make a game that has an avatar, and a coin with a custom sprite,
  name, value, and amount in world.}
 
-To code of this type:
+@margin-note*{The order of the keywords does not matter.}
 
-@margin-note*{Teaching Tip: The order of the keywords does not matter.}
+To code of this type:
 
 @codeblock{
  #lang ts-game-jam-1
@@ -292,8 +295,6 @@ To code of this type:
   #:avatar     (custom-avatar)
   #:coin-list  (list (my-coin)))}
 
-@margin-note*{Students should run the function (show-coin-sprites) on the interactions window to
- see a list of coin sprites.}
 
 @; ------ COIN PLATINUM
 
@@ -310,7 +311,7 @@ Within five minutes, the student can translate an English sentence of this type:
 
 To code of this type:
 
-@margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
+@margin-note*{Any mix of keywords here is okay, as long as they
  all have the required sprite and name, and at least one of them does not respawn.}
 
 @codeblock{
@@ -392,6 +393,9 @@ To code of this type:
 
 @(food-kata) @bold{Gold Food Kata} (5 minutes)
 
+@margin-note*{Students should run the function (show-food-sprites) on the interactions window to
+ see a list of food sprites.}
+
 Within five minutes, the student can translate an English sentence of this type:
 
 @italic{Make a game that has an avatar, a coin, and a food item with a custom sprite,
@@ -399,7 +403,7 @@ Within five minutes, the student can translate an English sentence of this type:
 
 To code of this type:
 
-@margin-note*{Teaching Tip: Remember, the order of the keywords does not matter.}
+@margin-note*{Remember, the order of the keywords does not matter.}
 
 @codeblock{
  #lang ts-game-jam-1
@@ -415,8 +419,7 @@ To code of this type:
   #:coin-list  (list (custom-coin))
   #:food-list  (list (my-food)))}
 
-@margin-note*{Students should run the function (show-food-sprites) on the interactions window to
- see a list of food sprites.}
+
 
 @; ------ FOOD PLATINUM
 
@@ -431,7 +434,7 @@ Within five minutes, the student can translate an English sentence of this type:
 
 To code of this type:
 
-@margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
+@margin-note*{Any mix of keywords here is okay, as long as they
  all have the required sprite and name, and at least one of them does not respawn.}
 
 @codeblock{
@@ -503,7 +506,7 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, a coin, a food, and an NPC that has a custom
  name, walking mode, and starting tile.}
 
-@margin-note*{Teaching Tips: The tiles are numbered from 0 to 8 (0 being the top-left tile).
+@margin-note*{The tiles are numbered from 0 to 8 (0 being the top-left tile).
 The walking modes are: pace, wander, still, and follow.}
 
 To code of this type:
@@ -560,7 +563,7 @@ Within five minutes, the student can translate an English sentence of this type:
 
 To code of this type:
 
-@margin-note*{Teaching Tip: Any mix of keywords here is okay.}
+@margin-note*{Any mix of keywords here is okay.}
 
 @codeblock{
  #lang ts-game-jam-1
