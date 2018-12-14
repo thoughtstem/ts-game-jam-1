@@ -16,9 +16,9 @@ to high standards.  Sometimes it can be a challenge to keep having fun while pur
 The following curriculum is intended to keep the road to mastery as fun as possible.
 
 At the end of the day, though, the main ingredient to fun is the energy of the coach.  If you're
-a coach, whether you follow these recommentations or not, keep in mind that if you're excited
+a coach, whether you follow these recommendations or not, keep in mind that if you're excited
 about the Game Jam, your competitors will be too.  If you're excited about your competitors'
-assendency to mastery, they will be too.
+ascendency to mastery, they will be too.
 
 Be loud.  Be proud.  Be a coach.
 
@@ -33,12 +33,12 @@ These katas serve as visual, wearable representations of a competitor's hard wor
 
 Kata key:
 
-@(define (meta-kata)     (circle 10 'solid 'gray))
-@(define (avatar-kata)   (circle 10 'solid 'red))
-@(define (coin-kata)     (circle 10 'solid 'gold))
-@(define (food-kata)     (circle 10 'solid 'orange))
-@(define (npc-kata)      (circle 10 'solid 'green))
-@(define (recipe-kata)   (circle 10 'solid 'blue))
+@(define (meta-kata)     (circle 10 'outline 'black))
+@(define (avatar-kata)   (circle 10 'solid   'orange))
+@(define (coin-kata)     (circle 10 'solid   'green))
+@(define (food-kata)     (circle 10 'solid   'pink))
+@(define (npc-kata)      (circle 10 'solid   'black))
+@(define (crafter-kata)   (circle 10 'solid   'blue))
 
 @(meta-kata)     - @bold{Meta Katas} - for skills related to excelling as a Game Jam competitor.
 
@@ -50,7 +50,7 @@ Kata key:
 
 @(npc-kata)      - @bold{NPC Katas} - for skills related to creating NPCs
 
-@(recipe-kata)   - @bold{Recipe Katas} - for skills related to creating recipes
+@(crafter-kata)   - @bold{Crafter Katas} - for skills related to creating crafters and recipes
 
 
 @; ------ INTRO KATAS
@@ -62,7 +62,7 @@ We recommend students earn these Intro Katas before earning any other ones.
 They help reinforce team values and help orient the competitors toward the
 challenges that face them.
 
-@(meta-kata) @bold{Core Values Kata} (1 minute.)
+@(meta-kata) @bold{Core Values Kata} (1 minute)
 
 @margin-note[#:left? #t "Hand motions can make these easier to remember and repeat. For
              example: 'It's not about my code.' Point to computer. 'It's about
@@ -75,11 +75,11 @@ challenges that face them.
 @italic{Can recite the first two ThoughtSTEM core values}
 
 @itemlist[@item{It's not about my code.     It's about what I can code.}
-          @item{It's not about me.          It's about us.}]
+          @item{It's not about me.          It's about my team.}]
 
 
 
-@(meta-kata) @bold{Game Jam Specs Kata} (1 minute.)
+@(meta-kata) @bold{Game Jam Specs Kata} (1 minute)
 
 @italic{Can recite the specs for the upcoming Game Jam.}
 
@@ -99,7 +99,7 @@ The specs do change from time to time.  (And that in itself is a valuable lesson
 
 
 
-@(meta-kata) @bold{Kata Kata} (1 minute.)
+@(meta-kata) @bold{Kata Kata} (1 minute)
 
 @margin-note*{This kata might be too many "repeat after me" katas. Feel free to share
              the info more informally.}
@@ -130,7 +130,7 @@ To code of this type:
  (circle 80 'solid 'red)}
 
 Note: To award this kata, a student should be able to do the above
-in under 5 minutes.  But doing it once is too easy.  The student should
+in images less than 5 minutes.  But doing it once is too easy.  The student should
 do this multiple times with different shapes: e.g. blue square, green star,
 etc.
 
@@ -142,7 +142,7 @@ etc.
 
 @margin-note*{Teaching Tip: Start class reciting the first two ThoughtSTEM core values.}
 
-@(meta-kata) @bold{Paper Avatar Kata} (1 minute.)
+@(meta-kata) @bold{Paper Avatar Kata} (1 minute)
 
 @italic{Can recite the amount of points they get from an Avatar in their game.}
 
@@ -151,7 +151,7 @@ etc.
 @itemlist[@item{Avatar points:
            @itemlist[@item{Having an avatar              @bold{1 points}}
                      @item{Any avatar within 5 minutes
-                                 @italic{(Sprint Bonus)} @bold{5 points}}
+                                 @italic{(Sprint Bonus) @bold{5 points}}}
                      @item{Avatar animation frame        @bold{1 points}
                                         @itemlist[@item{Maximum 4 animations}]}]}]
 
@@ -219,13 +219,13 @@ To code of this type:
 
 @subsection{Coin Katas - @italic{(Day 3)}}
 
-@(meta-kata) @bold{Paper Coin Kata} (1 minute.)
+@(meta-kata) @bold{Paper Coin Kata} (1 minute)
 
 @italic{Can recite the amount of points they get from coin items in their game.}
 
 @itemlist[@item{Coin points:   
            @itemlist[@item{Each coin item                    @bold{1 point, max 10}}
-                     @item{Any coin within 15 minutes
+                     @item{Any coin within 10 minutes
                                  @italic{(Sprint Bonus)      @bold{5 points}}}
                      @item{For each coin item matching theme @bold{1 point, max 10}}]}]
 
@@ -275,10 +275,10 @@ To code of this type:
 
 Within five minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar, and a coin with a custom sprite,
+@italic{Make a game that has an avatar and a coin with a custom sprite,
  name, value, and amount in world.}
 
-@margin-note*{The order of the keywords does not matter.}
+@margin-note*{Teaching Tip: The order of the keywords does not matter.}
 
 To code of this type:
 
@@ -309,7 +309,8 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, and more than one coin with a custom
  sprite, name, value, amount in world, and respawn value.}
 
-@margin-note*{Any mix of keywords here is okay, as long as they
+
+@margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
  all have the required sprite and name, and at least one of them does not respawn.}
 
 To code of this type:
@@ -322,7 +323,7 @@ To code of this type:
                #:name   "copper coin"))
 
  (define (special-coin)
-  (custon-coin #:sprite          bat-sprite
+  (custom-coin #:sprite          bat-sprite
                #:name            "bat coin"
                #:value           1000
                #:amount-in-world 1
@@ -338,7 +339,7 @@ To code of this type:
 
 @subsection{Food Katas - @italic{(Day 4)}}
 
-@(meta-kata) @bold{Paper Food Kata} (1 minute.)
+@(meta-kata) @bold{Paper Food Kata} (1 minute)
 
 @italic{Can recite the amount of points they get from food items in their game.}
 
@@ -400,7 +401,7 @@ Within five minutes, the student can translate an English sentence of this type:
 @italic{Make a game that has an avatar, a coin, and a food item with a custom sprite,
  name, amount in world, and healing power.}
 
-@margin-note*{Remember, the order of the keywords does not matter.}
+@margin-note*{Teaching Tip: Remember, the order of the keywords does not matter.}
 
 To code of this type:
 
@@ -426,12 +427,12 @@ To code of this type:
 
 @margin-note*{Teaching Tip: Remember, there is no number of "required" katas by day.}
 
-Within five minutes, the student can translate an English sentence of this type:
+Within ten minutes, the student can translate an English sentence of this type:
 
 @italic{Make a game that has an avatar, a coin, and more than one food item with a custom
  sprite, name, amount in world, healing power, and respawn value.}
 
-@margin-note*{Any mix of keywords here is okay, as long as they
+@margin-note*{Teaching Tip: Any mix of keywords here is okay, as long as they
  all have the required sprite and name, and at least one of them does not respawn.}
 
 To code of this type:
@@ -465,7 +466,7 @@ To code of this type:
 
 @margin-note*{Teaching Tip: NPC is short Non-Player Character.}
 
-@(meta-kata) @bold{Paper NPC Kata} (1 minute.)
+@(meta-kata) @bold{Paper NPC Kata} (1 minute)
 
 @italic{Can recite the amount of points they get from NPCs in their game.}
 
@@ -556,11 +557,11 @@ To code of this type:
 
 @margin-note*{Teaching Tip: Remember, there is no number of "required" katas by day.}
 
-Within five minutes, the student can translate an English sentence of this type:
+Within ten minutes, the student can translate an English sentence of this type:
 
 @italic{Make a game that has an avatar, a coin, a food item, and more than one NPC.}
 
-@margin-note*{Any mix of keywords here is okay.}
+@margin-note*{Teaching Tip: Any mix of keywords here is okay.}
 
 To code of this type:
 
@@ -593,23 +594,24 @@ To code of this type:
 @; ------ CRAFTER KATAS ------ IN PROGRESS
 
 
-@subsection{Crafter Katas - @italic{(Day 5)}}
+@subsection{Crafter Katas - @italic{(Day 6)}}
 
-@(meta-kata) @bold{Paper Crafter Kata} (1 minute.)
+@(meta-kata) @bold{Paper Crafter Kata} (1 minute)
 
 @italic{Can recite the amount of points they get from Crafters in their game.}
 
 @itemlist[@item{Crafter points:   
-           @itemlist[@item{Any Crafter within 25 minutes
+           @itemlist[@item{Each Crafter                                @bold{1 point, max 3}}
+                     @item{Any Crafter within 25 minutes
                                  @italic{(Sprint Bonus)                @bold{5 points}}}
                      @item{For each crafting recipe                    @bold{1 point, max 5}}
                      @item{For each crafting ingredient                @bold{1 point, max 20}}
                      @item{For each crafting recipe matching theme     @bold{1 point, max 20}}
-                     @item{For each carfting ingredient matching theme @bold{1 point, max 20}}]}]
+                     @item{For each crafting ingredient matching theme @bold{1 point, max 20}}]}]
 
 @; ------ CRAFTER BRONZE
 
-@(recipe-kata) @bold{Bronze Crafter Kata} (5 minutes)
+@(crafter-kata) @bold{Bronze Crafter Kata} (5 minutes)
 
 Within five minutes, the student can translate an English sentence of this type:
 
@@ -629,108 +631,207 @@ To code of this type:
 
 @; ------ CRAFTER SILVER
 
-@(recipe-kata) @bold{Silver Crafter Kata} (5 minutes)
+@(crafter-kata) @bold{Silver Crafter Kata} (10 minutes)
 
-Within five minutes, the student can translate an English sentence of this type:
+Within ten minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar, a coin, a food, an NPC, and a crafter that
-makes carrot stew and gives you health.}
+@italic{Make a game that has an avatar, a coin, an NPC, a crafter, a carrot, and
+ new food item that has a custom sprite, name, healing power, and 1 in the world.}
 
 To code of this type:
 
 @codeblock{
  #lang ts-game-jam-1
 
+ (define (carrot-cake)
+  (custom-food #:sprite          (rectangle 40 20 "solid" "brown")
+               #:name            "Carrot Cake"
+               #:heals-by        25
+               #:amount-in-world 1))
+
  (survival-game
   #:avatar       (custom-avatar)
   #:coin-list    (list (custom-coin))
   #:food-list    (list (custom-food #:amount-in-world 10)
-                       (custom-food #:entity (carrot-stew-entity) #:heals-by 50))
+                       (carrot-cake))
   #:npc-list     (list (custom-npc))
   #:crafter-list (list (custom-crafter)))}
 
 @; ------ CRAFTER GOLD
 
-@(recipe-kata) @bold{Gold Crafter Kata} (5 minutes)
+@(crafter-kata) @bold{Gold Crafter Kata} (15 minutes)
 
-Within five minutes, the student can translate an English sentence of this type:
+Within fifteen minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar, a coin, a food item, an NPC, and ...}
+@italic{Make a game that has an avatar, a coin, an NPC, a crafter, a carrot, and
+ new food item that has: a custom sprite, name, and healing power, a custom recipe,
+ and a crafter that uses this recipe.}
 
 To code of this type:
 
 @codeblock{
- #lang ts-game-jam-1
- 
- (survival-game
-  #:avatar       (custom-avatar)
-  #:coin-list    (list (custom-coin))
-  #:food-list    (list (custom-food #:amount-in-world 10)
-                       (custom-food #:entity (carrot-stew-entity) #:heals-by 50))
-  #:npc-list     (list (custom-npc))
-  #:crafter-list (list (custom-crafter)))}
+#lang ts-game-jam-1
+
+(define (carrot-cake)
+  (custom-food #:sprite   (rectangle 40 20 "solid" "brown")
+               #:name     "Carrot Cake"
+               #:heals-by 25))
+
+(define carrot-cake-recipe
+  (recipe #:product     (carrot-cake)
+          #:build-time  5
+          #:ingredients (list "Carrot")
+         ))
+
+(define (my-oven)
+  (custom-crafter #:menu (crafting-menu-set! #:recipes carrot-cake-recipe))) 
+
+(survival-game
+ #:avatar       (custom-avatar)
+ #:coin-list    (list (custom-coin))
+ #:food-list    (list (custom-food #:amount-in-world 10)
+                      (carrot-cake))
+ #:npc-list     (list (custom-npc))
+ #:crafter-list (list (my-oven)))}
 
 @; ------ CRAFTER PLATINUM
 
-@(recipe-kata) @bold{Platinum Crafter Kata} (10 minutes)
+@(crafter-kata) @bold{Platinum Crafter Kata} (15 minutes)
 
 @margin-note*{Teaching Tip: Remember, there is no number of "required" katas by day.}
 
-Within five minutes, the student can translate an English sentence of this type:
+Within fifteen minutes, the student can translate an English sentence of this type:
 
-@italic{Make a game that has an avatar, a coin, a food item, an NPC, and ...}
+@italic{Make a game that has an avatar, a coin, an NPC, two food items with their two
+ recipes and a custom crafter that uses these recipes.}
 
 To code of this type:
 
 @codeblock{
+#lang ts-game-jam-1
+
+(define (carrot-cake)
+  (custom-food #:sprite   (rectangle 40 20 "solid" "brown")
+               #:name     "Carrot Cake"
+               #:heals-by 25))
+
+(define carrot-cake-recipe
+  (recipe #:product     (carrot-cake)
+          #:build-time  5
+          #:ingredients (list "Carrot")
+         ))
+
+(define (carrot-cupcake)
+  (custom-food #:sprite   (square 10 "solid" "brown")
+               #:name     "Carrot Cupcake"
+               #:heals-by 15))
+
+(define carrot-cupcake-recipe
+  (recipe #:product     (carrot-cupcake)
+          #:build-time  10
+          #:ingredients (list "Carrot Cake")
+         ))
+
+(define (my-oven)
+  (custom-crafter #:menu (crafting-menu-set! #:recipes carrot-cake-recipe
+                                                       carrot-cupcake-recipe))) 
+
+(survival-game
+ #:avatar       (custom-avatar)
+ #:coin-list    (list (custom-coin))
+ #:food-list    (list (custom-food #:amount-in-world 10)
+                      (carrot-cake))
+ #:npc-list     (list (custom-npc))
+ #:crafter-list (list (my-oven)))}
+
+
+@; ------ PRACTICE JAM
+
+@subsection{Practice Game Jam Katas - @italic{(Day 7)}}
+
+@(meta-kata) @bold{Paper Practice Kata} (25 minutes)
+
+@margin-note*{Teaching Tip: Students should start coding this first and then they can customize it}
+
+@italic{Can code a simple survival game in under 25 minutes.}
+
+@codeblock{
  #lang ts-game-jam-1
- 
+
  (survival-game
   #:avatar       (custom-avatar)
   #:coin-list    (list (custom-coin))
-  #:food-list    (list (custom-food #:amount-in-world 10)
-                       (custom-food #:entity (carrot-stew-entity) #:heals-by 50))
+  #:food-list    (list (custom-food #:amount-in-world 10))
   #:npc-list     (list (custom-npc))
   #:crafter-list (list (custom-crafter)))}
 
+If they complete this in less than 25 minutes during game jam they would
+earn the following number of points:
 
-<Katas>
+@itemlist[@item{Avatar  @bold{+1} Having an avatar 
+                        @bold{+5} in less than 5 minutes 
+                        @bold{= 6 points.}} 
+          @item{Coin    @bold{+1} Having a coin 
+                        @bold{+5} in less than 10 minutes  
+                        @bold{= 6 points.}} 
+          @item{Food    @bold{+1} Having a food item 
+                        @bold{+5} in less than 15 minutes
+                        @bold{= 6 points.}} 
+          @item{NPC     @bold{+1} Having an NPC  
+                        @bold{+5} in less than 20 minutes
+                        @bold{= 6 points.}} 
+          @item{Crafter @bold{+1} Having a crafter 
+                        @bold{+5} in less than 25 minutes
+                        @bold{= 6 points.}}]
 
-NPC:      5 minutes, 2.5 minutes
+@; ------ CUSTOMIZE AVATAR
 
-Recipes:  5 minutes, 2.5 minutes
+@(avatar-kata) @bold{Avatar Practice Kata}
 
+@italic{Can add a custom avatar.}
 
-<Sprint Badges>
+@(define (color-circles) (bitmap "images/color-circles.png"))
 
-Under 5 minutes:  avatar + Food
+@codeblock{#lang ts-game-jam-1}
+@racketblock[
+ (define (my-avatar)
+   (custom-avatar #:sprite (sheet->sprite #,(color-circles)
+                                          #:columns 4)))
+ 
+ (survival-game
+  #:avatar       (my-avatar)
+  #:coin-list    (list (custom-coin))
+  #:food-list    (list (custom-food #:amount-in-world 10))
+  #:npc-list     (list (custom-npc))
+  #:crafter-list (list (custom-crafter)))]
 
-Under 10 minutes: avatar + Food + Coin
+@; ------ CUSTOMIZE COIN
 
-Under 15 minutes: avatar + Food + Coin + NPC
+@(coin-kata) @bold{Coin Practice Kata}
 
-Under 15 minutes: avatar + Food + Coin + NPC + Recipe
+@italic{Can add custom coins.}
 
+@; ------ CUSTOMIZE FOOD
 
-<x10 Badges>
+@(food-kata) @bold{Food Practice Kata}
 
-Under 5 minutes:  10 different NPCs
+@italic{Can add a custom food items.}
 
-Under 5 minutes:  10 different Coin Items
+@; ------ CUSTOMIZE NPC
 
-Under 5 minutes:  10 different Food Items
+@(npc-kata) @bold{NPC Practice Kata}
 
-Under 5 minutes:  10 different Recipes
+@italic{Can add custom NPCs.}
 
-Under 10 minutes: 10 different Recipes in a tree
+@; ------ CUSTOMIZE CRAFTER
 
+@(crafter-kata) @bold{Crafter Practice Kata}
 
-Note that these badges must be "refreshed".
-You don't get to keep them if you're not practicing...
+@italic{Can add custom crafters.}
 
-@subsection{Collaboration Badges}
+@subsection{Collaboration Katas}
 
-<Teaching badges>
+<Teaching Katas>
 
 * A badge for how you help someone else earn a badge.
 
@@ -741,9 +842,9 @@ earned the teaching badge, you can get a badge for helping
 someone earn a badge.
 
 
-@subsection{Competition Badges}
+@subsection{Competition Katas}
 
-<Practice Jam Badges>
+<Practice Jam Katas>
 
 Do a 1 hour game jam.
 Do a 1 hour game jam.  Get __ points.
