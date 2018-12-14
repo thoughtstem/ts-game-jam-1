@@ -91,7 +91,9 @@
      
 ; ==== NEW HELPER SYSTEMS ====
 (define (entity-cloner entity amount)
-  (map (thunk* entity) (range amount)))
+  (map (thunk*
+        (if (procedure? entity) (entity) entity ))
+       (range amount)))
 
 ; ==== BORDERLANDS STYLE POP UPS =====
 ; todo: add to game-engine?
