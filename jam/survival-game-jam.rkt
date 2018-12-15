@@ -248,7 +248,7 @@
     (~> e
         (update-entity _ posn? (posn 100 20))
         (add-components _
-                        (precompiler (player-toast-entity "-1" #:color "red"))
+                        (precompiler (player-toast-entity "-1" #:color "orangered"))
                         (apply precompiler (map food->toast-entity f-list))
                         (apply precompiler f-list)
                        ; (precompiler all-backpack-stacks)
