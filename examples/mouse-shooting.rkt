@@ -170,9 +170,15 @@
                                (or/r (λ (g e) (eq? slot #f))
                                      (weapon-slot? slot)))))
   (cond
-    [(eq? rf?    #t) (do-every fire-interval #:rule fire-rule (shoot #:bullet b #:fire-mode fm))]
-    [(not button) (on-key   key    #:rule fire-rule (shoot #:bullet b #:fire-mode fm))]
-    [else         (on-mouse button #:rule fire-rule (shoot #:bullet b #:fire-mode fm))]))
+    [(eq? rf?    #t) (if button
+                         (do-every fire-interval #:rule fire-rule (shoot #:bullet (add-components b (on-start #:rule mouse-in-game? point-to-mouse))
+                                                                         #:fire-mode fm))
+                         (do-every fire-interval #:rule fire-rule (shoot #:bullet b
+                                                                         #:fire-mode fm)))]
+    [(not button) (on-key   key    #:rule fire-rule (shoot #:bullet b
+                                                           #:fire-mode fm))]
+    [else         (on-mouse button #:rule fire-rule (shoot #:bullet (add-components b (on-start #:rule mouse-in-game? point-to-mouse))
+                                                           #:fire-mode fm))]))
 
 (define (my-avatar)
   (custom-avatar #:sprite     (row->sprite (random-character-row) #:delay 4)
