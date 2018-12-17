@@ -75,7 +75,7 @@ challenges that face them.
 @italic{Can recite the first two ThoughtSTEM core values}
 
 @itemlist[@item{It's not about my code.     It's about what I can code.}
-          @item{It's not about me.          It's about us.}]
+          @item{It's not about me.          It's about my team.}]
 
 
 
