@@ -25,6 +25,7 @@
                   #:position   (posn 20 0)
                   #:components (physical-collider)
                                (direction 0)
+                               (active-on-bg 0)
                                (damager 10)
                                (rotation-style 'face-direction)
                                (hidden)
@@ -93,14 +94,21 @@
                   #:position   (posn 0 0)
                   #:components (physical-collider)
                                (direction 0)
-                               ;(static)
+                               (static)
+                               (active-on-bg 0)
+                               (on-collide "Wall" die)
                                (after-time 2 lock-to-grid)))
 
 
 (define (wall-bullet)
+
+  ;on-start
+  ;  capture mouse position
+  ;  do some logic later based distance traveled, nearness to captured mouse position...
+  
   (add-components (custom-bullet)
                   (after-time 1 (do-many
-                                 (spawn (wall))
+                                 (spawn-on-current-tile (wall))
                                  (do-after-time 1 die)))
                   ;(after-time 5 die)
                   ))
@@ -109,14 +117,14 @@
 
 (define (shoot #:bullet [b (custom-bullet)] #:fire-mode [fm 'normal])
   (lambda (g e)
-    ((cond [(eq? fm 'normal) (spawn b)]
+    ((cond [(eq? fm 'normal) (spawn-on-current-tile b)]
            [(eq? fm 'homing) (let ([homing-bullet (~> b
                                                       (update-entity  _ speed? (speed 5))
                                                       (add-components _ (follow "Enemy")
                                                                         (after-time 1000 die)))])
-                               (spawn homing-bullet))]
+                               (spawn-on-current-tile homing-bullet))]
            [(eq? fm 'random) (let ([random-bullet (add-components b (on-start (change-direction-by-random -15 15)))])
-                               (spawn random-bullet))]
+                               (spawn-on-current-tile random-bullet))]
            [(eq? fm 'spread) (let ([top-bullet    (~> b
                                                       (update-entity  _ speed? (speed 20))
                                                       (add-components _ (on-start (change-direction-by -10))
@@ -128,12 +136,12 @@
                                                       (update-entity  _ speed? (speed 20))
                                                       (add-components b (on-start (change-direction-by 10))
                                                                     (after-time 10 die)))])
-                               (do-many (spawn top-bullet)
-                                        (spawn middle-bullet)
-                                        (spawn bottom-bullet)
-                                        (spawn top-bullet)
-                                        (spawn middle-bullet)
-                                        (spawn bottom-bullet)))]) g e)))
+                               (do-many (spawn-on-current-tile top-bullet)
+                                        (spawn-on-current-tile middle-bullet)
+                                        (spawn-on-current-tile bottom-bullet)
+                                        (spawn-on-current-tile top-bullet)
+                                        (spawn-on-current-tile middle-bullet)
+                                        (spawn-on-current-tile bottom-bullet)))]) g e)))
 
 (define (mouse-button-is-down? button)
   (lambda (g e)
@@ -182,6 +190,8 @@
                                            (sword)
                                            (flame))        ;todo: automate this whenever spawn is used
                               ;(on-mouse 'left (shoot #:fire-mode 'spread))
+                 
+                 
                               (storage "Weapon Slot" 1)
                               (on-key 1 (set-storage-named "Weapon Slot" 1))
                               (on-key 2 (set-storage-named "Weapon Slot" 2))
@@ -196,7 +206,7 @@
                               (custom-weapon #:slot 4 #:mouse-fire-button 'left #:fire-mode 'homing #:fire-rate 1.5)
                               (custom-weapon #:slot 5 #:mouse-fire-button 'left #:bullet (sword) #:rapid-fire? #f)
                               (custom-weapon #:slot 6 #:mouse-fire-button 'left #:bullet (flame) #:fire-mode 'random #:fire-rate 30)
-                              (custom-weapon #:slot 7 #:mouse-fire-button 'left #:bullet (wall-bullet) #:fire-rate 30)
+                              (custom-weapon #:slot 7 #:mouse-fire-button 'left #:bullet (wall-bullet) #:rapid-fire? #f)
                               
 
                               ))
