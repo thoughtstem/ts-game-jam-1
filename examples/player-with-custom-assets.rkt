@@ -8,7 +8,9 @@
                  #:position (posn 400 300)))
 
 (define (rare-gold-coin-entity)
-  (custom-coin #:sprite (scale 1.5 GOLD-COIN-SHEET)
+  (custom-coin #:sprite (sheet->sprite (scale 1.5 GOLD-COIN-SHEET)
+                                       #:columns 8
+                                       #:delay  4)
                #:name            "Rare Gold Coin"
                #:respawn?        #f
                #:value           500

@@ -1,15 +1,13 @@
 #lang ts-game-jam-1
 
-; ==== GENERIC FUNCTIONS ====
-; todo: add to game-engine or ts-fornite-game-jam?
-
-(define (tower-bullet)
+(define (rocket-bullet)
   (custom-bullet #:position (posn 0 -70)
                  #:sprite   (scale 0.5 (beside (rotate 90 (triangle 6 "solid" "orange"))
                                                (rectangle 5 10 "solid" "gray")
                                                (rectangle 16 6 "solid" "gray")
                                                (rotate -90 (triangle 12 "solid" "red"))))
                  #:damage 200
+                 #:range 400
                  #:durability 30))
 
 (define (active-on-current g e)
@@ -33,44 +31,29 @@
                            )))
 
 (define (sword)
-  (sprite->entity (rotate 90 (overlay/offset
-                              (overlay/offset (rectangle 30 4 "solid" "gray")
-                                              -8 0
-                                              (rectangle 4 10 "solid" "darkgray"))
-                              -30 0
-                              (rectangle 30 10 "solid" "transparent")))
-                  #:name       "Sword"
-                  #:position   (posn 10 0)
-                  #:components (physical-collider)
-                               (direction 270)
-                               (damager 50)
-                               (rotation-style 'face-direction)
-                               (hidden)
-                               (on-start show)
-                               (every-tick (change-direction-by 15))
-                               (after-time 10 die)))
+  (custom-bullet #:position (posn 10 0)
+                 #:sprite   (rotate 90 (overlay/offset
+                                        (overlay/offset (rectangle 30 4 "solid" "gray")
+                                                        -8 0
+                                                        (rectangle 4 10 "solid" "darkgray"))
+                                        -30 0
+                                        (rectangle 30 10 "solid" "transparent")))
+                 #:damage 50
+                 #:speed  0
+                 #:range  10
+                 #:components (every-tick (change-direction-by 15))))
 
 (define (flame)
-  (combatant #:damage-processor (damage-processor process-bullet)
-             #:stats (list (make-stat-config 'durability 5 (no-progress-bar)))
-             (sprite->entity (overlay (circle 5 "solid" "yellow")
-                           (circle 6 "solid" "orange")
-                           (circle 7 "solid" "red"))
-                  #:name       "Flame"
-                  #:position   (posn 25 0)
-                  #:components (physical-collider)
-                               (direction 0)
-                               (damager 5)
-                               (on-rule (λ(g e)
-                                          (<= (get-storage-data "durability-stat" e) 0)) die)
-                               (speed 3)
-                               (rotation-style 'face-direction)
-                               (hidden)
-                               (on-start (do-many (set-size 0.5)
-                                                  show))
-                               (every-tick (do-many (move)
-                                                    (scale-sprite 1.1)))
-                               (after-time 15 die))))
+  (custom-bullet #:position   (posn 25 0)
+                 #:sprite     (overlay (circle 5 "solid" "yellow")
+                                       (circle 6 "solid" "orange")
+                                       (circle 7 "solid" "red"))
+                 #:damage     5
+                 #:durability 5
+                 #:speed      3
+                 #:range      15
+                 #:components (on-start (set-size 0.5))
+                              (every-tick (scale-sprite 1.1))))
 
 (define (rocket-tower)
   (define size 50)
@@ -100,7 +83,7 @@
   
   (precompile! tower-base
                tower-top
-               (tower-bullet))
+               (rocket-bullet))
 
   (define tower-top-entity
     (sprite->entity tower-top
@@ -122,7 +105,7 @@
                                                   (spawn tower-top-entity)))
                                (every-tick (point-to "Enemy"))
                                (weapon->turret
-                                (custom-weapon #:bullet (tower-bullet)
+                                (custom-weapon #:bullet (rocket-bullet)
                                                #:fire-mode 'homing
                                                #:fire-rate 5))))
                                
