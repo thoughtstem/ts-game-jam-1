@@ -1,4 +1,4 @@
-#lang ts-fortnite-2d
+#lang ts-game-jam-1
 
 ; ======= FORTNITE MELEE =======
 #;(define (my-sword-bullet)
@@ -26,7 +26,7 @@
                                   #:key-mode    'wasd
                                   #:mouse-aim?  #t
                                   #:weapon-slots 3)
- #:enemy-list      (list (custom-enemy ;#:sprite (row->sprite (random-character-row))
+ #:enemy-list      (list (custom-enemy #:sprite (row->sprite (random-character-row))
                                        #:amount-in-world 10
                                        #:ai 'easy
                                        #:weapon (heavy-repeater)
@@ -46,8 +46,8 @@
                                         #:bullet (spear-bullet)
                                         #:rapid-fire? #f
                                         #:rarity 'uncommon)
-                         (custom-weapon #:sprite fire-magic
-                                        #:bullet (fire-magic-bullet)
+                         (custom-weapon #:sprite axe-sprite
+                                        #:bullet (axe-bullet)
                                         #:rapid-fire? #f
                                         #:rarity 'rare)
                          (custom-weapon #:sprite    laserblade-sprite
