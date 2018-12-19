@@ -7,8 +7,8 @@
                                                (rectangle 16 6 "solid" "gray")
                                                (rotate -90 (triangle 12 "solid" "red"))))
                  #:damage 200
-                 #:range 100
-                 #:durability 10))
+                 #:range 400
+                 #:durability 30))
 
 (define (active-on-current g e)
   (add-components e (active-on-bg (game->current-tile g))))
@@ -41,7 +41,6 @@
                  #:damage 50
                  #:speed  0
                  #:range  10
-                 #:durability 40
                  #:components (every-tick (change-direction-by 15))))
 
 (define (random-sword)
@@ -55,7 +54,6 @@
                  #:damage 10
                  #:speed  2
                  #:range  40
-                 #:durability 20
                  #:components (on-start (do-many (set-size 0.5)))
                               (do-every 10 (random-direction 0 360))))
 
@@ -65,7 +63,7 @@
                                        (circle 6 "solid" "orange")
                                        (circle 7 "solid" "red"))
                  #:damage     5
-                 #:durability 20
+                 #:durability 5
                  #:speed      3
                  #:range      15
                  #:components (on-start   (set-size 0.5))
@@ -81,8 +79,7 @@
                  #:speed      10
                  #:range      36
                  #:components (on-start (set-size 0.5))
-                              (every-tick (do-many (scale-sprite 1.05)
-                                                   (change-direction-by 10)))))
+                              (every-tick (change-direction-by 10))))
 
 (define (rocket-tower)
   (define size 50)
@@ -167,16 +164,73 @@
                               (custom-weapon #:slot 3 #:mouse-fire-button 'left #:fire-mode 'spread #:rapid-fire? #f)
                               (custom-weapon #:slot 4 #:mouse-fire-button 'left #:fire-mode 'homing #:fire-rate 1.5)
                               (custom-weapon #:slot 5 #:mouse-fire-button 'left #:fire-mode 'spread #:bullet (random-sword) #:fire-rate 2)
-                              (custom-weapon #:slot 6 #:mouse-fire-button 'left #:bullet (circle-flame) #:fire-mode 'random #:fire-rate 30)
+                              (custom-weapon #:slot 6 #:mouse-fire-button 'left #:bullet (circle-flame) #:fire-mode 'normal #:fire-rate 30)
                               (custom-weapon #:slot 7 #:mouse-fire-button 'left #:bullet (port-a-tower) #:rapid-fire? #f)
                               ))
 
-(survival-game
+(define (custom-weapon-entity #:name        [n "Weapon"]
+                              #:sprite      [s chest-sprite]
+                              #:bullet      [b (custom-bullet)]
+                              #:fire-mode   [fm 'normal]
+                              #:fire-rate   [fr 3]
+                              #:fire-key    [key 'f]
+                              #:mouse-fire-button [button #f]
+                              #:rapid-fire?       [rf? #t])
+  (define weapon-component (custom-weapon #:bullet b
+                                          #:fire-mode fm
+                                          #:fire-rate fr
+                                          #:fire-key  key
+                                          #:mouse-fire-button button
+                                          #:rapid-fire? rf?
+                                          #:rule (and/r (weapon-is? n)
+                                                        (in-backpack? n))))
+  (sprite->entity s
+                  #:name n
+                  #:position    (posn 0 0)
+                  #:components  (active-on-bg 0)
+                                (physical-collider)
+                                (storage "Weapon" weapon-component)
+                                (static)
+                                (hidden)
+                                (on-start (do-many (respawn 'anywhere)
+                                                   (active-on-random)
+                                                   show))
+                                (storable)))
+
+(define (fortnite2d-game #:bg             [bg-ent (custom-background)]
+                         #:avatar         [p (custom-avatar)]
+                         #:enemy-list     [e-list (list (entity-cloner enemy-npc 2))]
+                         #:weapon-list    [weapon-list '()]
+                         #:other-entities [ent #f]
+                                          . custom-entities)
+
+  (define (weapon-entity->player-system e)
+    (get-storage-data "Weapon" e))
+    
+  (define player-with-weapons
+    (add-components p (weapon-selector #:slots 3)
+                      (map weapon-entity->player-system weapon-list)))
+  
+  (survival-game
+   #:bg              bg-ent
+   #:avatar          player-with-weapons
+   #:starvation-rate -1000
+   #:npc-list        (list (entity-cloner enemy-npc 2))
+   #:other-entities  (pine-tree (posn 100 100) #:tile 0 #:components (damager 4 (list 'passive)))
+                     (pine-tree (posn 200 100) #:tile 0 #:components (damager 4 (list 'passive)))
+                     (pine-tree (posn 300 100) #:tile 0 #:components (damager 4 (list 'passive)))
+
+                     (map (λ (w) (entity-cloner w 3)) weapon-list)
+
+                     e-list
+
+                     (cons ent custom-entities)))
+
+(fortnite2d-game
  #:bg              (custom-background)
- #:avatar          (my-avatar)
- #:starvation-rate -1000
- #:npc-list        (list (entity-cloner enemy-npc 2))
- #:other-entities  (pine-tree (posn 100 100) #:tile 0 #:components (damager 10 (list 'passive)))
-                   (pine-tree (posn 200 100) #:tile 0 #:components (damager 10 (list 'passive)))
-                   (pine-tree (posn 300 100) #:tile 0 #:components (damager 10 (list 'passive))))
+ #:avatar          (custom-avatar #:sprite      (row->sprite (random-character-row))
+                                  #:key-mode    'wasd
+                                  #:mouse-aim?  #t)
+ #:weapon-list     (list (custom-weapon-entity #:name "Light Repeater" #:mouse-fire-button 'left #:fire-mode 'random #:fire-rate 10)
+                         (custom-weapon-entity #:name "Spread Shot"    #:mouse-fire-button 'left #:fire-mode 'spread #:rapid-fire? #f)))
 
