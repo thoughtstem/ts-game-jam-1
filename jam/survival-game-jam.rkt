@@ -139,7 +139,8 @@
   #f)
 
 (define (lost? g e)
-  (health-is-zero? g e))
+  (and e
+       (health-is-zero? g e)))
     
 (define (food->component f #:use-key [use-key 'space] #:max-health [max-health 100])
   (define item-name (get-name f))
@@ -364,6 +365,7 @@
                     #:sound      [sound #t]
                     #:scale      [scale 1]
                     #:components [c #f] . custom-components )
+  
   (define dialog
     (if (not d)
         (dialog->sprites (first (shuffle (list (list "Hello.")
@@ -382,9 +384,11 @@
                                       #:game-width GAME-WIDTH
                                       #:animated #t
                                       #:speed 4))))
+  
   (define sprite (if (image? s)
                      (new-sprite s)
                      s))
+  
   (create-npc #:sprite      sprite
               #:name        name
               #:position    p

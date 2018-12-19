@@ -17,18 +17,18 @@
 (define (enemy-npc)
   (combatant #:damage-processor (divert-damage #:filter-out 'passive)
              (custom-npc #:name "Enemy"
-              #:position (posn 400 300)
-              #:mode 'wander
-              #:components ;(health 100)
-                           (on-rule (λ(g e)
+                         #:position (posn 400 300)
+                         #:mode 'wander
+                         #:components ;(health 100)
+                         (on-rule (λ(g e)
                                     (<= (get-storage-data "health-stat" e) 0)) die)
-                           (damager 10 (list 'passive))
-                           (movable)
-                           (hidden)
-                           (on-start (do-many (respawn 'anywhere)
-                                              ;(active-on-random)
-                                              show))
-                           )))
+                         (damager 10 (list 'passive))
+                         (movable)
+                         (hidden)
+                         (on-start (do-many (respawn 'anywhere)
+                                            ;(active-on-random)
+                                            show))
+                         )))
 
 (define (sword)
   (custom-bullet #:position (posn 10 0)
@@ -108,9 +108,11 @@
                                 (custom-weapon #:bullet (rocket-bullet)
                                                #:fire-mode 'homing
                                                #:fire-rate 5))))
-                               
+
+
 (define (port-a-tower)
   (precompile! (circle 10 "solid" "blue"))
+  
   (sprite->entity (circle 10 "solid" "blue")
                   #:name       "Port-A-Tower"
                   #:position   (posn 20 0)
@@ -121,7 +123,7 @@
                                (hidden)
                                (on-start show)
                                (every-tick (move))
-                               (after-time 30 (do-many (spawn (rocket-tower))
+                               (after-time 30 (do-many (spawn-on-current-tile rocket-tower)
                                                        (do-after-time 1 die)))))
 
 (define (my-avatar)

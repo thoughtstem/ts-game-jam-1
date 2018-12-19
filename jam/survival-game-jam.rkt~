@@ -2,12 +2,16 @@
 
 (provide survival-game
          random-character-row
-         food
+         ;food
+         ;coin
          crafting-menu-set!
          custom-avatar
          custom-crafter
          custom-npc
-         custom-background)
+         custom-background
+         custom-coin
+         custom-food
+         entity-cloner)
 
 (require game-engine
          game-engine-demos-common)
@@ -21,18 +25,17 @@
       body ...)))
 
 
-; ==== BACKDROP COMPONENT ====
-; Converts a single bg image to a list of bg tiles
-(define (plain-backdrop)
-  (bg->backdrop #;(rectangle (* 3 480) (* 3 360) 'solid 'darkgreen)
-                (rectangle (* 1 480) (* 1 360) 'solid 'darkgreen) 
-                #:rows       3
-                #:columns    3
-                #:start-tile 0))
+(define (WIDTH)       480)
+(define (HEIGHT)      360)
+(define (TOTAL-TILES) 9)
 
-(define (WIDTH)       (backdrop-width  (plain-backdrop)))
-(define (HEIGHT)      (backdrop-height (plain-backdrop)))
-(define (TOTAL-TILES) (backdrop-length (plain-backdrop)))
+; === ENTITY DEFINITIONS ===
+(define (plain-bg-entity)
+  (bg->backdrop-entity (rectangle 48 36 ;Can even be smaller...
+                                  'solid 'darkgreen) 
+                       #:scale 30))
+
+
 
 
 ; === GAME DIALOG ===
@@ -55,57 +58,42 @@
                             #:animated #t
                             #:speed 4))
 
-; === ENTITY DEFINITIONS ===
-(define (plain-bg-entity)
-  (sprite->entity (render-tile (plain-backdrop))
-                  #:name     "bg"
-                  #:position   (posn 0 0)
-                  #:components (static)
-                               (plain-backdrop)
-                               (precompiler
-                                (backdrop-tiles (first (plain-backdrop))))))
-
 
 
 (define (instructions-entity)
-  (sprite->entity (draw-title (~a "Use ARROW KEYS to move.\n"
-                                  "Press SPACE BAR to interact.\n"
-                                  "Press ENTER to select or close dialog.\n"
-                                  "Press I to open these instructions.\n"
-                                  "Press Z to pick up items.\n"
-                                  "Press X to drop items."))
-                  #:position   (posn (/ (WIDTH) 2) (/ (HEIGHT) 2))
-                  #:name       "instructions"
-                  #:components (layer "ui")
-                               (on-key 'enter die)
-                               (on-key 'space die)
-                               (on-key "i" die)
-                               ))
+  (define bg (new-sprite (rectangle 1 1 'solid (make-color 0 0 0 100))))
+  
+  (define i
+    (sprite->entity (~> bg
+                        (set-x-scale 260 _)
+                        (set-y-scale 150 _)
+                        (set-y-offset 60 _))
+                    #:position   (posn (/ (WIDTH) 2) 50)
+                    #:name       "instructions"
+                    #:components (layer "ui")
+                    (on-key 'enter die)
+                    (on-key 'space die)
+                    (on-key "i" die)))
 
-(define (score-entity)
-  (sprite->entity (draw-dialog "Gold: 0")
-                  #:name       "score"
-                  #:position   (posn 380 20)
-                  #:components (static)
-                               (counter 0)
-                               (layer "ui")
-                               (precompiler (player-toast-entity "+10 GOLD"))
-                               (apply precompiler (map (λ (num) (draw-dialog (~a "Gold: " num))) (range 0 1001 10)))
-                               (on-key 'space #:rule (player-is-near? "Coin") (do-many (change-counter-by 10)
-                                                                                       (draw-counter-rpg #:prefix "Gold: ")
-                                                                                       (spawn (player-toast-entity "+10 GOLD"))))
-                               ))
-
-
-                               
-
-
+  (add-components i
+                  (new-sprite "ARROW KEYS to move"
+                              #:y-offset 0 #:color 'yellow)
+                  (new-sprite "SPACE BAR to interact"
+                              #:y-offset 20 #:color 'yellow)
+                  (new-sprite "ENTER to select or close dialog"
+                              #:y-offset 40 #:color 'yellow)
+                  (new-sprite "I to open these instructions"
+                              #:y-offset 60 #:color 'yellow)
+                  (new-sprite "Z to pick up items"
+                              #:y-offset 80 #:color 'yellow)
+                  (new-sprite "X to drop items"
+                              #:y-offset 100 #:color 'yellow)))
+     
 ; ==== NEW HELPER SYSTEMS ====
-; todo: add to game-engine?
-(define (consumable) (on-key 'space #:rule (near? "player") die)) ;health entity also needs a check when consumed.
-
 (define (entity-cloner entity amount)
-  (map (thunk* entity) (range amount)))
+  (map (thunk*
+        (if (procedure? entity) (entity) entity ))
+       (range amount)))
 
 ; ==== BORDERLANDS STYLE POP UPS =====
 ; todo: add to game-engine?
@@ -152,17 +140,41 @@
 
 (define (lost? g e)
   (health-is-zero? g e))
-                
+    
 (define (food->component f #:use-key [use-key 'space] #:max-health [max-health 100])
-  (define item-name (get-name (first f)))
-  (define heal-amount (second f))
-  (on-key use-key #:rule (player-is-near? item-name) (do-many (maybe-change-health-by heal-amount #:max max-health)
-                                                            (spawn (player-toast-entity (~a "+" heal-amount) #:color "green")))))
+  (define item-name (get-name f))
+  (define heal-amount (get-storage-data "heals-by" f))
+  (if heal-amount
+      (on-key use-key #:rule (and/r (player-is-near? item-name)
+                                (nearest-entity-to-player-is? item-name))
+          (do-many (maybe-change-health-by heal-amount #:max max-health)
+                   (spawn (player-toast-entity (~a "+" heal-amount) #:color "green"))))
+      #f))
+
+(define (coin->component c #:use-key [use-key 'space])
+  (define coin-name (get-name c))
+  (define coin-value (get-storage-data "value" c))
+  (define coin-toast-entity
+    (player-toast-entity (~a "+" coin-value " GOLD")))
+
+  
+  (if coin-value
+      (list 
+            (precompiler coin-toast-entity)
+         ;   (apply precompiler (map (λ (num) (draw-dialog (~a "Gold: " num))) (range 0 (add1 (* 100 coin-value)) coin-value)))
+            (on-key use-key #:rule (and/r (player-is-near? coin-name)
+                                          (nearest-entity-to-player-is? coin-name #:filter (has-component? on-key?)))
+                    (do-many (change-counter-by coin-value)
+                             (draw-counter-rpg #:prefix "Gold: ")
+                             (spawn coin-toast-entity))))
+      #f))
 
 (define/log "custom-avatar"
   (custom-avatar #:sprite     [sprite (circle 10 'solid 'red)]
                  #:position   [p   (posn 100 100)]
                  #:speed      [spd 10]
+                 #:key-mode   [key-mode 'arrow-keys]
+                 #:mouse-aim? [mouse-aim? #f]
                  #:components [c #f]
                                . custom-components)
   (define dead-frame (if (image? sprite)
@@ -174,9 +186,9 @@
                   #:components (physical-collider)
                                (sound-stream)
                                (precompiler dead-frame)
-                               (key-movement spd #:rule (and/r all-dialog-closed?
-                                                               (not/r lost?)))
-                               (key-animator-system)
+                               (key-movement spd #:mode key-mode #:rule (and/r all-dialog-closed?
+                                                                               (not/r lost?)))
+                               (key-animator-system #:mode key-mode #:face-mouse? mouse-aim?)
                                (stop-on-edge)
                                (backpack-system #:components (observe-change backpack-changed? update-backpack))
                                (player-edge-system)
@@ -195,11 +207,11 @@
   (survival-game #:bg              [bg-ent (plain-bg-entity)]
                  #:avatar          [p         #f #;(custom-avatar)]
                  #:starvation-rate [sr 50]
-                 #:npc-list        [npc-list '() #;(list (random-npc (posn 200 200)))]
-                 #:item-list       [i-list   '() #;(list (item-entity))]
-                 #:food-list       [f-list   '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
+                 #:npc-list        [npc-list  '() #;(list (random-npc (posn 200 200)))]
+                 #:coin-list       [coin-list '() #;(list (coin #:entity (coin-entity) #:amount-in-world 10))]
+                 #:food-list       [f-list    '() #;(list (food #:entity (carrot-entity) #:amount-in-world 10)
                                                          (food #:entity carrot-stew #:heals-by 20))]
-                 #:crafter-list    [c-list   '() #;(list (custom-crafter))]
+                 #:crafter-list    [c-list    '() #;(list (custom-crafter))]
                  #:other-entities  [ent #f]
                                    . custom-entities)
 
@@ -208,41 +220,61 @@
         (add-components p (map recipe->system known-recipes-list))
         #f))
 
+  (define (add-random-start-pos e)
+    (define world-amt (get-storage-data "amount-in-world" e))
+    (if (> world-amt 0) 
+        (add-components e (hidden)
+                          (on-start (do-many (active-on-random)
+                                             (respawn 'anywhere)
+                                             show)))
+        e))
+
   (define (food->toast-entity f)
-    (player-toast-entity (~a "+" (second f)) #:color "green"))
+    (define heal-amt (get-storage-data "heals-by" f))
+    (player-toast-entity (~a "+" heal-amt) #:color "green"))
 
-  (define starvation-period (max 1 (- 100 (min 100 (max 0 sr)))))
+  (define starvation-period (max 1 (- 100 (min 100 sr))))
 
-  (define food-img-list (map (λ (f) (render (get-component (first f) animated-sprite?))) f-list))
+  (define food-img-list (map (λ (f) (render (get-component f animated-sprite?))) f-list))
 
-  (define (stack img amount)
-    (draw-backpack (map (thunk* img) (range amount))))
-
-  (define (img->backpack-stack-list img)
-    (map (curry stack img) (range 11)))
-
-  (define all-backpack-stacks
-    (apply append (map img->backpack-stack-list food-img-list)))
   
   (define (health-entity)
     (define max-health 100)
-    (if p
-        (sprite->entity (draw-health-bar 100 #:max max-health)
-                        #:name "health"
-                        #:position (posn 100 20)
-                        #:components (precompiler (player-toast-entity "-1" #:color "red"))
-                                     (apply precompiler (map food->toast-entity f-list))
-                                     (apply precompiler (map first f-list))
-                                     (precompiler all-backpack-stacks)
-                                     (counter 100)
-                                     (layer "ui")
-                                     (apply precompiler (map (lambda(i) (draw-health-bar i #:max max-health))
-                                                             (range (add1 max-health))))
-                                     (do-every starvation-period (do-many (maybe-change-health-by -1 #:max max-health)
-                                                                          (spawn (player-toast-entity "-1" #:color "orangered") #:relative? #f)))
-                                     (map food->component f-list))
-        #f))
 
+    (define e (health-bar-entity #:max 100
+                                 #:starvation-period starvation-period
+                                 #:change-by         -1))
+
+    (~> e
+        (update-entity _ posn? (posn 100 20))
+        (add-components _
+                        (precompiler (player-toast-entity "-1" #:color "orangered"))
+                        (apply precompiler (map food->toast-entity f-list))
+                        (apply precompiler f-list)
+                       ; (precompiler all-backpack-stacks)
+                        (map food->component f-list)
+                        (do-every starvation-period
+                                  (spawn (player-toast-entity "-1" #:color "orangered") #:relative? #f)))))
+
+  (define (score-entity)
+    (define bg (~> (rectangle 1 1 'solid (make-color 0 0 0 100))
+                   (new-sprite _ #:animate #f)
+                   (set-x-scale 75 _)
+                   (set-y-scale 14 _)
+                   ))
+    
+    (sprite->entity bg
+                    #:name       "score"
+                    #:position   (posn 380 20)
+                    #:components (static)
+                                 (new-sprite "Gold: 0" #:y-offset -7 #:scale 0.7 #:color 'yellow)
+                                 (counter 0)
+                                 (layer "ui")
+                                 (map coin->component coin-list)))
+  
+  (define updated-food-list (map add-random-start-pos f-list))
+  (define updated-coin-list (map add-random-start-pos coin-list))
+  
   (define es (filter identity
                      (flatten
                       (list
@@ -263,8 +295,8 @@
               
                        c-list
               
-                       (map (λ (ent) (entity-cloner ent 10)) i-list)
-                       (map (λ (f) (entity-cloner (first f) (third f))) f-list)
+                       (map (λ (c) (entity-cloner c (get-storage-data "amount-in-world" c))) updated-coin-list)
+                       (map (λ (f) (entity-cloner f (get-storage-data "amount-in-world" f))) updated-food-list)
 
                        (cons ent custom-entities)
               
@@ -275,9 +307,14 @@
   
   (apply start-game es))
 
-(define/log "food"
-  (food #:entity entity #:heals-by [heal-amt 5] #:amount-in-world [world-amt 0])
+#|(define/log "food"
+  (food #:entity [entity (carrot-entity)] #:heals-by [heal-amt 5] #:amount-in-world [world-amt 0])
   (list entity heal-amt world-amt))
+
+(define/log "coin"
+  (coin #:entity entity #:value [val 10] #:amount-in-world [world-amt 10])
+  (list entity val world-amt))
+|#
 
 (define known-recipes-list '())
 
@@ -314,13 +351,13 @@
                                (cons c custom-components)))
 
 
-(define (custom-npc #:sprite     [s (row->sprite (random-character-row))]
+(define (custom-npc #:sprite     [s (row->sprite (random-character-row) #:delay 4)]
                     #:position   [p (posn 0 0)]
                     #:name       [name (first (shuffle (list "Adrian" "Alex" "Riley"
                                                              "Sydney" "Charlie" "Andy")))]
                     #:tile       [tile 0]
                     #:dialog     [d  #f]
-                    #:mode       [mode 'still]
+                    #:mode       [mode 'wander]
                     #:game-width [GAME-WIDTH 480]
                     #:speed      [spd 2]
                     #:target     [target "player"]
@@ -383,6 +420,85 @@
                   #:position (posn 0 0)
                   #:components backdrop
                                (cons c custom-components)))
+
+(define (safe-update-entity e component-pred f)
+  (if f
+      (update-entity e component-pred f)
+      e))
+
+(define (custom-food #:entity           [base-entity (carrot-entity)]
+                     #:sprite           [s #f]
+                     #:position         [p #f]
+                     #:name             [n #f]
+                     #:tile             [t #f]
+                     #:amount-in-world  [world-amt 0]
+                     #:heals-by         [heal-amt 10]
+                     #:respawn?         [respawn? #t]
+                     #:components       [c #f]
+                                        . custom-entities)
+  (define sprite (cond [(image? s)           (new-sprite s)]
+                       [(animated-sprite? s) s             ]
+                       [else              #f]))
+  (define name   (if n (entity-name n) #f))
+  (define tile   (if t (active-on-bg t) #f))
+  (define new-entity (~> base-entity
+                         (safe-update-entity _ animated-sprite? sprite)
+                         (safe-update-entity _ posn? p)
+                         (safe-update-entity _ entity-name? name)
+                         (safe-update-entity _ active-on-bg? tile)
+                         (add-components _ (storage "amount-in-world" world-amt)
+                                           (storage "heals-by"        heal-amt)
+                                           (cons c custom-entities))))
+  (if respawn?
+      (add-components new-entity (on-key 'space #:rule (and/r near-player?
+                                                              (nearest-to-player? #:filter (has-component? on-key?)))
+                                         (do-many (respawn 'anywhere)
+                                                  (active-on-random))))
+      (add-components new-entity (on-key 'space #:rule (and/r near-player?
+                                                              (nearest-to-player? #:filter (has-component? on-key?)))
+                                         die))))
+
+(define (custom-coin #:entity           [base-entity (coin-entity)]
+                     #:sprite           [s #f]
+                     #:position         [p #f]
+                     #:name             [n #f]
+                     #:tile             [t #f]
+                     #:amount-in-world  [world-amt 10]
+                     #:value            [val 10]
+                     #:respawn?         [respawn? #t]
+                     #:components       [c #f]
+                                        . custom-entities)
+  (define sprite (cond [(image? s)           (new-sprite s)]
+                       [(animated-sprite? s) s             ]
+                       [else              #f]))
+  (define name   (if n (entity-name n) #f))
+  (define tile   (if t (active-on-bg t) #f))
+  (define new-entity (~> base-entity
+                         (safe-update-entity _ animated-sprite? sprite)
+                         (safe-update-entity _ posn? p)
+                         (safe-update-entity _ entity-name? name)
+                         (safe-update-entity _ active-on-bg? tile)
+                         (add-components _ (storage "amount-in-world" world-amt)
+                                           (storage "value"           val)
+                                           (cons c custom-entities))))
+  (if respawn?
+      (add-components new-entity (on-key 'space #:rule (and/r near-player?
+                                                              (nearest-to-player? #:filter (has-component? on-key?)))
+                                         (do-many (respawn 'anywhere)
+                                                  (active-on-random))))
+      (add-components new-entity (on-key 'space #:rule (and/r near-player?
+                                                              (nearest-to-player? #:filter (has-component? on-key?)))
+                                         die))))
+
+
+(module+ test
+  (survival-game
+   #:avatar (custom-avatar)
+   #:coin-list (list (custom-coin))
+   #:food-list (list (custom-food #:entity (carrot-entity)
+                                  #:amount-in-world 30))))
+
+
 
 
 
