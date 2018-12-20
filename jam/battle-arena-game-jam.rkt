@@ -132,37 +132,47 @@
 ; ===== GAME DEFINITIONS ====
 
 
-(define (instructions-entity)
+(define (instructions-entity #:move-keys  [move-keys "ARROW KEYS"]
+                             #:mouse-aim? [mouse-aim? #f]
+                             #:shoot-key  [shoot-key "F"])
+
+  (define (instruction->sprite text offset)
+    (new-sprite text #:y-offset offset #:color 'yellow))
+
+  (define i-list (filter identity (list (~a move-keys " to move")
+                                        (if mouse-aim?
+                                            "MOVE MOUSE to aim"
+                                            #f)
+                                        (~a shoot-key " to shoot")
+                                        "NUM KEYS to select weapon"
+                                        "SPACE to interact"
+                                        "ENTER to close dialogs"
+                                        "I to open these instructions"
+                                        "Z to pick up items"
+                                        "X to drop items")))
+  (define i-length (length i-list))
+  
   (define bg (new-sprite (rectangle 1 1 'solid (make-color 0 0 0 100))))
   
   (define i
     (sprite->entity (~> bg
-                        (set-x-scale 260 _)
-                        (set-y-scale 150 _)
-                        (set-y-offset 60 _))
+                        (set-x-scale 340 _)             ;260
+                        (set-y-scale (* 25 i-length) _) ;150
+                        (set-y-offset 0 _))             ;60
                     #:position   (posn 0 0) ;(posn (/ (WIDTH) 2) 50)
                     #:name       "instructions"
                     #:components (layer "ui")
                                  (hidden)
-                                 (on-start (do-many (go-to-pos-inside 'top-center)
+                                 (on-start (do-many (go-to-pos 'center)
                                                     show))
                                  (on-key 'enter die)
                                  (on-key 'space die)
                                  (on-key "i" die)))
 
-    (add-components i
-                  (new-sprite "ARROW KEYS to move"
-                              #:y-offset 0 #:color 'yellow)
-                  (new-sprite "F to shoot"
-                              #:y-offset 20 #:color 'yellow)
-                  (new-sprite "NUM KEYS to select weapon"
-                              #:y-offset 40 #:color 'yellow)
-                  (new-sprite "I to open these instructions"
-                              #:y-offset 60 #:color 'yellow)
-                  (new-sprite "Z to pick up items"
-                              #:y-offset 80 #:color 'yellow)
-                  (new-sprite "X to drop items"
-                              #:y-offset 100 #:color 'yellow)))
+  (define last-y-pos (* 20 i-length))
+
+  (add-components i (map instruction->sprite i-list (range (- (/ last-y-pos 2)) (/ last-y-pos 2) 20))
+                  ))
 
 ; === WON AND LOST RULES ===
 (define (won? g e)
@@ -229,6 +239,21 @@
     (add-components p (weapon-selector #:slots 3)
                       (map weapon-entity->player-system weapon-list)))
 
+  (define move-keys (if (eq? (get-key-mode p) 'wasd)
+                        "WASD KEYS"
+                        "ARROW KEYS"))
+
+  (define shoot-key (if (get-component player-with-weapons on-mouse?)
+                        "LEFT-CLICK"
+                        "F"))
+
+  (define (mouse-aim-component? c)
+    (and (on-rule? c)
+         (eq? (on-rule-rule? c) mouse-in-game?)
+         (eq? (on-rule-func c) point-to-mouse)))
+
+  (define mouse-aim? (get-component p mouse-aim-component?))
+
   (define (add-random-start-pos e)
     (define world-amt (get-storage-data "amount-in-world" e))
     (if (> world-amt 0) 
@@ -259,11 +284,15 @@
                                  (new-sprite "Enemies Left: 30" #:y-offset -7 #:scale 0.7 #:color 'yellow)
                                  (counter 30)
                                  (layer "ui")))
+
+   (define bg-with-instructions
+    (add-components bg-ent (on-key "i" #:rule (λ (g e) (not (get-entity "instructions" g)))
+                                   (spawn (instructions-entity #:move-keys move-keys #:shoot-key shoot-key #:mouse-aim? mouse-aim?) #:relative? #f))))
  
   (define es (filter identity
                      (flatten
                       (list
-                       (instructions-entity)
+                       (instructions-entity #:move-keys move-keys #:shoot-key shoot-key #:mouse-aim? mouse-aim?)
                        (if p (game-over-screen won? health-is-zero?) #f)
                        (if p (enemy-counter-entity) #f)
 
@@ -282,7 +311,7 @@
 
                        (cons ent custom-entities)
               
-                       bg-ent))))
+                       bg-with-instructions))))
 
   (displayln (~a "Score estimation for your game: " (score-game es)))
   
