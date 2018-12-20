@@ -35,7 +35,14 @@
                                     #:key-mode    'wasd       ;OPTIONAL
                                     #:mouse-aim?  #t          ;OPTIONAL
                                     )
-   #:weapon-list     (list (custom-weapon-entity #:name              "Sword"
+   #:weapon-list     (list (custom-weapon-entity #:name              "Spear"
+                                                 #:sprite            sword-sprite
+                                                 #:mouse-fire-button 'left        ;OPTIONAL
+                                                 #:bullet            (my-sword)
+                                                 #:rapid-fire?       #f           ;OPTIONAL
+                                                 #:rarity            'rare        ;OPTIONAL
+                                                 )
+                           (custom-weapon-entity #:name              "Sword"
                                                  #:sprite            sword-sprite
                                                  #:mouse-fire-button 'left        ;OPTIONAL
                                                  #:bullet            (my-sword)
