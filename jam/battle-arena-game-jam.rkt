@@ -186,7 +186,7 @@
                  #:components (after-time (/ rng 2) (do-many (bounce)
                                                              (horizontal-flip-sprite)))))
 
-(define (sword #:sprite     [s sword-bullet-sprite]
+(define (sword #:sprite     [s swinging-sword-sprite]
                #:damage     [dmg 50]
                #:durability [dur 20]
                #:speed      [spd 0]
