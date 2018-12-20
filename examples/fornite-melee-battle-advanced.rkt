@@ -7,11 +7,12 @@
                  #:durability 50
                  #:speed 5
                  #:range 20
-                 #:components (after-time 10 (bounce))))
+                 #:components (after-time 10 (do-many (bounce)
+                                                      (horizontal-flip-sprite)))))
 
 (define (my-sword)
   (custom-bullet #:position (posn 10 0)
-                 #:sprite sword-sprite
+                 #:sprite sword-bullet-sprite
                  #:damage 50
                  #:durability 20
                  #:speed  0
@@ -36,9 +37,9 @@
                                     #:mouse-aim?  #t          ;OPTIONAL
                                     )
    #:weapon-list     (list (custom-weapon-entity #:name              "Spear"
-                                                 #:sprite            sword-sprite
+                                                 #:sprite            spear-sprite
                                                  #:mouse-fire-button 'left        ;OPTIONAL
-                                                 #:bullet            (my-sword)
+                                                 #:bullet            (my-spear)
                                                  #:rapid-fire?       #f           ;OPTIONAL
                                                  #:rarity            'rare        ;OPTIONAL
                                                  )
@@ -51,6 +52,7 @@
                                                  )
                            (custom-weapon-entity #:name              "Paint Thrower"
                                                  #:sprite             paint-thrower-sprite
+                                                 #:bullet             (my-paint)
                                                  #:mouse-fire-button 'left        ;OPTIONAL
                                                  #:fire-mode         'random
                                                  #:fire-rate          30

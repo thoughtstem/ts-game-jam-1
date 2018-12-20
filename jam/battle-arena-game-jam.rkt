@@ -7,6 +7,7 @@
 
 (provide battle-arena-game
          custom-weapon-entity
+         spear
          sword
          paint
          )
@@ -171,6 +172,20 @@
   (apply start-game es))
 
 ; ==== PREBUILT BULLETS ====
+(define (spear #:sprite     [s spear-bullet-sprite]
+               #:damage     [dmg 50]
+               #:durability [dur 20]
+               #:speed      [spd 5]
+               #:range      [rng 20])
+  (custom-bullet #:position (posn 20 0)
+                 #:sprite spear-bullet-sprite
+                 #:damage dmg
+                 #:durability dur
+                 #:speed spd
+                 #:range rng
+                 #:components (after-time (/ rng 2) (do-many (bounce)
+                                                             (horizontal-flip-sprite)))))
+
 (define (sword #:sprite     [s sword-bullet-sprite]
                #:damage     [dmg 50]
                #:durability [dur 20]
@@ -197,6 +212,7 @@
                  #:range      rng
                  #:components (on-start (set-size 0.5))
                               (every-tick (scale-sprite 1.1))))
+
 
 (module+ test
   (battle-arena-game
