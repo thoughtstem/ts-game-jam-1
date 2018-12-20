@@ -7,12 +7,12 @@
                  #:durability 50
                  #:speed 5
                  #:range 20
-                 #:components (after-time 10 (do-many (bounce)
-                                                      (horizontal-flip-sprite)))))
+                 #:components (on-start (set-rotation-style 'normal))
+                              (after-time 10 (bounce))))
 
 (define (my-sword)
   (custom-bullet #:position (posn 10 0)
-                 #:sprite sword-bullet-sprite
+                 #:sprite swinging-sword-sprite
                  #:damage 50
                  #:durability 20
                  #:speed  0
@@ -29,6 +29,27 @@
                  #:components (on-start (set-size 0.5))
                               (every-tick (scale-sprite 1.1))
                               ))
+
+(define (my-flying-dagger)
+  (custom-bullet #:position (posn 20 0)
+                 #:sprite   flying-sword-sprite
+                 #:damage 10
+                 #:speed  2
+                 #:range  40
+                 #:durability 20
+                 #:components (on-start (do-many (set-size 0.5)))
+                              (do-every 10 (random-direction 0 360))))
+
+(define (my-ring-of-fire)
+  (custom-bullet #:position   (posn 25 0)
+                 #:sprite     flame-sprite
+                 #:damage     5
+                 #:durability 20
+                 #:speed      10
+                 #:range      36
+                 #:components (on-start (set-size 0.5))
+                              (every-tick (do-many (scale-sprite 1.05)
+                                                   (change-direction-by 10)))))
 
 (battle-arena-game
    #:bg              (custom-background)
@@ -57,4 +78,23 @@
                                                  #:fire-mode         'random
                                                  #:fire-rate          30
                                                  #:rarity            'epic        ;OPTIONAL
+                                                 )
+                           (custom-weapon-entity #:name              "Flying Dagger Spell"
+                                                 #:sprite             (overlay (text "FD" 12 "black")
+                                                                               (square 30 "solid" "purple")
+                                                                               (square 32 "solid" "white"))
+                                                 #:bullet             (my-flying-dagger)
+                                                 #:mouse-fire-button 'left        ;OPTIONAL
+                                                 #:fire-mode         'spread
+                                                 #:fire-rate          2
+                                                 #:rarity            'legendary       ;OPTIONAL
+                                                 )
+                           (custom-weapon-entity #:name              "Ring of Fire Spell"
+                                                 #:sprite             (overlay (text "ROF" 12 "black")
+                                                                               (square 30 "solid" "yellow")
+                                                                               (square 32 "solid" "white"))
+                                                 #:bullet             (my-ring-of-fire)
+                                                 #:mouse-fire-button 'left        ;OPTIONAL
+                                                 #:fire-rate          30
+                                                 #:rarity            'legendary        ;OPTIONAL
                                                  )))
