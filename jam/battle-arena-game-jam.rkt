@@ -10,24 +10,127 @@
          spear
          sword
          paint
+
+         custom-enemy
          )
 
+
+(define (wander-but-defend #:weapon (weapon (custom-weapon))
+                           #:range (range 150)
+                           #:wander-speed (wspeed 1)
+                           #:ticks-between-shots (ticks-between-shots 50))
+  
+  (define wander (apply state 'wander (wander-mode-components wspeed)))
+  (define stand  (apply state 'stand (stand-and-shoot "follow" weapon
+                                                      #:ticks-between-shots ticks-between-shots)))
+
+  (define wander->stand
+    (transition #:rule (near? "player" range)
+                wander stand))
+
+  (define stand->wander
+    (transition #:rule (not/r (near? "player" range))
+                stand wander))
+  
+  (define ai-machine
+    (state-machine wander
+                   (list wander stand)
+                   (list wander->stand stand->wander)))
+
+  ai-machine)
+
+(define (wander-mode-components spd)
+  (list 
+   (every-tick (move))
+   (speed spd)
+   (do-every 50 (random-direction 0 360))
+   (on-edge 'left   (set-direction 0))
+   (on-edge 'right  (set-direction 180))
+   (on-edge 'top    (set-direction 90))
+   (on-edge 'bottom (set-direction 270))))
+
+(define (stand-and-shoot target w #:ticks-between-shots (ticks-between-shots 50))
+  (list (speed 0)
+        (use-weapon-against-player w #:ticks-between-shots ticks-between-shots)
+        (every-tick (point-to "player"))))
+
+
+
+(define (get-ai-from-level l weapon)
+  (match l
+    ['easy   (wander-but-defend #:weapon weapon
+                                #:range 100
+                                #:ticks-between-shots 50
+                                #:wander-speed 1)]
+    ['medium (wander-but-defend #:weapon weapon
+                                #:range 150
+                                #:ticks-between-shots 25
+                                #:wander-speed 2)]
+    ['hard   (wander-but-defend #:weapon weapon
+                                #:range 200
+                                #:ticks-between-shots 10
+                                #:wander-speed 3)]))
+
+
+
+
+
+;NOt all of these work yet...
+(define (custom-enemy #:amount-in-world (amount-in-world 10)
+                      #:sprite (s (row->sprite (random-character-row) #:delay 4))
+                      #:ai (ai-level 'easy)
+                      #:health (health 100)
+                      #:shield (shield 100)
+                      #:weapon (weapon (custom-weapon))
+                      #:death-particles (particles (custom-particles)))
+ 
+  ;Makes sure that we can run (custom-enemy) through (entity-cloner ...)
+  ;  Works because combatant ids get assigned at runtime.
+  ;(Otherwise, they'd all end up with the same combatant id, and a shared healthbar)
+  (define (become-combatant g e)
+
+    (define c (~> e
+                  (combatant
+                   #:stats (default-health+shields-stats health shield)
+                   #:damage-processor (divert-damage #:filter-out '(passive enemy-team))
+                             _)
+                  ))
+ 
+    c)
+
+  (define (die-if-health-is-0)
+    (on-rule (λ(g e)
+               (define h (get-storage-data "health-stat" e))
+               (and h (<= h 0)))
+             (do-many
+              (spawn-on-current-tile particles)
+              (λ(g e)
+                (add-component e (after-time 2 die)))
+              )))
+
+  
+  (custom-npc #:name "Enemy"
+              #:sprite s
+              #:position (posn 0 0)
+              #:mode #f
+              #:dialog (list (list))
+              #:components 
+              (die-if-health-is-0)
+              (damager 10 (list 'passive 'enemy-team))
+              (movable)
+              (hidden)
+              (on-start (do-many (respawn 'anywhere)
+                                 show
+                                 become-combatant))
+
+              (storage "amount-in-world" amount-in-world)
+                         
+              (enemy-ai (get-ai-from-level ai-level weapon))  ))
+
+
+
 ; ===== GAME DEFINITIONS ====
-(define (enemy-npc)
-  (combatant #:damage-processor (divert-damage #:filter-out 'passive)
-             (custom-npc #:name "Enemy"
-                         #:position (posn 400 300)
-                         #:mode 'wander
-                         #:components ;(health 100)
-                           (on-rule (λ(g e)
-                                    (<= (get-storage-data "health-stat" e) 0)) die)
-                           (damager 10 (list 'passive))
-                           (movable)
-                           (hidden)
-                           (on-start (do-many (respawn 'anywhere)
-                                              ;(active-on-random)
-                                              show))
-                           )))
+
 
 (define (instructions-entity)
   (define bg (new-sprite (rectangle 1 1 'solid (make-color 0 0 0 100))))
@@ -98,9 +201,23 @@
                                                    show))
                                 (storable)))
 
+
+(define (clone-by-amount-in-world es)
+  (define (f e)
+    (define to-clone (if (procedure? e)
+                         (e)
+                         e) )
+    
+    (define n (if (get-storage "amount-in-world" to-clone)
+                  (get-storage-data "amount-in-world" to-clone)
+                  1))
+    (entity-cloner to-clone n))
+
+  (map f es))
+
 (define (battle-arena-game #:bg             [bg-ent (custom-background)]
                            #:avatar         [p (custom-avatar)]
-                           #:enemy-list     [e-list (list (entity-cloner enemy-npc 2))]
+                           #:enemy-list     [e-list (list (custom-enemy))]
                            #:weapon-list    [weapon-list '()]
                            #:other-entities [ent #f]
                                           . custom-entities)
@@ -161,7 +278,7 @@
 
                        (map (λ (w) (entity-cloner w 3)) weapon-list)
 
-                       e-list
+                       (clone-by-amount-in-world (flatten e-list))
 
                        (cons ent custom-entities)
               

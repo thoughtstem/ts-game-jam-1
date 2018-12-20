@@ -49,8 +49,7 @@
               "It's dangerous out here."
               "You should be careful.")
         (list "Sorry, I don't have any food to spare."
-              "If you look around though,\nyou might find carrots.")
-        ))
+              "If you look around though,\nyou might find carrots.")  ))
 
 (define (npc1-response-sprites)
   (dialog->response-sprites npc1-response
