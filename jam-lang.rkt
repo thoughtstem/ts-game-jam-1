@@ -4,6 +4,7 @@
 (provide
  (all-from-out "scoring/score.rkt")
  (all-from-out "jam/survival-game-jam.rkt")
+ (all-from-out "jam/battle-arena-game-jam.rkt")
  (all-from-out "browsable-assets.rkt")
  (all-from-out game-engine)
  (all-from-out game-engine-demos-common)
@@ -13,6 +14,7 @@
 
 (require "scoring/score.rkt")
 (require "jam/survival-game-jam.rkt")
+(require "jam/battle-arena-game-jam.rkt")
 (require game-engine)
 (require game-engine-demos-common)
 (require 2htdp/image)
