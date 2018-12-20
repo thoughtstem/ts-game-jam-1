@@ -1,4 +1,4 @@
-#lang ts-game-jam-1
+#lang ts-game-jam-1 ;ts-fortnite-2d
 
 (define (rocket-bullet)
   (custom-bullet #:position (posn 0 -70)

@@ -17,7 +17,7 @@
                                        #:ai 'hard))
  #:weapon-list     (list (custom-weapon #:name "Light Sword"
                                         #:sprite sword-sprite
-                                        #:bullet (sword )
+                                        #:bullet (sword #:damage 50 #:durability 50)
                                         #:rapid-fire? #f
                                         #:rarity 'common)
                          (custom-weapon #:name "Legendary Heavy Spear"
