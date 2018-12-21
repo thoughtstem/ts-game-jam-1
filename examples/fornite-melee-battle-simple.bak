@@ -1,8 +1,5 @@
 #lang ts-game-jam-1
 
-(define (my-sprite)
-  (custom-avatar #:sprite  ))
-
 (battle-arena-game
    #:weapon-list (list (custom-weapon-entity #:name        "Spear"
                                              #:sprite      spear-sprite
