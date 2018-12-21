@@ -49,8 +49,7 @@
               "It's dangerous out here."
               "You should be careful.")
         (list "Sorry, I don't have any food to spare."
-              "If you look around though,\nyou might find carrots.")
-        ))
+              "If you look around though,\nyou might find carrots.")  ))
 
 (define (npc1-response-sprites)
   (dialog->response-sprites npc1-response
@@ -195,8 +194,8 @@
                                (player-edge-system)
                                ;(on-key "o" #:rule player-info-closed? show-move-info)
                                (observe-change lost? (kill-player))
-                               (on-key "i" #:rule (λ (g e) (not (get-entity "instructions" g)))
-                                       (spawn instructions-entity #:relative? #f))
+                               ;(on-key "i" #:rule (λ (g e) (not (get-entity "instructions" g)))
+                               ;        (spawn instructions-entity #:relative? #f))
                                ;(on-key "m" (open-mini-map #:close-key "m"))
                                (counter 0)
                                (on-key 'enter #:rule player-dialog-open? (get-dialog-selection))
@@ -216,6 +215,10 @@
                  #:other-entities  [ent #f]
                                    . custom-entities)
 
+  (define bg-with-instructions
+    (add-components bg-ent (on-key "i" #:rule (λ (g e) (not (get-entity "instructions" g)))
+                                   (spawn instructions-entity #:relative? #f))))
+  
   (define player-with-recipes
     (if p
         (add-components p (map recipe->system known-recipes-list))
@@ -301,7 +304,7 @@
 
                        (cons ent custom-entities)
               
-                       bg-ent))))
+                       bg-with-instructions))))
 
 
   (displayln (~a "Score estimation for your game: " (score-game es)))

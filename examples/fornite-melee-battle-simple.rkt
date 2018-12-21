@@ -4,21 +4,28 @@
   (custom-avatar #:sprite  ))
 
 (battle-arena-game
-   #:weapon-list (list (custom-weapon-entity #:name        "Spear"
-                                             #:sprite      spear-sprite
-                                             #:bullet      (spear #:damage     100
-                                                                  #:durability 50
-                                                                  #:speed      10
-                                                                  #:range      51)
-                                             #:rapid-fire? #f )
-                       (custom-weapon-entity #:name        "Sword"
-                                             #:sprite      sword-sprite
-                                             #:bullet      (sword #:damage     20
-                                                                  #:durability 50))
-                       (custom-weapon-entity #:name        "Paint Thrower"
-                                             #:sprite      paint-thrower-sprite
-                                             #:bullet      (paint #:damage     10
-                                                                  #:durability 20
-                                                                  #:range      20)
-                                             #:fire-mode   'random
-                                             #:fire-rate   30 )))
+   #:weapon-list (list (custom-weapon #:name        "Spear"
+                                      #:sprite      SPEAR-ICON
+                                      #:dart        (spear)
+                                      #:rapid-fire? #f)
+                       (custom-weapon #:name        "Sword"
+                                      #:sprite      SWORD-ICON
+                                      #:dart        (sword #:damage     20
+                                                           #:durability 50))
+                       (custom-weapon #:name        "Paint Thrower"
+                                      #:sprite      PAINT-THROWER-ICON
+                                      #:dart        (paint #:damage     10
+                                                           #:durability 20
+                                                           #:range      20)
+                                      #:fire-mode   'random
+                                      #:fire-rate   30)
+                       (custom-weapon #:name        "Flying Dagger Spell"
+                                      #:sprite      FLYING-DAGGER-ICON
+                                      #:dart        (flying-dagger)
+                                      #:fire-mode   'spread
+                                      #:fire-rate    1)
+                       (custom-weapon #:name        "Ring of Fire Spell"
+                                      #:sprite      RING-OF-FIRE-ICON
+                                      #:dart        (ring-of-fire)
+                                      #:fire-rate   30)
+                       ))
